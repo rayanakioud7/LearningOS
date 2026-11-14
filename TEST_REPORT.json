@@ -1,8 +1,8 @@
 {
-  "version": "0.2.0",
+  "version": "0.2.1",
   "date": "2026-11-14",
-  "automated_tests": 34,
-  "passed": 34,
+  "automated_tests": 37,
+  "passed": 37,
   "failed": 0,
   "syntax_checks": {
     "dist/app.js": "syntax passed",

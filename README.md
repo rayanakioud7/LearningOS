@@ -1,4 +1,4 @@
-# ENSAM Learning OS · MVP 0.2
+# ENSAM Learning OS · MVP 0.2.1
 
 A lightweight, local-first study app. No dependency installation, API key or paid server is required to run the local version.
 
@@ -33,7 +33,7 @@ The app includes source headings and authored task descriptions, not the full RA
 
 ## Verification
 
-Run `npm test`. The test suite covers 34 scheduling, progress, timer, calendar and backup cases. JavaScript syntax and local asset references were also checked.
+Run `npm test`. The test suite covers 37 scheduling, progress, timer, calendar and backup cases. JavaScript syntax and local asset references were also checked.
 
 Browser preview permission was declined during this session, so visual layout, click-through interactions, IndexedDB in an actual browser, installability and offline browser behavior have **not** been verified end to end. These remain release checks. Website hosting is separate and has not been deployed. This is a local MVP candidate, not a fully validated production release.
 
@@ -44,3 +44,18 @@ No user study sessions or test outcomes were seeded as real history.
 On the device you just used, open Settings and choose **Export backup**. Transfer the JSON file (Syncthing can move that file), then use **Restore backup** on the other device and review the preview. Keep one device as the current source of truth; restore replaces the destination plan rather than merging two independently edited histories. The application folder is not the browser database.
 
 Version 0.2 changes presentation and outcome shortcuts. Existing local progress, settings and sessions are retained. Refresh the browser after updating the code.
+
+## Starting and checking the local server
+
+Double-click `Start Learning OS.cmd`, then open `http://127.0.0.1:4173/` in Zen. The launcher checks the live version and project directory before opening the page. It leaves the server running in the background. Run `Stop Learning OS.cmd` when you want to stop it.
+
+For a visible terminal, use:
+
+```powershell
+cd C:\Projects\LearningOS
+npm start
+```
+
+Keep that terminal open. To check the running copy, visit `http://127.0.0.1:4173/health`: it should show LearningOS, version 0.2.1 and this project path. This endpoint bypasses the app's offline cache.
+
+If a browser shows the old design, first start the server, then press **Ctrl+Shift+R**. A browser with the offline app cached can show an old version even while the server is stopped. Do not clear site storage: that would remove local study history. Zen and the built-in browser have separate local progress; use backup export/restore to transfer it.
