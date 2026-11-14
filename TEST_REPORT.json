@@ -1,8 +1,8 @@
 {
-  "version": "0.2.1",
+  "version": "0.3.0",
   "date": "2026-11-14",
-  "automated_tests": 37,
-  "passed": 37,
+  "automated_tests": 52,
+  "passed": 52,
   "failed": 0,
   "syntax_checks": {
     "dist/app.js": "syntax passed",
@@ -10,15 +10,19 @@
     "dist/sw.js": "syntax passed",
     "server.mjs": "syntax passed",
     "paths.mjs": "syntax passed",
-    "dist/today.js": "syntax passed"
+    "dist/today.js": "syntax passed",
+    "dist/storage.js": "syntax passed",
+    "dist/validation.js": "syntax passed",
+    "dist/backup.js": "syntax passed"
   },
   "static_assets_present": true,
   "source_tasks": 307,
   "active_tasks": 25,
   "draft_tasks": 282,
   "real_sessions_seeded": 0,
-  "browser_qa": "Blocked by saved permission for http://127.0.0.1:4173; no browser automation performed",
+  "browser_qa": "Saved origin permission still rejects access to http://127.0.0.1:4173 after the user permission attempt. No real-browser verification claimed.",
   "offline_and_indexeddb_in_browser": "implemented; not verified end to end",
-  "publication": "Local project; private GitHub push requested; no website deployment",
-  "cloud_sync": "not implemented; per-browser storage with explicit backup restore"
+  "publication": "Private GitHub source; local server; no website hosting deployment",
+  "cloud_sync": "Manual backup transfer with a paused focus session; no automatic merge or cloud sync",
+  "persistence_tests": "fake-indexeddb 6.2.8: transactions, conflict rejection, atomic restore points and recovery"
 }

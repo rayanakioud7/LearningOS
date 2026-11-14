@@ -10,13 +10,13 @@ export function completed(state) {
   return new Set(state.events.filter(e=>!invalid.has(e.id)&&e.outcome==='completed').map(e=>e.taskId));
 }
 export function remaining(state,t){return t.remainingMinutes??t.minutes;}
+export function minimumBlock(state,t){return Math.min(t.minimumMinutes||25,remaining(state,t));}
 export function isExamDay(state,day){return state.settings.examMode==='on'||(state.settings.examMode==='auto'&&state.calendar.some(e=>e.active&&['exam_window','exam_prep'].includes(e.kind)&&day>=e.start_date&&day<=e.end_date_inclusive));}
 export function dayRule(state,day) {
   if(state.overrides.some(o=>o.day===day&&o.kind==='rest')) return {minutes:0,reason:'You protected this day for rest.',kind:'rest'};
+  if(state.overrides.some(o=>o.day===day&&o.kind==='ensam'))return {minutes:state.settings.dailyMinutes,reason:'ENSAM takes priority today. Your roadmap is safe.',kind:'academic'};
   if(weekday(day)===0)return {minutes:0,reason:'Sunday is yours. No catch-up debt.',kind:'rest'};
   if(state.settings.paused)return {minutes:state.settings.dailyMinutes,reason:'Your independent roadmap is paused. ENSAM work can still take priority.',kind:'academic'};
-  const ens=state.overrides.some(o=>o.day===day&&o.kind==='ensam');
-  if(ens)return {minutes:state.settings.dailyMinutes,reason:'ENSAM takes priority today. Your roadmap is safe.',kind:'academic'};
   if(isExamDay(state,day))return {minutes:state.settings.dailyMinutes,reason:'Exam protection is active. Coursework or recovery comes first.',kind:'academic'};
   if(state.calendar.some(e=>e.active&&e.kind==='recovery'&&day>=e.start_date&&day<=e.end_date_inclusive))return {minutes:0,reason:'Recovery break. Your next learning step can wait.',kind:'rest'};
   return {minutes:Math.min(weekday(day)===6?state.settings.saturdayMinutes:state.settings.dailyMinutes,150*(weekday(day)!==6?1:3)),reason:'A little progress, with room to breathe.',kind:'normal'};
@@ -34,8 +34,9 @@ export function readyTasks(state,day,done=completed(state)) {
 export function dailyChoice(state,day) {
   const rule=dayRule(state,day),ready=readyTasks(state,day);
   const available=state.settings.weeklyMinutes-weeklyActual(state,day);
-  const chosen=ready.find(t=>{const cap=rule.minutes-dailyActual(state,day,t.track);return (t.minimumMinutes||25)<=cap&&(t.track==='academic'||(available>=(t.minimumMinutes||25)&&weekday(day)!==5));});
-  return {task:chosen??null,rule,blocked:ready.length&&!chosen?'Your next task needs a longer block.':null};
+  const chosen=ready.find(t=>{const cap=rule.minutes-dailyActual(state,day,t.track);return minimumBlock(state,t)<=cap&&(t.track==='academic'||(available>=minimumBlock(state,t)&&weekday(day)!==5));});
+  let blocked=null;if(ready.length&&!chosen)blocked=available<=0?'Your self-study ceiling is reached. The next step can wait.':'Your next task needs more time than is available today.';else if(!ready.length&&rule.kind==='normal'&&state.tasks.some(t=>t.status==='active'&&!t.archived&&!completed(state).has(t.id)))blocked='Your active tasks are waiting for a start date or prerequisite. Review Curriculum to choose the next step.';
+  return {task:chosen??null,rule,blocked};
 }
 export function forecast(state,start,days=14) {
   const result=[],done=completed(state);let weeklyUsed=0,lastWeek='',minutesLeft=new Map(state.tasks.map(t=>[t.id,remaining(state,t)]));
@@ -44,11 +45,11 @@ export function forecast(state,start,days=14) {
     if(mon!==lastWeek){weeklyUsed=weeklyActual(state,day);lastWeek=mon;}
     const rule=dayRule(state,day);const ready=readyTasks(state,day,done);
     const friday=weekday(day)===5;
-    const task=ready.find(t=>(!friday||t.track==='academic')&&(t.minimumMinutes||25)<=rule.minutes&&(t.track==='academic'||weeklyUsed<state.settings.weeklyMinutes));
+    const task=ready.find(t=>(!friday||t.track==='academic')&&minimumBlock(state,t)<=rule.minutes&&(t.track==='academic'||weeklyUsed<state.settings.weeklyMinutes));
     if(!task){result.push({day,kind:rule.kind,reason:friday?'Overflow or rest':rule.reason,task:null});continue;}
     const dailyLeft=Math.max(0,rule.minutes-dailyActual(state,day,task.track));
     const cap=task.track==='academic'?dailyLeft:Math.min(dailyLeft,state.settings.weeklyMinutes-weeklyUsed);
-    if(cap<(task.minimumMinutes||25)){result.push({day,kind:'buffer',reason:'Weekly capacity protected',task:null});continue;}
+    if(cap<minimumBlock(state,task)){result.push({day,kind:'buffer',reason:'Weekly capacity protected',task:null});continue;}
     const minutes=Math.min(minutesLeft.get(task.id),cap);
     if(task.track!=='academic')weeklyUsed+=minutes;
     minutesLeft.set(task.id,minutesLeft.get(task.id)-minutes);
@@ -73,22 +74,18 @@ export function weeklyActual(state,day){
 }
 export function dailyActual(state,day,track){const voided=new Set(state.events.filter(e=>e.type==='void').map(e=>e.target));return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day===day&&['completed','partial'].includes(e.outcome)&&(e.taskSnapshot?.track||state.tasks.find(t=>t.id===e.taskId)?.track)===track).reduce((n,e)=>n+e.minutes,0);}
 export function deadlineRisks(state,day){
-  const done=completed(state),required=state.tasks.filter(t=>t.status==='active'&&!t.archived&&t.track==='academic'&&t.deadline&&!done.has(t.id)),result=[];
-  for(const t of required){let available=0;const end=t.deadline<addDays(day,365)?t.deadline:addDays(day,365);for(let d=day;d<=end;d=addDays(d,1))available+=dayRule(state,d).minutes;const dueWork=required.filter(x=>x.deadline<=t.deadline).reduce((n,x)=>n+remaining(state,x),0);if(t.deadline<day||dueWork>available)result.push({id:t.id,title:t.heading,shortfall:Math.max(0,dueWork-available),overdue:t.deadline<day});}
-  return result;
+  const done=completed(state),tasks=new Map(state.tasks.map(t=>[t.id,t]));
+  const required=state.tasks.filter(t=>t.status==='active'&&!t.archived&&t.track==='academic'&&t.deadline&&!done.has(t.id)),result=[];
+  for(const task of required){
+    const workload=new Set();
+    const collect=id=>{const pending=[id];while(pending.length){const next=pending.pop();if(done.has(next)||workload.has(next))continue;const t=tasks.get(next);if(!t)continue;workload.add(next);pending.push(...(t.prerequisites||[]));}};
+    required.filter(t=>t.deadline<=task.deadline).forEach(t=>collect(t.id));
+    const dueWork=[...workload].reduce((n,id)=>n+remaining(state,tasks.get(id)),0);
+    let available=0;const end=task.deadline<addDays(day,365)?task.deadline:addDays(day,365);
+    for(let d=day;d<=end;d=addDays(d,1))available+=Math.max(0,dayRule(state,d).minutes-dailyActual(state,d,'academic'));
+    const blocked=[...workload].some(id=>{const t=tasks.get(id);return t.archived||t.status!=='active'||t.notBefore>task.deadline;});
+    if(task.deadline<day||dueWork>available||blocked)result.push({id:task.id,title:task.heading,shortfall:Math.max(0,dueWork-available),overdue:task.deadline<day,blockedPrerequisite:blocked});
+  }return result;
 }
-export function validateBackup(x) {
-  if(!x||x.schema!==SCHEMA||!Array.isArray(x.tasks)||!Array.isArray(x.events)||!Array.isArray(x.calendar)||!Array.isArray(x.overrides)||!x.settings||!Array.isArray(x.revisions))throw new Error('This is not a Learning OS backup.');
-  if(x.tasks.length>5000||x.events.length>100000)throw new Error('Backup is too large.');
-  const ids=new Set();
-  for(const t of x.tasks){if(typeof t.id!=='string'||ids.has(t.id)||typeof t.title!=='string'||!t.title.trim()||!Number.isFinite(t.minutes)||t.minutes<1||t.minutes>10000||!['draft','active'].includes(t.status)||!['academic','independent'].includes(t.track)||!Array.isArray(t.prerequisites))throw new Error('Invalid task in backup.');ids.add(t.id);}
-  const dates=/^\d{4}-\d{2}-\d{2}$/;
-  for(const t of x.tasks){if(t.prerequisites.some(id=>!ids.has(id))||(t.notBefore&&!dates.test(t.notBefore))||(t.deadline&&!dates.test(t.deadline)))throw new Error('Invalid task dependency or date.');}
-  const visit=(id,trail=new Set())=>{if(trail.has(id))throw new Error('Prerequisite cycle found.');const t=x.tasks.find(t=>t.id===id);for(const p of t.prerequisites)visit(p,new Set([...trail,id]));};for(const id of ids)visit(id);
-  const eventIds=new Set();for(const e of x.events){if(typeof e.id!=='string'||eventIds.has(e.id)||!['session','void'].includes(e.type))throw new Error('Invalid session history.');eventIds.add(e.id);if(e.type==='session'&&(!ids.has(e.taskId)||!['completed','partial','ensam','skipped'].includes(e.outcome)||!Number.isFinite(e.minutes)||e.minutes<0||!dates.test(e.day)))throw new Error('Invalid study session.');}
-  if(!Number.isFinite(x.settings.weeklyMinutes)||x.settings.weeklyMinutes<0||x.settings.weeklyMinutes>1800||!Number.isFinite(x.settings.focusMinutes)||x.settings.focusMinutes<1||x.settings.focusMinutes>120||!Number.isFinite(x.settings.breakMinutes)||x.settings.breakMinutes<1||x.settings.breakMinutes>30||!['auto','on','off'].includes(x.settings.examMode))throw new Error('Invalid settings.');
-  for(const k of ['dailyMinutes','saturdayMinutes'])if(!Number.isFinite(x.settings[k])||x.settings[k]<25||x.settings[k]>480)throw new Error('Invalid capacity.');
-  try{civilDate(new Date(),x.settings.timezone);}catch{throw new Error('Invalid timezone.');}
-  for(const c of x.calendar)if(!dates.test(c.start_date)||!dates.test(c.end_date_inclusive)||c.start_date>c.end_date_inclusive)throw new Error('Invalid academic calendar.');
-  return x;
-}
+
+export {validateBackup} from './validation.js';

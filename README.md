@@ -1,61 +1,55 @@
-# ENSAM Learning OS · MVP 0.2.1
+# LearningOS · 0.3.0
 
-A lightweight, local-first study app. No dependency installation, API key or paid server is required to run the local version.
+A quiet, local-first study companion for ENSAM and your ML systems roadmap. Today stays minimal: one task, one timer, four outcomes.
 
-## Open it
+## Run
 
-On this Windows computer, double-click **Start Learning OS.cmd**. Keep the app on the same local address (`http://127.0.0.1:4173`) so your browser can find its saved data.
+On Windows, double-click **Start Learning OS.cmd**. Open **http://127.0.0.1:4173/** in Zen or your preferred browser. The launcher verifies the running version and project folder before opening the app, and keeps the server running in the background. Use **Stop Learning OS.cmd** when you want to stop it.
 
-On another computer with Node.js 20 or newer, run `npm start` in this folder and open the Local address it prints. Opening index.html directly is unsupported: browser storage, module loading and offline caching need a local server or HTTPS hosting.
+On Fedora or another computer with Node.js 20+, run:
 
-The Windows launcher finds installed Node.js or the bundled Codex runtime on this computer. It starts the local server with its window hidden. If Node.js is absent, it explains what is missing rather than downloading software automatically. **Stop Learning OS.cmd** stops only the server launched from this app folder. Closing the browser does not stop a focus timer; its recorded focus duration is capped at the selected interval.
-
-## Included
-
-- Neutral black and charcoal throughout. Today shows only one task, a simple focus timer and the four outcomes. Milestone details are collapsed; Calendar, Curriculum, Study log and Settings retain the full plan.
-- User-confirmed checkpoint: ILA §2.9 rank-theorem **examples** completed; begin §3.1 on Monday, 16 November 2026. This does not claim that every §2.9 exercise was solved.
-- Four initial §3.1 tasks, followed by the ILA section sequence, plus the bounded two-week MIT calculus trial. Monday/Tuesday preferences guide ordering; ENSAM requirements take priority. All practice prompts and effort estimates are proposals.
-- 282 research-library tasks kept as drafts. Review scope, progress, evidence and estimates before activation. Future ENSAM offerings remain tentative.
-- Focus/pause/resume, refresh-safe timer state, capped elapsed time, outcome logging and break countdown. The app never completes a task just because a timer ended.
-- Completed, partial, ENSAM override and skipped outcomes; optional remaining-time estimate; corrections preserve history.
-- Deterministic two-week **daily allocation forecast**, prerequisite checks, independent weekly/daily limits, Friday buffer and Sunday recovery. It does not create fixed start-time appointments or Google Calendar events.
-- Academic calendar windows, editable exam protection and conditional resits. The December 20 personal target stays separate from December 21–25 exam week.
-- Add/edit/archive tasks, change prerequisites and review previous versions in backup data. Session history is retained when tasks are changed.
-- Immediate IndexedDB saves with transactional conflict checks across tabs. Backup export and validated restore preview.
-- Manual Obsidian Markdown inspection and task creation, entirely in the local browser. The assistant can inspect the vault when asked; the web app does not have unattended access to your folders.
-- Offline app-shell caching after the first successful load. External textbook pages still need their own network connection or locally saved copies.
-
-## Data and limits
-
-This MVP stores progress **in the current browser**, not in a cloud account. Another device starts with separate data. Backup restore replaces the local plan; it does not merge two device histories. Export regularly, especially before clearing storage or switching browsers. Browser storage can be removed by the browser even when persistence is requested.
-
-The app includes source headings and authored task descriptions, not the full RAR archives, teacher documents or Obsidian note bodies. Local note import is manual. No live AI service is involved. The suggested December 7 exam-preparation start is editable. Availability settings are independent-study ceilings, not a requirement to fill every evening.
-
-## Verification
-
-Run `npm test`. The test suite covers 37 scheduling, progress, timer, calendar and backup cases. JavaScript syntax and local asset references were also checked.
-
-Browser preview permission was declined during this session, so visual layout, click-through interactions, IndexedDB in an actual browser, installability and offline browser behavior have **not** been verified end to end. These remain release checks. Website hosting is separate and has not been deployed. This is a local MVP candidate, not a fully validated production release.
-
-No user study sessions or test outcomes were seeded as real history.
-
-## Moving between laptop and desktop
-
-On the device you just used, open Settings and choose **Export backup**. Transfer the JSON file (Syncthing can move that file), then use **Restore backup** on the other device and review the preview. Keep one device as the current source of truth; restore replaces the destination plan rather than merging two independently edited histories. The application folder is not the browser database.
-
-Version 0.2 changes presentation and outcome shortcuts. Existing local progress, settings and sessions are retained. Refresh the browser after updating the code.
-
-## Starting and checking the local server
-
-Double-click `Start Learning OS.cmd`, then open `http://127.0.0.1:4173/` in Zen. The launcher checks the live version and project directory before opening the page. It leaves the server running in the background. Run `Stop Learning OS.cmd` when you want to stop it.
-
-For a visible terminal, use:
-
-```powershell
-cd C:\Projects\LearningOS
+```sh
 npm start
 ```
 
-Keep that terminal open. To check the running copy, visit `http://127.0.0.1:4173/health`: it should show LearningOS, version 0.2.1 and this project path. This endpoint bypasses the app's offline cache.
+Leave that terminal open. No dependency installation, API key, account or paid service is required to run the app. Use the same browser profile and URL to retain your local progress. Opening index.html directly is unsupported.
 
-If a browser shows the old design, first start the server, then press **Ctrl+Shift+R**. A browser with the offline app cached can show an old version even while the server is stopped. Do not clear site storage: that would remove local study history. Zen and the built-in browser have separate local progress; use backup export/restore to transfer it.
+If an older page appears, start the server and press **Ctrl+Shift+R**. Check **http://127.0.0.1:4173/health** for the live version and source folder. Offline copies can open while the server is stopped; new code needs the server running.
+
+## Daily use
+
+1. Start focus. Pause or resume when needed; the remaining focus time also appears in the browser tab title.
+2. Choose **Completed**, **Partial**, **ENSAM priority** or **Skipped**. Review and save the outcome. A timer ending never completes the learning task automatically.
+3. If partial, optionally estimate what remains. Completion offers the next ready task within your time limits.
+4. Edit coursework and deadlines in Curriculum. Active tasks enter the plan; research drafts remain outside it until reviewed.
+
+Calendar forecasts the next 14 days without marking anything learned. Academic obligations take priority, exam protection can suspend independent study, and missed work never doubles tomorrow's hours. Sunday is free by default; an explicit ENSAM override can make room for required coursework. Deadline warnings include unfinished prerequisites.
+
+## Move between laptop and desktop
+
+1. On the device you just used, open Settings → **Export backup**. A running focus timer is paused before export.
+2. Transfer that JSON file manually or with Syncthing.
+3. On the other device, choose **Restore backup**, review the preview and restore. A paused focus session can resume there.
+
+Keep one device as the current source of truth. Restore replaces its destination plan; it does not merge independent device histories. A local recovery copy is saved before each restore. Settings → **Recover previous plan** returns to that copy after confirmation. The replaced plan becomes the next recovery copy.
+
+The project folder is code; your live progress is in that browser's IndexedDB. Copying or syncing the code folder does not transfer browser history. Exported JSON is the portable backup. Browser storage can be removed by the browser, so retain exported backups independently.
+
+## Curriculum and privacy
+
+Your confirmed checkpoint is ILA §2.9 rank-theorem **examples** completed, with §3.1 planned for November 16, 2026. This does not claim that every exercise was solved. The starter includes the ILA sequence and a bounded MIT calculus trial, plus 282 research-library drafts. Estimates are planning estimates, not measured study times. Current teacher assignments, individual exam notices and future semester syllabuses still require user confirmation.
+
+The app includes headings and authored task prompts, not your full archives or Obsidian note bodies. Manual Markdown import stays in the local browser and never grants completion credit by itself. There is no cloud synchronization or live AI service. Website hosting is not deployed; GitHub holds the source code.
+
+## Development and verification
+
+```sh
+npm ci
+npm test
+```
+
+The only development dependency is fake-indexeddb, used to test database transactions in memory. It is not shipped as a browser dependency. Tests cover scheduling, calendar protection, timer transfer, invalid backups, concurrent-tab conflicts, atomic recovery copies, durable saves, source escaping and the local server. GitHub Actions runs on Windows/Linux with Node 22/24.
+
+These tests do not substitute for a real-browser pass. Browser automation still reports a saved access block for the local origin, even after the user's permission attempt. Real-browser interaction, installability and offline browser verification remain the release gate. The neutral design has been approved by the user; no automated screenshot review is claimed.
+
+See `docs/RELEASE_NOTES.md` and `docs/RELEASE_CHECKLIST.md` for scope and remaining verification.
