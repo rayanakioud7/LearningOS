@@ -13,6 +13,11 @@ export function defaultSlots(){return [
  {day:6,minutes:150,role:'builder',fixed:true,resources:[]}
 ];}
 function resourceFor(t,bundle){const n=t.resource.toLowerCase();return bundle.resources.find(r=>r.name===t.resource)?.id||(n.includes('linear algebra')||n==='ila'?'ila':n.includes('mit')?'mit1802':n.includes('stat 110')?'stat110':n.startsWith('ensam')?'ensam':'legacy-'+slug(t.resource));}
+function legacyCatalogUnit(t,resourceId,bundle){
+ const byRef=key({resourceId,unitRef:t.section||t.id});
+ const heading=`${resourceId}|${String(t.heading||'').trim().toLowerCase()}`;
+ return bundle.units.find(u=>key(u)===byRef)||bundle.units.find(u=>`${u.resourceId}|${String(u.heading||'').trim().toLowerCase()}`===heading)||null;
+}
 export function migrateState(input,bundle,planning,at=new Date().toISOString()){
  validateBackup(input);if(input.schema===2)return copy(input);
  const s=copy(input);s.schema=2;s.resources=copy(bundle.resources);s.units=[];s.semesters=copy(bundle.semesters);s.archiveRegistry=copy(bundle.archiveRegistry);s.importBatches=[];s.attachments=[];s.pinnedDay=null;
@@ -20,7 +25,7 @@ export function migrateState(input,bundle,planning,at=new Date().toISOString()){
  s.calendarSlots=defaultSlots();s.planning=copy(planning);
  for(const t of s.tasks){
   const resourceId=resourceFor(t,bundle);if(!s.resources.some(r=>r.id===resourceId))s.resources.push({id:resourceId,name:t.resource,edition:'unconfirmed',source:'legacy_user_state',url:t.url||'',enabled:true});
-  const unitId='legacy:'+t.id;t.unitId=unitId;t.resourceId=resourceId;t.legacyId=t.id;t.reviewed=t.status==='active';t.priority=t.priority||(t.track==='academic'?'P0':'P1');t.semester=t.semester||1;t.primaryTrack=t.primaryTrack||resourceId;t.importBatchId='legacy-v1';
+  const unitId='legacy:'+t.id,catalogUnit=legacyCatalogUnit(t,resourceId,bundle);t.unitId=unitId;t.resourceId=resourceId;t.legacyId=t.id;t.reviewed=t.status==='active';t.priority=t.priority||(t.track==='academic'?'P0':'P1');t.semester=t.semester||catalogUnit?.semester||1;t.primaryTrack=t.primaryTrack||resourceId;t.importBatchId='legacy-v1';
   s.units.push({id:unitId,resourceId,unitRef:t.section||t.id,heading:t.heading,semester:t.semester,kind:'legacy_activity',dependencies:[],confidence:'legacy_provenance_requires_review',source:t.provenance||'legacy_user_state',legacyId:t.id,importBatchId:'legacy-v1',suspended:false});
  }
  const byTask=new Map(s.tasks.map(t=>[t.id,t.unitId]));for(const t of s.tasks)s.units.find(u=>u.id===t.unitId).dependencies=t.prerequisites.map(id=>byTask.get(id));

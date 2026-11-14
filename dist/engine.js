@@ -84,11 +84,15 @@ export function recordOutcome(state,event) {
   return next;
 }
 export function elapsed(timer,now=Date.now()) {if(!timer)return 0;const raw=Math.max(0,(timer.accumulatedMs||0)+(timer.running?Math.max(0,now-timer.startedAt):0));return Math.min(raw,timer.targetMinutes?timer.targetMinutes*60000:Infinity);}
+export function eventTrack(state,event){
+  if(event.outcome==='ensam')return 'academic';
+  return event.taskSnapshot?.track||state.tasks.find(t=>t.id===event.taskId)?.track;
+}
 export function weeklyActual(state,day){
   const mon=addDays(day,-((weekday(day)+6)%7)),end=addDays(mon,6),voided=new Set(state.events.filter(e=>e.type==='void').map(e=>e.target));
-  return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day>=mon&&e.day<=end&&(state.schema===2||['partial','completed'].includes(e.outcome))&&(e.taskSnapshot?.track||state.tasks.find(t=>t.id===e.taskId)?.track)==='independent').reduce((n,e)=>n+e.minutes,0);
+  return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day>=mon&&e.day<=end&&(state.schema===2||['partial','completed'].includes(e.outcome))&&eventTrack(state,e)==='independent').reduce((n,e)=>n+e.minutes,0);
 }
-export function dailyActual(state,day,track){const voided=new Set(state.events.filter(e=>e.type==='void').map(e=>e.target));return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day===day&&(state.schema===2||['completed','partial'].includes(e.outcome))&&(e.taskSnapshot?.track||state.tasks.find(t=>t.id===e.taskId)?.track)===track).reduce((n,e)=>n+e.minutes,0);}
+export function dailyActual(state,day,track){const voided=new Set(state.events.filter(e=>e.type==='void').map(e=>e.target));return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day===day&&(state.schema===2||['completed','partial','ensam'].includes(e.outcome))&&eventTrack(state,e)===track).reduce((n,e)=>n+e.minutes,0);}
 export function deadlineRisks(state,day){
   const done=completed(state),tasks=new Map(state.tasks.map(t=>[t.id,t]));
   const required=state.tasks.filter(t=>t.status==='active'&&!t.archived&&t.track==='academic'&&t.deadline&&(state.schema!==2||isHardDeadline(t))&&!done.has(t.id)),result=[];

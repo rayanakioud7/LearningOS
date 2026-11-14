@@ -10,12 +10,25 @@ export function monthDates(day){
  const first=day.slice(0,7)+'-01',start=addDays(first,-((weekday(first)+6)%7));
  return Array.from({length:42},(_,i)=>addDays(start,i));
 }
-export function navigateDate(day,mode,direction){
+function addMonthsClamped(day,months){
+ const date=new Date(day+'T12:00Z'),d=date.getUTCDate();date.setUTCDate(1);
+ date.setUTCMonth(date.getUTCMonth()+months);
+ const last=new Date(Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,0,12)).getUTCDate();date.setUTCDate(Math.min(d,last));return date.toISOString().slice(0,10);
+}
+export function navigateDate(day,mode,direction,semesters=[]){
  if(!isCivilDate(day))throw Error('Invalid calendar date.');
  if(['Day','Week','42 days'].includes(mode))return addDays(day,direction*(mode==='Day'?1:mode==='Week'?7:42));
- const date=new Date(day+'T12:00Z'),d=date.getUTCDate();date.setUTCDate(1);
- date.setUTCMonth(date.getUTCMonth()+direction*(['Year','3-Year'].includes(mode)?12:1));
- const last=new Date(Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,0,12)).getUTCDate();date.setUTCDate(Math.min(d,last));return date.toISOString().slice(0,10);
+ if(mode==='Semester'){
+  const ordered=[...semesters].filter(x=>x.start&&x.end).sort((a,b)=>a.start.localeCompare(b.start));
+  const current=ordered.find(x=>day>=x.start&&day<=x.end);
+  if(current){
+   const target=ordered[ordered.indexOf(current)+direction];
+   return target?(direction>0?target.start:target.end):addMonthsClamped(day,direction*6);
+  }
+  const target=direction>0?ordered.find(x=>x.start>day):[...ordered].reverse().find(x=>x.end<day);
+  return target?(direction>0?target.start:target.end):addMonthsClamped(day,direction*6);
+ }
+ return addMonthsClamped(day,direction*(mode==='3-Year'?36:mode==='Year'?12:1));
 }
 // Cache only derived rows. Identity changes on every persisted save or cross-tab refresh.
 const cache=new WeakMap();
@@ -59,6 +72,15 @@ export function renderCalendarView(s,today,mode,catalog,selected=today){
  const chosen=map.get(selected)||calendarRows(s,today,selected,selected,catalog)[0];
  let content=months.length?`<div class="${mode==='Month'?'':'calendar-months'}">${months.map(m=>matrix(m,map,today,selected,mode!=='Month')).join('')}</div>`:`<div class="calendar-agenda">${rows.map(p=>`<button class="agenda-day ${p.day===selected?'selected-date':''}" data-calendar-date="${p.day}" data-band="${p.band}"><b>${esc(label(p.day,{weekday:'short',day:'numeric',month:'short'}))}</b><span><small>${band(p)}</small><strong>${esc(title(p))}</strong></span><span>${Math.round(p.minutes)||'—'} min</span></button>`).join('')}</div>`;
  const risks=deadlineRisks(s,today);
+ const sem=semesterFor(s,selected);
+ const heading=mode==='Day'?label(selected,{weekday:'long',day:'numeric',month:'long',year:'numeric'}):
+  mode==='Week'?`${label(start,{day:'numeric',month:'short'})} – ${label(end,{day:'numeric',month:'short',year:'numeric'})}`:
+  mode==='42 days'?`${label(start,{day:'numeric',month:'short'})} – ${label(end,{day:'numeric',month:'short',year:'numeric'})}`:
+  mode==='Month'?label(selected,{month:'long',year:'numeric'}):
+  mode==='Year'?selected.slice(0,4):
+  mode==='Semester'?(sem?`S${sem.id} · ${sem.title}`:label(selected,{month:'long',year:'numeric'})):
+  `${label(start,{month:'short',year:'numeric'})} – ${label(end,{month:'short',year:'numeric'})}`;
+ const jump=`<label class="calendar-jump">Jump to<select id="calendar-jump"><option value="">Choose a date…</option><option value="${today}">Today</option>${s.semesters.map(x=>`<option value="${x.start}" data-semester="${x.id}">S${x.id} · ${esc(x.title)}</option>`).join('')}</select></label>`;
  const windows=s.calendar.filter(w=>w.start_date<=end&&w.end_date_inclusive>=start);
- return `<div class="page-heading compact"><div><p class="eyebrow">14 DAYS ACTIONABLE · 42 DAYS TENTATIVE · THROUGH JUNE 2029</p><h1>Structure, <em>with breathing room.</em></h1><p class="subtitle">Saved outcomes are facts. Future allocations assume progress.</p></div><button class="secondary" data-action="new">+ Add a task</button></div><div class="tabs calendar-modes">${modes.map(m=>`<button data-calendar-mode="${m}" aria-pressed="${mode===m}" class="${mode===m?'selected':''}">${m}</button>`).join('')}</div><div class="calendar-navigation"><button class="secondary" data-calendar-step="-1" aria-label="Previous ${mode}">←</button><h2>${esc(label(selected,{month:'long',year:'numeric'}))}</h2><button class="secondary" data-calendar-step="1" aria-label="Next ${mode}">→</button><button class="text-button" data-calendar-today>Today</button><form id="calendar-date-form"><label>Go to date<input id="calendar-start" aria-label="Calendar start" type="date" min="1900-01-01" max="2029-06-30" value="${selected}" required></label><button class="secondary" type="submit">Go</button></form></div><p class="muted small">Study ● · ENSAM ◇ · Rest ○. Days 0–13 actionable, 14–41 tentative, later provisional. NOT ACTIVATED sources appear only as estimates. Future semester dates and teacher requirements may be unknown.</p>${risks.length?`<div class="quiet-notice"><p>Confirmed deadlines need attention</p>${risks.map(r=>`<p>${esc(r.title)} · ${r.overdue?'overdue · ':''}${Math.ceil(r.shortfall)} min not placeable before ${esc(r.assessmentThrough)}${r.blockedPrerequisite?' · blocked prerequisite':''}${r.limitedHorizon?' · assessment limited to one year':''}</p>`).join('')}</div>`:''}${content}${details(chosen,today)}<h2 class="section-title">Academic commitments</h2><button class="secondary" data-action="new-window">+ Add protected window</button><div class="event-grid">${windows.map(w=>`<article class="event-card"><small>${w.active?'ENABLED':'DISABLED / CONDITIONAL'} · ${esc(w.confidence||'Supplied / user dates')}</small><h3>${esc(w.title)}</h3><p>${esc(w.start_date)} – ${esc(w.end_date_inclusive)}</p><button class="text-button" data-event="${esc(w.id)}">Edit dates →</button></article>`).join('')}</div>`;
+ return `<div class="page-heading compact"><div><p class="eyebrow">14 DAYS ACTIONABLE · 42 DAYS TENTATIVE · THROUGH JUNE 2029</p><h1>Structure, <em>with breathing room.</em></h1><p class="subtitle">Saved outcomes are facts. Future allocations assume progress.</p></div><button class="secondary" data-action="new">+ Add a task</button></div><div class="tabs calendar-modes">${modes.map(m=>`<button data-calendar-mode="${m}" aria-pressed="${mode===m}" class="${mode===m?'selected':''}">${m}</button>`).join('')}</div><div class="calendar-navigation"><button class="secondary" data-calendar-step="-1" aria-label="Previous ${mode}">←</button><h2>${esc(heading)}</h2><button class="secondary" data-calendar-step="1" aria-label="Next ${mode}">→</button><button class="text-button" data-calendar-today>Today</button>${jump}<form id="calendar-date-form" class="calendar-date-form"><label>Go to date<input id="calendar-start" aria-label="Calendar start" type="date" min="${esc(s.semesters[0]?.start||'2026-09-01')}" max="${HORIZON}" value="${selected}" required></label><button class="secondary" type="submit">Go</button></form></div><p class="muted small">Study ● · ENSAM ◇ · Rest ○. Days 0–13 actionable, 14–41 tentative, later provisional. NOT ACTIVATED sources appear only as estimates. Future semester dates and teacher requirements may be unknown.</p>${risks.length?`<div class="quiet-notice"><p>Confirmed deadlines need attention</p>${risks.map(r=>`<p>${esc(r.title)} · ${r.overdue?'overdue · ':''}${Math.ceil(r.shortfall)} min not placeable before ${esc(r.assessmentThrough)}${r.blockedPrerequisite?' · blocked prerequisite':''}${r.limitedHorizon?' · assessment limited to one year':''}</p>`).join('')}</div>`:''}${content}${details(chosen,today)}<h2 class="section-title">Academic commitments</h2><button class="secondary" data-action="new-window">+ Add protected window</button><div class="event-grid">${windows.map(w=>`<article class="event-card"><small>${w.active?'ENABLED':'DISABLED / CONDITIONAL'} · ${esc(w.confidence||'Supplied / user dates')}</small><h3>${esc(w.title)}</h3><p>${esc(w.start_date)} – ${esc(w.end_date_inclusive)}</p><button class="text-button" data-event="${esc(w.id)}">Edit dates →</button></article>`).join('')}</div>`;
 }

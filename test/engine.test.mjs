@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import path from 'node:path';
 import {assetPath} from '../paths.mjs';
-import {civilDate,addDays,completed,dailyChoice,dayRule,forecast,recordOutcome,elapsed,validateBackup,weeklyActual,deadlineRisks,readyTasks} from '../dist/engine.js';
+import {civilDate,addDays,completed,dailyChoice,dayRule,forecast,recordOutcome,elapsed,validateBackup,weeklyActual,dailyActual,deadlineRisks,readyTasks} from '../dist/engine.js';
 const seed=()=>JSON.parse(readFileSync(new URL('../dist/seed.json',import.meta.url)));
 const event=(taskId,outcome,other={})=>({id:'event1',taskId,type:'session',day:'2026-11-16',at:'2026-11-16T20:00:00Z',minutes:25,outcome,...other});
 test('seed validates and resumes at §3.1.1 on November 16',()=>{const s=seed();assert.equal(validateBackup(s),s);assert.equal(dailyChoice(s,'2026-11-16').task.id,'ila-311');assert.equal(dailyChoice(s,'2026-11-14').task,null);assert.match(s.checkpoints[0].scope,/no claim/);});
@@ -12,6 +12,7 @@ test('Sunday remains free after missed days',()=>{const s=seed();assert.equal(da
 test('partial records time without granting mastery or unlocking dependencies',()=>{let s=recordOutcome(seed(),event('ila-311','partial',{remainingMinutes:45}));assert.equal(completed(s).size,0);assert.equal(s.tasks.find(t=>t.id==='ila-311').remainingMinutes,45);assert.equal(dailyChoice(s,'2026-11-16').task.id,'ila-311');});
 test('completion unlocks next task; duplicate session retry is idempotent',()=>{let s=recordOutcome(seed(),event('ila-311','completed'));assert.equal(dailyChoice(s,'2026-11-16').task.id,'ila-311-examples');s=recordOutcome(s,event('ila-311','completed'));assert.equal(s.events.length,1);});
 test('ENSAM override preserves independent task and selects academic work',()=>{let s=seed();s.tasks.push({...s.tasks[0],id:'td-1',track:'academic',deadline:'2026-11-17'});s=recordOutcome(s,event('ila-311','ensam'));assert.equal(completed(s).size,0);assert.equal(dailyChoice(s,'2026-11-16').task.id,'td-1');assert.equal(s.overrides[0].kind,'ensam');});
+test('ENSAM override consumes academic capacity and never the independent weekly ceiling',()=>{let s=seed();s=recordOutcome(s,event('ila-311','ensam',{minutes:25}));assert.equal(dailyActual(s,'2026-11-16','independent'),0);assert.equal(dailyActual(s,'2026-11-16','academic'),25);assert.equal(weeklyActual(s,'2026-11-16'),0);});
 test('skipped task waits until another day without cloning or doubling',()=>{const s=recordOutcome(seed(),event('ila-311','skipped'));assert.equal(dailyChoice(s,'2026-11-16').task,null);assert.ok(readyTasks(s,'2026-11-17').some(t=>t.id==='ila-311'));assert.equal(s.tasks.length,seed().tasks.length);});
 test('exam window protects independent study, not academic revision',()=>{const s=seed();assert.equal(dailyChoice(s,'2026-12-21').task,null);s.tasks.push({...s.tasks[0],id:'exam-review',track:'academic'});assert.equal(dailyChoice(s,'2026-12-21').task.id,'exam-review');});
 test('pausing independent plan still permits ENSAM',()=>{const s=seed();s.settings.paused=true;s.tasks.push({...s.tasks[0],id:'tp',track:'academic'});assert.equal(dailyChoice(s,'2026-11-16').task.id,'tp');});

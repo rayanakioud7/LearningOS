@@ -15,6 +15,7 @@ test('month cells align Monday first with real leading/trailing dates and leap d
 });
 test('navigation clamps month ends rather than skipping a month',()=>{
  assert.equal(navigateDate('2028-01-31','Month',1),'2028-02-29');assert.equal(navigateDate('2028-02-29','Year',1),'2029-02-28');assert.equal(navigateDate('2026-11-16','Week',-1),'2026-11-09');
+ assert.equal(navigateDate('2026-11-16','3-Year',1),'2029-11-16');assert.equal(navigateDate('2027-03-01','Semester',1,seed().semesters),'2027-09-01');assert.equal(navigateDate('2027-03-01','Semester',-1,seed().semesters),'2027-01-31');
 });
 test('past dates show actual attempts, never future allocation simulations',()=>{
  let s=seed();s=recordOutcome(s,{id:'past',taskId:'ila-311',day:'2026-11-10',minutes:25,outcome:'partial',note:'A retained note'});
@@ -31,9 +32,11 @@ test('certainty is anchored to Today even when browsing far ahead; cache never m
  assert.equal(rows[13].band,'actionable');assert.equal(rows[14].band,'tentative');assert.equal(rows[41].band,'tentative');assert.equal(rows[42].band,'scenario');
  assert.equal(calendarRows(s,'2026-11-14','2028-10-01','2028-10-31',catalog)[0].band,'scenario');assert.deepEqual(s,before);assert.equal(completed(s).size,0);
 });
-test('semester tabs filter tasks and resources start collapsed',()=>{
+test('legacy seed tasks inherit catalog semester placement',()=>{const s=seed();assert.equal(s.tasks.find(t=>t.id==='ila-5-1').semester,2);assert.equal(s.units.find(u=>u.id==='legacy:ila-5-1').semester,2);assert.equal(s.tasks.find(t=>t.id==='ila-311').semester,1);});
+test('semester tabs open a resource contents view without a hidden task list',()=>{
  let s=seed();s=addLocalTask(s,{...s.tasks[0],id:'future',resource:'S3 synthetic module',heading:'Future module',semester:3,prerequisites:[]});
- const html=renderCurriculumView(s,{catalog,semester:'3'});assert.match(html,/data-semester-select="3" aria-selected="true"/);assert.match(html,/Future module/);assert.ok(!html.includes('Matrices as Functions'));assert.ok(!html.includes('class="resource-group" open'));
+ const html=renderCurriculumView(s,{catalog,semester:'3'});assert.match(html,/data-semester-select="3" aria-selected="true"/);assert.match(html,/data-resource-view="local:s3-synthetic-module"/);assert.ok(!html.includes('Matrices as Functions'));assert.ok(!html.includes('resource-group'));
+ const detail=renderCurriculumView(s,{catalog,semester:'3',resourceDetail:'local:s3-synthetic-module'});assert.match(detail,/Future module/);assert.match(detail,/Source units and staged tasks/);
 });
 test('study log groups three partials into 75 minutes, retains notes and appended corrections',()=>{
  let s=seed();for(let i=0;i<3;i++)s=recordOutcome(s,{id:'part-'+i,taskId:'ila-311',day:'2026-11-16',minutes:25,outcome:'partial',note:'Note '+i,remainingMinutes:i===2?200:120});
