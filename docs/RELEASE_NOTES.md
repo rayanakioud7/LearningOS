@@ -1,3 +1,22 @@
+# 0.6.0 — UX and plan v3 (in progress on fix/ux-plan-v3)
+
+Curriculum:
+- Resource cards show the full catalog contents; resource detail lists every source unit with status, estimates, prerequisites and source links
+- Unit staging with transitive dependency staging (stageUnits); preferred subjects is now a checkbox resource picker
+
+Calendar:
+- 3-Year navigation moves 36 months; Semester steps between semester ranges; Jump to date plus a semester quick-jump selector
+
+Engine/planner:
+- ENSAM override excluded from the independent weekly ceiling
+- Multi-block weekday projections from the weekly template (primary + secondary blocks, e.g. Stat 110 then Data Science Handbook after the primary block)
+- Roadmap phases (S1A, S1B recovery Jan–Feb 2027, S2, Summers 1–2, S3–S6) with phase capacity budgets; the weekly ceiling is the lower of the phase budget and the user setting
+- Finishing a task early pulls a secondary-block task the same day; the week re-plans heuristically instead of locking every day
+
+Roadmap data: scripts/roadmap-overrides.mjs (public ENSAM modules, weekly templates, academic windows); no private archive bytes or names enter dist.
+
+Core tests and release validation pass.
+
 # 0.5.0 — Scheduling Engine v2 (local implementation; verification pending)
 
 Fixes remaining-effort reset, soft-vs-confirmed deadlines, shared daily capacity, pin validity and prerequisite deadline feasibility. Adds real civil-date calendar navigation through June 2029, keyboard semester tabs, collapsed resources, corrected edition staging and grouped immutable attempt history. Today retains its focus layout and four outcomes. Schema 2 remains compatible; no user backup is shipped.

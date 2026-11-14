@@ -1,5 +1,6 @@
 import {effortFor,isHardDeadline} from './effort.js';
 import {ruleV2,readyV2,choiceV2,planRange,nextOnTrack,nextSecondary} from './planner.js';
+import {weeklyCeiling} from './roadmap.js';
 export const SCHEMA=2;
 export function civilDate(now=new Date(),zone='Africa/Casablanca') {
   const p=new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
@@ -121,7 +122,7 @@ function deadlineUnplaced(state,start,end,workload,alreadyDone){
   const rule=ruleV2(sim,day);let shared=Math.max(0,rule.minutes-dailyActual(state,day,'academic')-dailyActual(state,day,'independent'));
   let independent=Math.max(0,rule.independentMinutes-dailyActual(state,day,'independent'));
   while(shared>0){
-   const ready=readyV2(sim,day,done),capacity=t=>t.track==='academic'?shared:Math.min(shared,independent,state.settings.weeklyMinutes-used);
+   const ready=readyV2(sim,day,done),capacity=t=>t.track==='academic'?shared:Math.min(shared,independent,weeklyCeiling(state,day)-used);
    const task=ready.find(t=>minimumBlock(sim,t)<=capacity(t));if(!task)break;
    const minutes=Math.min(left.get(task.id),capacity(task));shared-=minutes;
    if(task.track==='independent'){independent-=minutes;used+=minutes;}

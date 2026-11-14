@@ -1,5 +1,5 @@
 import {correctEditions} from './catalog-editions.mjs';
-import {ensamModules,extraResources,extraUnits,semesterOverrides,weeklyResources,weeklySecondary,weeklySlots,academicWindows} from './roadmap-overrides.mjs';
+import {ensamModules,extraResources,extraUnits,semesterOverrides,weeklyResources,weeklySecondary,weeklySlots,academicWindows,phases,weeklyBlocks} from './roadmap-overrides.mjs';
 import {readFileSync,writeFileSync} from 'node:fs';
 const read=name=>JSON.parse(readFileSync(new URL('../private/research/'+name,import.meta.url)));
 const catalog=read('curriculum_catalog.json'),inventory=read('archive_inventory.json'),rules=read('planning_rules.json');
@@ -26,4 +26,6 @@ rules.academicWindows=academicWindows;
 rules.weeklyResources=weeklyResources;
 rules.weeklySecondary=weeklySecondary;
 rules.weeklySlots=weeklySlots;
+rules.phases=phases;
+rules.weeklyBlocks=weeklyBlocks;
 writeFileSync(new URL('../dist/planning.json',import.meta.url),JSON.stringify(rules,null,2)+'\n');

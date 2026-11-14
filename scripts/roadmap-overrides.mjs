@@ -205,6 +205,37 @@ export const weeklySlots={
 
 // The learner supplied the 2026–27 ENSAM calendar image. These are date
 // envelopes, never personal exam times. Resits remain opt-in.
+// The three-year roadmap is expressed as phases (date ranges with a mode and
+// capacity budget) plus weekly templates (blocks per weekday). Blocks are
+// timeboxes, not hardcoded daily chapters: the scheduler still picks the next
+// ready unit dynamically, which keeps the finish-early re-planning behavior intact.
+export const phases=[
+ {id:'S1A',start:'2026-09-14',end:'2027-01-10',mode:'teaching',weeklyIndependentMinutes:480,dailyIndependentMinutes:90,saturdayMinutes:180},
+ {id:'S1B',start:'2027-01-11',end:'2027-01-31',mode:'recovery',weeklyIndependentMinutes:240,dailyIndependentMinutes:60,saturdayMinutes:60},
+ {id:'S2',start:'2027-02-01',end:'2027-06-13',mode:'teaching',weeklyIndependentMinutes:480,dailyIndependentMinutes:90,saturdayMinutes:180},
+ {id:'Summer1',start:'2027-06-14',end:'2027-08-31',mode:'summer',weeklyIndependentMinutes:780,dailyIndependentMinutes:120,saturdayMinutes:240},
+ {id:'S3',start:'2027-09-01',end:'2028-01-31',mode:'teaching',weeklyIndependentMinutes:540,dailyIndependentMinutes:90,saturdayMinutes:180},
+ {id:'S4',start:'2028-02-01',end:'2028-06-30',mode:'teaching',weeklyIndependentMinutes:540,dailyIndependentMinutes:90,saturdayMinutes:180},
+ {id:'Summer2',start:'2028-07-01',end:'2028-08-31',mode:'summer',weeklyIndependentMinutes:780,dailyIndependentMinutes:120,saturdayMinutes:240},
+ {id:'S5',start:'2028-09-01',end:'2029-01-31',mode:'teaching',weeklyIndependentMinutes:480,dailyIndependentMinutes:90,saturdayMinutes:180},
+ {id:'S6',start:'2029-02-01',end:'2029-06-30',mode:'pfe',weeklyIndependentMinutes:0,dailyIndependentMinutes:0,saturdayMinutes:0}
+];
+// Weekly templates: one or more timeboxed blocks per weekday. Each block lists
+// the resources it may draw from and its budget in minutes. The first block of
+// a day is the primary block; later blocks are secondary blocks (for example
+// "Stat 110" then "Data Science Handbook" on S2 Thursdays). Empty days have no
+// prescribed independent block (ENSAM, rest, overflow).
+export const weeklyBlocks={
+ S1A:{1:[{resources:['ila'],minutes:75}],2:[{resources:['mit1802'],minutes:75}],4:[{resources:['velleman'],minutes:60},{resources:['dsa'],minutes:30}],6:[{resources:['builder'],minutes:180}]},
+ S1B:{},
+ S2:{1:[{resources:['ila'],minutes:75}],2:[{resources:['stat110'],minutes:75}],4:[{resources:['stat110'],minutes:45},{resources:['vanderplas-2e','mml'],minutes:30}],6:[{resources:['builder'],minutes:180}]},
+ Summer1:{1:[{resources:['vanderplas-2e'],minutes:120}],2:[{resources:['mml'],minutes:120}],3:[{resources:['geron'],minutes:120}],4:[{resources:['udl'],minutes:120}],5:[{resources:['vanderplas-2e','mml'],minutes:120}],6:[{resources:['builder'],minutes:180}]},
+ S3:{1:[{resources:['geron'],minutes:75}],2:[{resources:['cs229'],minutes:75}],4:[{resources:['geron'],minutes:75}],6:[{resources:['builder'],minutes:180}]},
+ Summer2:{1:[{resources:['udl'],minutes:120}],2:[{resources:['huang'],minutes:120}],3:[{resources:['karpathy'],minutes:120}],4:[{resources:['pmpp'],minutes:120}],5:[{resources:['raschka','tunstall'],minutes:120}],6:[{resources:['builder'],minutes:180}]},
+ S4:{1:[{resources:['udl'],minutes:75}],2:[{resources:['huang'],minutes:75}],4:[{resources:['karpathy'],minutes:45},{resources:['pmpp'],minutes:30}],6:[{resources:['builder'],minutes:180}]},
+ S5:{1:[{resources:['udl'],minutes:75}],2:[{resources:['raschka'],minutes:75}],4:[{resources:['tunstall'],minutes:45},{resources:['pmpp'],minutes:30}],6:[{resources:['builder'],minutes:180}]},
+ S6:{}
+};
 export const academicWindows=[
  {start:'2026-09-14',end:'2026-12-18',kind:'teaching',certainty:'ENSAM_2026_27_calendar'},
  {start:'2026-12-07',end:'2026-12-20',kind:'suggested_exam_prep',certainty:'user_adjustable_recommendation'},

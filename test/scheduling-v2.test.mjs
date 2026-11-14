@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {migrateState,addLocalTask,reviseTask} from '../dist/curriculum.js';
 import {dailyChoice,recordOutcome,completed,deadlineRisks,forecast} from '../dist/engine.js';
-import {project,pinToday} from '../dist/planner.js';
+import {project,pinToday,ruleV2,phaseFor,blockPlan,weeklyCeiling} from '../dist/planner.js';
 const read=n=>JSON.parse(readFileSync(new URL('../dist/'+n,import.meta.url)));
 const catalog=read('catalog.json'),planning=read('planning.json');
 const seed=()=>migrateState(read('seed.json'),catalog,planning,'2026-11-14T00:00:00Z');
@@ -102,4 +102,55 @@ test('editing a pinned task into a future semester invalidates its selection',()
 test('weekly allocation shows past facts and agrees with Today on a current-day pin',async()=>{
  const {allocateWeek,selectNext}=await import('../dist/planner.js');let s=seed();s.tasks[0].notBefore='';s.pinnedDay={day:'2026-11-17',taskId:'ila-311',userOverride:true};
  const rows=allocateWeek(s,'2026-11-17');assert.equal(rows[0].band,'actual');assert.equal(rows[0].minutes,0);assert.equal(rows[1].task.id,selectNext(s,'2026-11-17').task.id);
+});
+test('S2 Thursday splits into a Stat 110 primary block and a Data Science Handbook secondary block',()=>{
+ let s=seed();
+ s=addLocalTask(s,{...s.tasks[0],id:'stat-thu',title:'Conditional probability',resource:'Harvard Stat 110 — Probability',section:'Lecture 4',heading:'Conditional probability',action:'Work one worked example.',evidence:'Handwritten derivation and the solved example.',minutes:60,minimumMinutes:25,track:'independent',priority:'P1',semester:2,status:'active',reviewed:true,prerequisites:[],order:0,notBefore:'',deadline:''});
+ s=addLocalTask(s,{...s.tasks[0],id:'ds-thu',title:'Pandas objects',resource:'VanderPlas — Python Data Science Handbook (2nd edition)',section:'Ch 4',heading:'Pandas objects',action:'Reproduce one pandas example.',evidence:'A checked notebook cell.',minutes:60,minimumMinutes:25,track:'independent',priority:'P1',semester:2,status:'active',reviewed:true,prerequisites:[],order:0,notBefore:'',deadline:''});
+ const rows=project(s,'2027-02-04','2027-02-04');
+ assert.equal(rows.length,1);
+ const row=rows[0];
+ assert.equal(row.day,'2027-02-04');
+ assert.ok(Array.isArray(row.blocks)&&row.blocks.length===2,'expected a primary and a secondary block');
+ assert.equal(row.blocks[0].kind,'primary');assert.equal(row.blocks[0].task.resourceId,'stat110');assert.equal(row.blocks[0].minutes,45);
+ assert.equal(row.blocks[1].kind,'secondary');assert.equal(row.blocks[1].task.resourceId,'vanderplas-2e');assert.equal(row.blocks[1].minutes,30);
+ assert.equal(row.task.resourceId,'stat110');assert.equal(row.minutes,75);
+});
+test('Friday has no prescribed independent block in S2',()=>{
+ const rows=project(seed(),'2027-02-05','2027-02-05');
+ assert.equal(rows[0].task,null);assert.equal(rows[0].minutes,0);
+});
+test('the weekly independent ceiling is the lower of the roadmap phase budget and the user setting',()=>{
+ let s=seed();s.settings.weeklyMinutes=300;
+ s=addLocalTask(s,{...s.tasks[0],id:'ceil-1',resource:'Interactive Linear Algebra',heading:'Week ceiling task',semester:1,status:'active',reviewed:true,minutes:1000,minimumMinutes:25,prerequisites:[],order:0,notBefore:'',deadline:'',track:'independent'});
+ const rows=project(s,'2026-11-16','2026-11-22');
+ let total=0;for(const r of rows)if(r.track==='independent')total+=r.minutes;
+ assert.ok(total<=s.settings.weeklyMinutes);
+});
+test('phaseFor and blockPlan map dates to roadmap phases and templates',()=>{
+ const s=seed();
+ assert.equal(phaseFor(s,'2026-11-16').id,'S1A');
+ assert.equal(phaseFor(s,'2027-01-20').id,'S1B');
+ assert.equal(phaseFor(s,'2027-07-20').id,'Summer1');
+ assert.equal(phaseFor(s,'2028-10-03').id,'S5');
+ assert.equal(phaseFor(s,'2029-03-01').id,'S6');
+ assert.equal(phaseFor(s,'2026-01-05'),null);
+ assert.equal(phaseFor(s,'2029-07-01'),null);
+ const thu=blockPlan(s,'2027-02-04');
+ assert.equal(thu.length,2);
+ assert.equal(thu[0].kind,'primary');assert.deepEqual(thu[0].resources,['stat110']);assert.equal(thu[0].minutes,45);
+ assert.equal(thu[1].kind,'secondary');assert.deepEqual(thu[1].resources,['vanderplas-2e','mml']);assert.equal(thu[1].minutes,30);
+ assert.equal(blockPlan(s,'2027-02-05'),null);
+ assert.equal(weeklyCeiling(s,'2027-07-20'),Math.min(780,s.settings.weeklyMinutes));
+ s.settings.weeklyMinutes=300;
+ assert.equal(weeklyCeiling(s,'2027-07-20'),300);
+});
+test('phase daily caps: recovery 60, teaching slot-bound at 75, summer allows 120 with a matching slot',()=>{
+ const s=seed();
+ assert.equal(ruleV2(s,'2027-01-12').independentMinutes,60);   // S1B Tuesday: phase cap 60 below the 75 slot
+ assert.equal(ruleV2(s,'2027-01-16').independentMinutes,60);   // S1B Saturday: phase cap 60
+ assert.equal(ruleV2(s,'2027-02-02').independentMinutes,75);   // S2 Tuesday: phase 90, slot 75 binds
+ s.calendarSlots.find(x=>x.day===2).minutes=120;               // lengthen the Tuesday slot
+ assert.equal(ruleV2(s,'2027-07-13').independentMinutes,120);  // Summer Tuesday: phase 120, slot 120
+ assert.equal(ruleV2(s,'2027-07-17').independentMinutes,150);  // Summer Saturday: slot 150 below phase 240
 });

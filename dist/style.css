@@ -107,5 +107,8 @@ body[data-view=today] .topbar,body[data-view=today] footer{display:none}body[dat
 .unit-status.catalog {border-style:dashed;color:#999}
 .unit-status.suspended {opacity:.65}
 .unit-actions .text-button {font-size:9px;white-space:nowrap}
+.block-kind {font-size:8px;letter-spacing:.08em;text-transform:uppercase;border:1px solid #333;border-radius:20px;padding:2px 6px;color:#999;margin-right:6px}
+.block-kind.block-primary {border-color:#6f866b;color:#b9cbb6}
+.block-kind.block-secondary {border-color:#7b6a4e;color:#d8c49c}
 @media(max-width:900px){.resource-list{grid-template-columns:1fr}.resource-picks{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.resource-picks{grid-template-columns:1fr}.resource-detail-stats{grid-template-columns:1fr 1fr}.resource-detail-stats>div:nth-child(2){border-right:0}.resource-detail-stats>div:nth-child(-n+2){border-bottom:1px solid #292929}.resource-stage-bar{flex-direction:column;align-items:flex-start}.unit-row{flex-wrap:wrap}.unit-actions{width:100%;flex-direction:row;align-items:center;justify-content:flex-end;min-width:0}.resource-card-actions{gap:10px}.calendar-jump{width:100%}.calendar-jump select{flex:1}}

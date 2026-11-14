@@ -55,3 +55,12 @@ test('calendar and log escape imported labels, notes and IDs',()=>{
  let s=seed();s=recordOutcome(s,{id:'quoted"id',taskId:'ila-311',day:'2026-11-16',minutes:1,outcome:'partial',note:'<img src=x onerror=alert(1)>'});
  assert.ok(!renderHistoryView(s).includes('<img'));assert.match(renderHistoryView(s),/quoted&quot;id/);assert.ok(!renderCalendarView(s,'2026-11-17','Day',catalog,'2026-11-16').includes('<img'));
 });
+test('calendar day detail lists every scheduled block with its kind and minutes',()=>{
+ let s=seed();
+ s=addLocalTask(s,{...s.tasks[0],id:'stat-thu',title:'Conditional probability',resource:'Harvard Stat 110 — Probability',section:'Lecture 4',heading:'Conditional probability',action:'Work one worked example.',evidence:'Notes.',minutes:60,minimumMinutes:25,track:'independent',priority:'P1',semester:2,status:'active',reviewed:true,prerequisites:[],order:0,notBefore:'',deadline:''});
+ s=addLocalTask(s,{...s.tasks[0],id:'ds-thu',title:'Pandas objects',resource:'VanderPlas — Python Data Science Handbook (2nd edition)',section:'Ch 4',heading:'Pandas objects',action:'Reproduce one example.',evidence:'Notebook cell.',minutes:60,minimumMinutes:25,track:'independent',priority:'P1',semester:2,status:'active',reviewed:true,prerequisites:[],order:0,notBefore:'',deadline:''});
+ const html=renderCalendarView(s,'2027-02-04','Day',undefined,'2027-02-04');
+ assert.match(html,/block-primary/);assert.match(html,/block-secondary/);
+ assert.match(html,/Harvard Stat 110 — Probability/);assert.match(html,/VanderPlas — Python Data Science Handbook/);
+ assert.match(html,/45 min/);assert.match(html,/30 min/);
+});

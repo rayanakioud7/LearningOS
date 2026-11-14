@@ -2,6 +2,7 @@ import {isCivilDate} from './validation.js';
 import {activeAttempts,isHardDeadline} from './effort.js';
 import {previewImport,applyImport} from './curriculum.js';
 import {addDays,weekday,completed,remaining,weeklyActual,dailyActual,minimumBlock} from './engine.js';
+import {phaseFor,weeklyCeiling,blockPlan} from './roadmap.js';
 export const SCHEDULING_POLICY_VERSION=2;
 export function semesterFor(s,day){return s.semesters?.find(x=>x.start<=day&&x.end>=day)||null;}
 const policySemester=(s,day)=>semesterFor(s,day)||[...s.semesters].sort((a,b)=>b.start.localeCompare(a.start)).find(x=>x.start<=day)||null;
@@ -18,8 +19,9 @@ export function ruleV2(s,day){
  if(s.settings.paused||s.settings.pfeMode||sem?.id===6||s.settings.examMode==='on'||s.settings.examMode==='auto'&&protectedWindow)return {minutes:academicMinutes,independentMinutes:0,kind:'academic',reason:sem?.id===6||s.settings.pfeMode?'PFE priority; independent work is paused.':'Exam or ENSAM protection. Independent tasks remain unfinished.'};
  if(windows.some(w=>w.kind==='recovery'))return {minutes:0,independentMinutes:0,kind:'rest',reason:'Academic recovery window.'};
  if(slot.role==='academic'||wd===3||wd===5)return {minutes:academicMinutes,independentMinutes:0,kind:'academic',reason:wd===3?'Academic placeholder · add or activate your current ENSAM assignment.':'ENSAM overflow or rest.'};
- const cap=wd===6?Math.min(180,s.settings.saturdayMinutes):Math.min(90,s.settings.dailyMinutes);
- return {minutes:academicMinutes,independentMinutes:Math.max(0,Math.min(slot.minutes,cap)-(s.settings.campusTimetable.find(c=>c.day===wd)?.minutes||0)),kind:'normal',reason:s.planning.weeklySlots['S'+(sem?.id||1)]?.[ ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][wd] ]||'Flexible independent study',slot};
+ const phase=phaseFor(s,day);
+ const dayCap=wd===6?Math.min(180,phase?.saturdayMinutes??s.settings.saturdayMinutes):(phase?.dailyIndependentMinutes??s.settings.dailyMinutes);
+ return {minutes:academicMinutes,independentMinutes:Math.max(0,Math.min(slot.minutes,dayCap)-(s.settings.campusTimetable.find(c=>c.day===wd)?.minutes||0)),kind:'normal',reason:(phase?.mode&&phase.mode!=='teaching'?`${phase.mode} · `:'')+s.planning.weeklySlots['S'+(sem?.id||1)]?.[ ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][wd] ]||'Flexible independent study',slot,phase:phase?.id};
 }
 function primaryResourcesFor(s,day){
  const slot=s.calendarSlots.find(x=>x.day===weekday(day)),sem=policySemester(s,day),semester='S'+(sem?.id||1);
@@ -62,7 +64,7 @@ export function readyV2(s,day,done=completed(s),{relaxRole=false}={}){
 export function capFor(s,t,day,rule=ruleV2(s,day),weeklyUsed=weeklyActual(s,day)){
  const shared=rule.minutes-dailyActual(s,day,'academic')-dailyActual(s,day,'independent');
  const target=rule.independentMinutes-dailyActual(s,day,'independent');
- return Math.max(0,t.track==='academic'?shared:Math.min(shared,target,s.settings.weeklyMinutes-weeklyUsed));
+ return Math.max(0,t.track==='academic'?shared:Math.min(shared,target,weeklyCeiling(s,day)-weeklyUsed));
 }
 export function choiceV2(s,day,done=completed(s),weeklyUsed=weeklyActual(s,day),usePin=true,diagnostics=true){
  const rule=ruleV2(s,day),ready=readyV2(s,day,done),available=t=>minimumBlock(s,t)<=capFor(s,t,day,rule,weeklyUsed);
@@ -126,12 +128,51 @@ export function project(s,start,end='2029-06-30',catalog,{anchor=start}={}){
   const offset=Math.round((new Date(day+'T12:00Z')-new Date(anchor+'T12:00Z'))/86400000);
   const band=offset<14?'actionable':offset<42?'tentative':'scenario',sem=semesterFor(s,day);
   for(const t of sim.tasks)if(t.status==='draft'&&!t.branch&&t.track!=='academic'&&(offset>=42||offset>=14&&t.reviewed)){t.status='active';t.reviewed=true;t.hypothetical=true;}
-  const choice=choiceV2(sim,day,done,used,day===anchor,false),task=choice.task,unit=task&&sim.units.find(u=>u.id===task.unitId),rule=choice.rule;
-  const minutes=task?Math.min(left.get(task.id),choice.rescueMinutes||capFor(s,task,day,rule,used)):0;
+  const choice=choiceV2(sim,day,done,used,day===anchor,false),rule=choice.rule;
+  const plan=blockPlan(sim,day);
+  let dayUsed=0,weeklyRemaining=weeklyCeiling(sim,day)-used,rowBlocks=[];
+  if(rule.kind==='normal'){
+    const pin=s.pinnedDay?.day===day?sim.tasks.find(t=>t.id===s.pinnedDay.taskId):null;
+    if(pin&&!done.has(pin.id)&&(!pin.notBefore||pin.notBefore<=day)&&(!pin.snoozedUntil||pin.snoozedUntil<=day)&&(pin.prerequisites||[]).every(id=>done.has(id))){
+      const pinCap=Math.max(0,Math.min(rule.independentMinutes-dayUsed,weeklyRemaining));
+      if(minimumBlock(sim,pin)<=pinCap){
+        const minutes=Math.min(left.get(pin.id),pinCap);
+        rowBlocks.push({task:structuredClone(pin),minutes,kind:'primary',resources:[pin.resourceId]});
+        dayUsed+=minutes;weeklyRemaining-=minutes;
+        if(pin.track==='independent')used+=minutes;
+        left.set(pin.id,left.get(pin.id)-minutes);
+        if(left.get(pin.id)<=0)done.add(pin.id);else pin.remainingMinutes=left.get(pin.id);
+      }
+    }
+  }
+  if(plan&&rule.kind==='normal'){
+    const independentMinutes=Math.max(0,rule.independentMinutes-dailyActual(sim,day,'independent'));
+    for(const block of plan){
+      const cap=Math.max(0,Math.min(block.minutes,independentMinutes-dayUsed,weeklyRemaining));
+      let bt=null;
+      if(cap>0){
+        const ready=readyV2(sim,day,done).filter(u=>block.resources.includes(u.resourceId)||block.resources.includes(u.primaryTrack||u.resourceId));
+        bt=ready.find(u=>minimumBlock(sim,u)<=cap);
+      }
+      if(bt){
+        const minutes=Math.min(left.get(bt.id),cap);
+        if(minutes<=0)continue;
+        rowBlocks.push({task:structuredClone(bt),minutes,kind:block.kind,resources:block.resources});
+        dayUsed+=minutes;weeklyRemaining-=minutes;
+        if(bt.track==='independent')used+=minutes;
+        left.set(bt.id,left.get(bt.id)-minutes);
+        if(left.get(bt.id)<=0)done.add(bt.id);else bt.remainingMinutes=left.get(bt.id);
+      }
+    }
+  }
+  const task=rowBlocks[0]?.task||null,unit=task&&sim.units.find(u=>u.id===task.unitId);
+  const total=rowBlocks.reduce((n,b)=>n+b.minutes,0);
   const original=s.tasks.find(t=>t.id===task?.id),notActivated=Boolean(task&&(!original||original.status!=='active'));
   const confidence=band==='actionable'?'activated · projected allocation; completion unconfirmed':band==='tentative'?'tentative · assumes earlier learning outcomes':sem?.confidence==='planning_assumption'?'estimated future dates · NOT AN ACADEMIC COMMITMENT':'hypothetical source sequence · NOT AN ASSIGNMENT';
-  rows.push({day,kind:task?'proposed':rule.kind,task:task&&band!=='scenario'?structuredClone(task):null,unit:task&&band==='scenario'?{id:unit.id,heading:unit.heading,unitRef:unit.unitRef,resourceId:unit.resourceId,resource:task.resource,confidence:unit.confidence}:null,track:task?.track,minutes,semester:sem?.id,band,confidence,notActivated,reason:band==='scenario'&&task?'PROVISIONAL · '+(notActivated?'NOT ACTIVATED · ':'')+(unit.kind==='academic_module'?'Module placeholder; teacher sequence unknown':'Source heading; authored action and estimated effort'):choice.blocked||choice.reason,windows:windowsOn(s,day)});
-  if(task){if(task.track==='independent')used+=minutes;left.set(task.id,left.get(task.id)-minutes);if(left.get(task.id)<=0)done.add(task.id);else task.remainingMinutes=left.get(task.id);}
+  if(!task){
+    rows.push({day,kind:rule.kind,task:null,unit:null,reason:plan?'No ready unit for today’s block.':(choice.blocked||choice.reason),minutes:0,band,confidence,notActivated:false,semester:sem?.id,track:null,windows:windowsOn(s,day)});continue;
+  }
+  rows.push({day,kind:'proposed',task:band!=='scenario'?structuredClone(task):null,unit:band==='scenario'?{id:unit.id,heading:unit.heading,unitRef:unit.unitRef,resourceId:unit.resourceId,resource:task.resource,confidence:unit.confidence}:null,blocks:rowBlocks,track:task.track,minutes:total,semester:sem?.id,band,confidence,notActivated,reason:undefined,windows:windowsOn(s,day)});
  }
  return rows;
 }
@@ -149,6 +190,7 @@ export function historicalDay(s,day){
 export const selectNext=choiceV2;
 export function allocateWeek(s,day){const start=addDays(day,-((weekday(day)+6)%7));return project(s,start,addDays(start,6),undefined,{anchor:day});}
 export const simulateRange=project;
+export {phaseFor,weeklyCeiling,blockPlan};
 
 export function backlogWarnings(s,day){
  const done=completed(s),attempts=activeAttempts(s),warnings=[];
