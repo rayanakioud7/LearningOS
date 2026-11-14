@@ -1,0 +1,131 @@
+{
+  "note": "Illustrative, not a persisted calendar or known professor homework; dynamic next-ready tasks are placeholders until actual progress is evaluated.",
+  "days": [
+    {
+      "date": "2026-11-14",
+      "weekday": "Saturday",
+      "role": "builder",
+      "proposedDisplay": "Optional Saturday review of actual S1 C tasks; no new mandatory event",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-15",
+      "weekday": "Sunday",
+      "role": "rest",
+      "proposedDisplay": "No independent tasks",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-16",
+      "weekday": "Monday",
+      "role": "ila",
+      "proposedDisplay": "ILA next READY section; preserve exact app progress",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-17",
+      "weekday": "Tuesday",
+      "role": "mit1802",
+      "proposedDisplay": "MIT Session 47 initially; next ready session once actual progress permits",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-18",
+      "weekday": "Wednesday",
+      "role": "ensam",
+      "proposedDisplay": "ENSAM coursework: add your current actual assignment",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-19",
+      "weekday": "Thursday",
+      "role": "velleman-or-ensam",
+      "proposedDisplay": "Velleman §3.4 proof practice OR ENSAM statistics/SQL work",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-20",
+      "weekday": "Friday",
+      "role": "ensam-overflow",
+      "proposedDisplay": "Coursework overflow or rest",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-21",
+      "weekday": "Saturday",
+      "role": "builder",
+      "proposedDisplay": "One bounded C memory / MiniTorch feature with test",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-22",
+      "weekday": "Sunday",
+      "role": "rest",
+      "proposedDisplay": "No independent tasks",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-23",
+      "weekday": "Monday",
+      "role": "ila",
+      "proposedDisplay": "ILA next READY section; preserve exact app progress",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-24",
+      "weekday": "Tuesday",
+      "role": "mit1802",
+      "proposedDisplay": "MIT Sessions 49–50 only if preceding trial work was demonstrated; otherwise next ready task",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-25",
+      "weekday": "Wednesday",
+      "role": "ensam",
+      "proposedDisplay": "ENSAM coursework: add your current actual assignment",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-26",
+      "weekday": "Thursday",
+      "role": "ensam",
+      "proposedDisplay": "ENSAM statistics/SQL or one proof, according to actual deadlines",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    },
+    {
+      "date": "2026-11-27",
+      "weekday": "Friday",
+      "role": "ensam-overflow",
+      "proposedDisplay": "Coursework overflow or rest",
+      "status": "example_not_scheduled",
+      "source": "user_final_weekly_plan",
+      "requiresUserProgress": true
+    }
+  ]
+}

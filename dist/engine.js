@@ -1,4 +1,5 @@
-export const SCHEMA=1;
+import {ruleV2,readyV2,choiceV2,planRange,nextOnTrack} from './planner.js';
+export const SCHEMA=2;
 export function civilDate(now=new Date(),zone='Africa/Casablanca') {
   const p=new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
   return ['year','month','day'].map(k=>p.find(x=>x.type===k).value).join('-');
@@ -13,6 +14,7 @@ export function remaining(state,t){return t.remainingMinutes??t.minutes;}
 export function minimumBlock(state,t){return Math.min(t.minimumMinutes||25,remaining(state,t));}
 export function isExamDay(state,day){return state.settings.examMode==='on'||(state.settings.examMode==='auto'&&state.calendar.some(e=>e.active&&['exam_window','exam_prep'].includes(e.kind)&&day>=e.start_date&&day<=e.end_date_inclusive));}
 export function dayRule(state,day) {
+  if(state.schema===2)return ruleV2(state,day);
   if(state.overrides.some(o=>o.day===day&&o.kind==='rest')) return {minutes:0,reason:'You protected this day for rest.',kind:'rest'};
   if(state.overrides.some(o=>o.day===day&&o.kind==='ensam'))return {minutes:state.settings.dailyMinutes,reason:'ENSAM takes priority today. Your roadmap is safe.',kind:'academic'};
   if(weekday(day)===0)return {minutes:0,reason:'Sunday is yours. No catch-up debt.',kind:'rest'};
@@ -22,6 +24,7 @@ export function dayRule(state,day) {
   return {minutes:Math.min(weekday(day)===6?state.settings.saturdayMinutes:state.settings.dailyMinutes,150*(weekday(day)!==6?1:3)),reason:'A little progress, with room to breathe.',kind:'normal'};
 }
 export function readyTasks(state,day,done=completed(state)) {
+  if(state.schema===2)return readyV2(state,day,done);
   const rule=dayRule(state,day);
   if(!rule.minutes)return [];
   return state.tasks.filter(t=>t.status==='active'&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day)&&(!t.snoozedUntil||t.snoozedUntil<=day)&&!t.archived&&(rule.kind!=='academic'||t.track==='academic')&&(t.prerequisites||[]).every(id=>done.has(id))).sort((a,b)=>{
@@ -32,6 +35,7 @@ export function readyTasks(state,day,done=completed(state)) {
   });
 }
 export function dailyChoice(state,day) {
+  if(state.schema===2)return choiceV2(state,day);
   const rule=dayRule(state,day),ready=readyTasks(state,day);
   const available=state.settings.weeklyMinutes-weeklyActual(state,day);
   const chosen=ready.find(t=>{const cap=rule.minutes-dailyActual(state,day,t.track);return minimumBlock(state,t)<=cap&&(t.track==='academic'||(available>=minimumBlock(state,t)&&weekday(day)!==5));});
@@ -39,6 +43,7 @@ export function dailyChoice(state,day) {
   return {task:chosen??null,rule,blocked};
 }
 export function forecast(state,start,days=14) {
+  if(state.schema===2)return planRange(state,start,days);
   const result=[],done=completed(state);let weeklyUsed=0,lastWeek='',minutesLeft=new Map(state.tasks.map(t=>[t.id,remaining(state,t)]));
   for(let i=0;i<days;i++){
     const day=addDays(start,i),mon=addDays(day,-((weekday(day)+6)%7));
@@ -60,19 +65,26 @@ export function forecast(state,start,days=14) {
 export function recordOutcome(state,event) {
   if(!['completed','partial','ensam','skipped'].includes(event.outcome))throw new Error('Choose a session outcome.');
   if(state.events.some(e=>e.id===event.id))return state;
+  if(!Number.isFinite(event.minutes)||event.minutes<0||event.minutes>10000||event.remainingMinutes!=null&&(!Number.isFinite(event.remainingMinutes)||event.remainingMinutes<1||event.remainingMinutes>10000))throw Error('Invalid actual or remaining minutes.');
   const task=state.tasks.find(t=>t.id===event.taskId);if(!task)throw new Error('Task no longer exists.');
-  const next=structuredClone(state);next.events.push({...event,type:'session',taskSnapshot:{resource:task.resource,section:task.section,heading:task.heading,action:task.action,evidence:task.evidence,track:task.track},minutes:Math.max(0,Number(event.minutes)||0)});
+  const next=structuredClone(state);next.events.push({...event,type:'session',taskSnapshot:state.timer?.taskId===task.id&&state.timer.taskSnapshot?structuredClone(state.timer.taskSnapshot):{...structuredClone(task),...(state.schema===2?{resourceSnapshot:structuredClone(state.resources.find(r=>r.id===task.resourceId)),sourceSnapshot:structuredClone(state.units.find(u=>u.id===task.unitId))}:{})},minutes:Math.max(0,Number(event.minutes)||0)});
   if(event.outcome==='ensam'&&!next.overrides.some(o=>o.day===event.day&&o.kind==='ensam'))next.overrides.push({id:event.id+'-override',day:event.day,kind:'ensam'});
   if(event.outcome==='skipped')next.tasks.find(t=>t.id===event.taskId).snoozedUntil=addDays(event.day,1);
   if(event.outcome==='partial'&&Number.isFinite(event.remainingMinutes)&&event.remainingMinutes>=1)next.tasks.find(t=>t.id===event.taskId).remainingMinutes=event.remainingMinutes;
-  next.timer=null;return next;
+  if(state.schema===2&&event.outcome==='partial'&&!Number.isFinite(event.remainingMinutes))next.tasks.find(t=>t.id===event.taskId).remainingMinutes=Math.max(1,remaining(state,task)-Math.max(0,Number(event.minutes)||0));
+  next.timer=null;
+  if(state.schema===2&&event.outcome==='completed'){
+    const follow=nextOnTrack(next,event.day,task);next.pinnedDay=follow?{day:event.day,taskId:follow.id,reason:'Next prerequisite-ready task on the same primary track.'}:null;
+    next.sameDayTrack={day:event.day,resourceId:task.primaryTrack||task.resourceId};
+  }
+  return next;
 }
 export function elapsed(timer,now=Date.now()) {if(!timer)return 0;const raw=Math.max(0,(timer.accumulatedMs||0)+(timer.running?Math.max(0,now-timer.startedAt):0));return Math.min(raw,timer.targetMinutes?timer.targetMinutes*60000:Infinity);}
 export function weeklyActual(state,day){
   const mon=addDays(day,-((weekday(day)+6)%7)),end=addDays(mon,6),voided=new Set(state.events.filter(e=>e.type==='void').map(e=>e.target));
-  return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day>=mon&&e.day<=end&&['partial','completed'].includes(e.outcome)&&(e.taskSnapshot?.track||state.tasks.find(t=>t.id===e.taskId)?.track)==='independent').reduce((n,e)=>n+e.minutes,0);
+  return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day>=mon&&e.day<=end&&(state.schema===2||['partial','completed'].includes(e.outcome))&&(e.taskSnapshot?.track||state.tasks.find(t=>t.id===e.taskId)?.track)==='independent').reduce((n,e)=>n+e.minutes,0);
 }
-export function dailyActual(state,day,track){const voided=new Set(state.events.filter(e=>e.type==='void').map(e=>e.target));return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day===day&&['completed','partial'].includes(e.outcome)&&(e.taskSnapshot?.track||state.tasks.find(t=>t.id===e.taskId)?.track)===track).reduce((n,e)=>n+e.minutes,0);}
+export function dailyActual(state,day,track){const voided=new Set(state.events.filter(e=>e.type==='void').map(e=>e.target));return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day===day&&(state.schema===2||['completed','partial'].includes(e.outcome))&&(e.taskSnapshot?.track||state.tasks.find(t=>t.id===e.taskId)?.track)===track).reduce((n,e)=>n+e.minutes,0);}
 export function deadlineRisks(state,day){
   const done=completed(state),tasks=new Map(state.tasks.map(t=>[t.id,t]));
   const required=state.tasks.filter(t=>t.status==='active'&&!t.archived&&t.track==='academic'&&t.deadline&&!done.has(t.id)),result=[];

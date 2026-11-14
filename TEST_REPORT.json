@@ -1,36 +1,85 @@
 {
-  "version": "0.3.1",
+  "version": "0.4.0",
   "date": "2026-11-14",
-  "automated_tests": 53,
-  "passed": 53,
-  "failed": 0,
-  "syntax_checks": {
-    "dist/app.js": "syntax passed",
-    "dist/engine.js": "syntax passed",
-    "dist/sw.js": "syntax passed",
-    "server.mjs": "syntax passed",
-    "paths.mjs": "syntax passed",
-    "dist/today.js": "syntax passed",
-    "dist/storage.js": "syntax passed",
-    "dist/validation.js": "syntax passed",
-    "dist/backup.js": "syntax passed"
+  "verification_status": "implementation complete for local review; full release gate pending",
+  "baseline": {
+    "command": "npm test",
+    "result": "attempted before edits; fake-indexeddb missing and localhost listen denied"
   },
-  "static_assets_present": true,
-  "source_tasks": 307,
-  "active_tasks": 25,
-  "draft_tasks": 282,
-  "real_sessions_seeded": 0,
-  "browser_qa": "Core workflows verified in ChatGPT in-app browser on 2026-11-14; see docs/BROWSER_QA.md. Former local-origin permission block resolved.",
-  "offline_and_indexeddb_in_browser": "Verified: running timer survived reload; restore/recovery worked; cached app and four retained study-log events reopened with server stopped.",
-  "publication": "Private GitHub source; local server; no website hosting deployment",
-  "cloud_sync": "Manual backup transfer with a paused focus session; no automatic merge or cloud sync",
-  "persistence_tests": "fake-indexeddb 6.2.8: transactions, conflict rejection, atomic restore points and recovery",
-  "browser_layouts": "1280px desktop, 714px normal pane and 390px narrow layout visually inspected; narrow layout had no horizontal overflow; keyboard focus visible.",
-  "browser_qa_isolation": "All session and curriculum test writes used localhost:4173. Real 127.0.0.1:4173 plan inspected without test writes.",
-  "unverified": [
-    "Physical two-device transfer",
-    "Native PWA installation",
-    "Zen-specific behavior"
+  "core_tests": {
+    "command": "node --test --test-isolation=none test/engine.test.mjs test/today.test.mjs test/curriculum-v2.test.mjs test/http-handler.test.mjs",
+    "tests": 88,
+    "passed": 88,
+    "failed": 0,
+    "research_qa_scenarios": 25,
+    "randomized_plans": 100,
+    "completed_history_edit_cases": 30
+  },
+  "full_suite": {
+    "command": "npm test",
+    "result": "not green in this environment",
+    "passed_files": 4,
+    "blocked_files": [
+      "test/reliability.test.mjs",
+      "test/storage-v2.test.mjs",
+      "test/server.test.mjs"
+    ],
+    "unexecuted_or_socket_blocked_tests": 25,
+    "total_declared_tests": 113,
+    "dependency_install": "npm ci failed with EAI_AGAIN resolving registry.npmjs.org",
+    "socket_error": "listen EPERM on 127.0.0.1"
+  },
+  "validation": {
+    "command": "npm run validate",
+    "passed": true,
+    "seed_and_schema": true,
+    "catalog_graph_and_privacy": true,
+    "public_resources": 17,
+    "public_units": 234,
+    "opaque_private_archive_refs": 286,
+    "private_file_units_excluded": 87,
+    "existing_equivalent_units": 19,
+    "semesters_with_scenario_allocations": 6,
+    "projection_civil_days": 960,
+    "through": "2029-06-30",
+    "projection_input_unchanged": true,
+    "offline_assets_present": true
+  },
+  "syntax_checks": "all dist JS, scripts, test modules, server.mjs and paths.mjs passed node --check",
+  "whitespace": "git diff --check passed",
+  "browser_qa": {
+    "status": "not executed successfully",
+    "blocker": "installed Chromium failed during sandbox initialization; socket binding is also denied",
+    "repeatable_driver": "scripts/browser-qa.mjs",
+    "manual_checklist": "docs/BROWSER_QA.md",
+    "prior_version_evidence": "docs/BROWSER_QA_0_3_1.md is historical only"
+  },
+  "progress": {
+    "actual_user_browser_opened": false,
+    "actual_user_browser_written": false,
+    "seeded_real_session_events": 0,
+    "upgrade_behavior": "transactional migration of existing browser state, never replacement with seed",
+    "recovery": "migration-v1 snapshot separate from existing restore-point"
+  },
+  "privacy": {
+    "private_research_git_ignored": true,
+    "private_archive_bytes_in_public_bundle": false,
+    "private_archive_filenames_or_paths_in_public_catalog": false,
+    "old_private_note_drafts_removed_from_distributed_seed": true,
+    "existing_browser_drafts_deleted": false
+  },
+  "remaining_gates": [
+    "Install the existing fake-indexeddb dependency and run full npm test",
+    "Execute six transactional migration/rollback/concurrent-migration tests",
+    "Execute real socket tests",
+    "Execute browser integration driver and visual/manual QA",
+    "Physical two-device transfer, native PWA installation and Zen-specific checks"
   ],
-  "ci": "See GitHub Actions for the commit-specific Windows/Linux Node 22/24 results."
+  "speculative": [
+    "Future annual academic calendars and personal exam times",
+    "Current teacher slide sequences and actual assignments",
+    "S5 option choice",
+    "Owned Huang edition"
+  ],
+  "hosting": "local server only; no deployment, API keys or cloud sync introduced"
 }

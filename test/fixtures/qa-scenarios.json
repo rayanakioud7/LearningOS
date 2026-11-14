@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "scenarios": [
+    {
+      "id": "keep-existing-progress",
+      "acceptance": "Upgrade seed with stable ID mappings while preserving every completed session, partial minutes, academic override, checkpoint and backup."
+    },
+    {
+      "id": "legacy-ila-id",
+      "acceptance": "Existing ila-311 and ila-311-examples remain recognizable; new catalog units must not reset their progress."
+    },
+    {
+      "id": "wednesday-academic",
+      "acceptance": "With active ENSAM task and no academic blockers, Wed schedules ENSAM, not an unrelated ILA fallback."
+    },
+    {
+      "id": "friday-recovery",
+      "acceptance": "Friday without ENSAM backlog can remain unscheduled; do not fill it automatically with P3."
+    },
+    {
+      "id": "sunday-protected",
+      "acceptance": "Sunday returns recovery and never carries missed work debt."
+    },
+    {
+      "id": "partial-resume",
+      "acceptance": "90-min task with 35 min progress records remaining accurately and reprioritizes the same task without crediting completion."
+    },
+    {
+      "id": "completed-confirmation",
+      "acceptance": "25-minute timer finishes but task remains open until completed outcome explicitly saved."
+    },
+    {
+      "id": "exam-protection",
+      "acceptance": "Dec 7–20 suggested prep overrides independent; Dec 21–25 CI exams protected; Jan resits conditional."
+    },
+    {
+      "id": "future-years-confidence",
+      "acceptance": "Oct 2028 projected dates visibly estimated, not copied from 2026–27 official calendar."
+    },
+    {
+      "id": "curriculum-change",
+      "acceptance": "Import a new S4 Markov/RL module as draft; activating it reprioritizes future only and leaves earlier history intact."
+    },
+    {
+      "id": "task-dependency",
+      "acceptance": "Cannot place gradient-check training task ahead of required autograd prerequisite."
+    },
+    {
+      "id": "capacity",
+      "acceptance": "Calendar fits <=480 scheduled independent minutes/week while retaining ~20% slack; academic work uses separate capacity."
+    },
+    {
+      "id": "speedrun",
+      "acceptance": "Finishing Monday early offers next *ready* ILA unit, not unrelated PMPP chapter."
+    },
+    {
+      "id": "no-data-loss",
+      "acceptance": "Export and restore remain backwards compatible; schema migrations produce a recovery snapshot before changing data."
+    },
+    {
+      "id": "archive-safety",
+      "acceptance": "Imported slide archives are only local references; no private file content or arbitrary local paths leak into hosted application."
+    },
+    {
+      "id": "calendar-horizon",
+      "acceptance": "14-day action list works; 42-day tentative, 2029 long-range forecast render on demand without persisted fake completions."
+    },
+    {
+      "id": "offline-conflict",
+      "acceptance": "Two devices completing same task independently reconcile attempts without silent overwrites or duplicate wins."
+    },
+    {
+      "id": "toggle-source",
+      "acceptance": "Disabling course/resource removes only future assignments; completed history and provenance remain."
+    },
+    {
+      "id": "cycle-detection",
+      "acceptance": "Prerequisite graph with cycle or dangling ID is rejected with actionable diagnostics."
+    },
+    {
+      "id": "zero-ENSAM-syllabus",
+      "acceptance": "S3-S5 official module list with no detailed slides displays research placeholder, not fabricated lectures."
+    },
+    {
+      "id": "ensam-historical-only",
+      "acceptance": "A past PDF file imported into Research Library stays non-schedulable until teacher/curriculum review confirms it."
+    },
+    {
+      "id": "geron-edition-mismatch",
+      "acceptance": "The 2025 Géron lesson 05 is Decision Trees, not Support Vector Machines; old notebooks map only via explicit edition switch."
+    },
+    {
+      "id": "ila-rollup-no-legacy-overwrite",
+      "acceptance": "A §3.1 catalog rollup cannot overwrite existing §3.1.1 ila-311 or its event history."
+    },
+    {
+      "id": "forecast-staged-provisional",
+      "acceptance": "Show a S5 hypothetical Raschka chapter in 2028 scenario view tagged NOT ACTIVATED without placing it on Today or marking completion."
+    },
+    {
+      "id": "slack-arithmetic",
+      "acceptance": "Normal-week independent plan targets at most 375 min of 480 available by default; the remaining ≥105 min is not silently filled."
+    }
+  ]
+}

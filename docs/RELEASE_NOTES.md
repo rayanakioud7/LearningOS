@@ -20,3 +20,11 @@ Core browser verification is complete. Physical two-device transfer, native inst
 - Added a live focus countdown to the browser tab title.
 
 Existing schema-1 study data remains compatible. No study events, completion credit or curriculum activations are fabricated by the update. Future teacher requirements and draft content remain tentative.
+
+## 0.4.0 — Curriculum + Forecast v2 (implementation; verification gate pending)
+
+Adds normalized resource/unit/task references, transactional logical migration, a separate pre-upgrade recovery point, a sanitized catalog preview/import flow and local document attachments. Existing browser history, timers, legacy IDs and old recovery copies remain authoritative. Edits to completed work create followups and sessions keep frozen source provenance.
+
+Adds Day/Week/Month/42-day/Semester/3-Year forecasts through June 2029, semester-specific weekday roles, pinned Today behavior, Wednesday academic protection, capacity/slack controls, calibration and explicit attempt reconciliation. Private note-derived seed drafts and archive filenames/paths are removed from the distributed bundle; existing browser drafts remain local.
+
+88 core tests and the release validator pass. Full fake-indexeddb, real socket and browser integration gates could not complete in the restricted implementation environment. See RELEASE_CHECKLIST.md and TEST_REPORT.json; prior browser evidence does not verify this version.

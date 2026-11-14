@@ -1,0 +1,726 @@
+{
+  "schema": 1,
+  "revision": 0,
+  "curriculumVersion": "2026-11-14-mvp1",
+  "tasks": [
+    {
+      "id": "ila-311",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.1.1",
+      "heading": "Matrices as Functions",
+      "action": "Read the subsection and describe a matrix as an input–output map.",
+      "title": "ILA §3.1.1 Matrices as Functions — Read the subsection and describe a matrix as an input–output map.",
+      "evidence": "For a 2×3 matrix, explain the input/output dimensions and why the possible outputs form its column space.",
+      "minutes": 35,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 0,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/matrix-transformations.html",
+      "prerequisites": [],
+      "notBefore": "2026-11-16",
+      "deadline": "",
+      "provenance": "Official ILA §3.1 headings checked 14 Nov 2026. Activity prompts and durations are proposals. Resume point confirmed by you."
+    },
+    {
+      "id": "ila-311-examples",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.1.1 · Reflection / Rotation",
+      "heading": "Matrices as Functions",
+      "action": "Recreate the reflection and rotation examples with the source closed.",
+      "title": "ILA §3.1.1 · Reflection / Rotation Matrices as Functions — Recreate the reflection and rotation examples with the source closed.",
+      "evidence": "Use A = [[−1,0],[0,1]] and B = [[0,−1],[1,0]] on (1,2). Sketch both outputs and explain the geometry. These are authored practice prompts.",
+      "minutes": 50,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 1,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/matrix-transformations.html",
+      "prerequisites": [
+        "ila-311"
+      ],
+      "notBefore": "2026-11-16",
+      "deadline": "",
+      "provenance": "Official ILA §3.1 headings checked 14 Nov 2026. Activity prompts and durations are proposals. Resume point confirmed by you."
+    },
+    {
+      "id": "ila-312",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.1.2",
+      "heading": "Transformations",
+      "action": "Distinguish domain, codomain and range with two examples.",
+      "title": "ILA §3.1.2 Transformations — Distinguish domain, codomain and range with two examples.",
+      "evidence": "Explain all three without notes; give an example whose range is smaller than its codomain.",
+      "minutes": 35,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 2,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/matrix-transformations.html",
+      "prerequisites": [
+        "ila-311-examples"
+      ],
+      "notBefore": "2026-11-16",
+      "deadline": "",
+      "provenance": "Official ILA §3.1 headings checked 14 Nov 2026. Activity prompts and durations are proposals. Resume point confirmed by you."
+    },
+    {
+      "id": "ila-313",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.1.3",
+      "heading": "Matrix Transformations",
+      "action": "Connect a transformation’s range to the matrix’s column space.",
+      "title": "ILA §3.1.3 Matrix Transformations — Connect a transformation’s range to the matrix’s column space.",
+      "evidence": "For A = [[1,2],[2,4]], state domain and codomain, describe the range and justify why it is a line.",
+      "minutes": 45,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 3,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/matrix-transformations.html",
+      "prerequisites": [
+        "ila-312"
+      ],
+      "notBefore": "2026-11-16",
+      "deadline": "",
+      "provenance": "Official ILA §3.1 headings checked 14 Nov 2026. Activity prompts and durations are proposals. Resume point confirmed by you."
+    },
+    {
+      "id": "ila-3-2",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.2",
+      "heading": "One-to-one and Onto Transformations",
+      "action": "Use pivot positions to justify whether a map is one-to-one and onto.",
+      "title": "ILA §3.2 One-to-one and Onto Transformations — Use pivot positions to justify whether a map is one-to-one and onto.",
+      "evidence": "Construct one example of each property, check its pivots and explain the conclusion.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 4,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-313"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-3-3",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.3",
+      "heading": "Linear Transformations",
+      "action": "Check additivity and homogeneity for a proposed transformation.",
+      "title": "ILA §3.3 Linear Transformations — Check additivity and homogeneity for a proposed transformation.",
+      "evidence": "Give one linear and one nonlinear example and justify each.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 5,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-3-2"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-3-4",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.4",
+      "heading": "Matrix Multiplication",
+      "action": "Compute and interpret a composition of two matrix maps.",
+      "title": "ILA §3.4 Matrix Multiplication — Compute and interpret a composition of two matrix maps.",
+      "evidence": "Check dimensions, compute a product by hand and verify a vector image.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 6,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-3-3"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-3-5",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.5",
+      "heading": "Matrix Inverses",
+      "action": "Find a small inverse by row reduction and check it.",
+      "title": "ILA §3.5 Matrix Inverses — Find a small inverse by row reduction and check it.",
+      "evidence": "Verify both multiplication orders and explain what changes for a singular matrix.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 7,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-3-4"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-3-6",
+      "resource": "Interactive Linear Algebra",
+      "section": "§3.6",
+      "heading": "The Invertible Matrix Theorem",
+      "action": "Connect invertibility, pivots and unique solutions.",
+      "title": "ILA §3.6 The Invertible Matrix Theorem — Connect invertibility, pivots and unique solutions.",
+      "evidence": "Explain the equivalences and classify two examples without notes.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 8,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-3-5"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-4-1",
+      "resource": "Interactive Linear Algebra",
+      "section": "§4.1",
+      "heading": "Determinants: Definition",
+      "action": "Compute small determinants and explain their basic role.",
+      "title": "ILA §4.1 Determinants: Definition — Compute small determinants and explain their basic role.",
+      "evidence": "Check two examples by hand and distinguish singular from invertible.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 9,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-3-6"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-4-2",
+      "resource": "Interactive Linear Algebra",
+      "section": "§4.2",
+      "heading": "Cofactor Expansions",
+      "action": "Compute a determinant using a well-chosen expansion.",
+      "title": "ILA §4.2 Cofactor Expansions — Compute a determinant using a well-chosen expansion.",
+      "evidence": "Solve two authored examples with different expansion choices and compare.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 10,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-4-1"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-4-3",
+      "resource": "Interactive Linear Algebra",
+      "section": "§4.3",
+      "heading": "Determinants and Volumes",
+      "action": "Connect determinant magnitude to area or volume change.",
+      "title": "ILA §4.3 Determinants and Volumes — Connect determinant magnitude to area or volume change.",
+      "evidence": "Sketch one 2D map and explain scaling and orientation.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 11,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-4-2"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-5-1",
+      "resource": "Interactive Linear Algebra",
+      "section": "§5.1",
+      "heading": "Eigenvalues and Eigenvectors",
+      "action": "Find and check an eigenpair for a small matrix.",
+      "title": "ILA §5.1 Eigenvalues and Eigenvectors — Find and check an eigenpair for a small matrix.",
+      "evidence": "Verify Av = λv and explain the invariant direction.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 12,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-4-3"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-5-2",
+      "resource": "Interactive Linear Algebra",
+      "section": "§5.2",
+      "heading": "The Characteristic Polynomial",
+      "action": "Derive a small characteristic polynomial and find its roots.",
+      "title": "ILA §5.2 The Characteristic Polynomial — Derive a small characteristic polynomial and find its roots.",
+      "evidence": "Verify each resulting eigenvalue by a singular matrix test.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 13,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-5-1"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-5-3",
+      "resource": "Interactive Linear Algebra",
+      "section": "§5.3",
+      "heading": "Similarity",
+      "action": "Relate two matrices through a change of basis.",
+      "title": "ILA §5.3 Similarity — Relate two matrices through a change of basis.",
+      "evidence": "Compute one explicit change of coordinates and explain the shared eigenvalues.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 14,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-5-2"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-5-4",
+      "resource": "Interactive Linear Algebra",
+      "section": "§5.4",
+      "heading": "Diagonalization",
+      "action": "Decide whether a matrix has enough independent eigenvectors.",
+      "title": "ILA §5.4 Diagonalization — Decide whether a matrix has enough independent eigenvectors.",
+      "evidence": "Build a diagonalization when possible and check the product.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 15,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-5-3"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-5-5",
+      "resource": "Interactive Linear Algebra",
+      "section": "§5.5",
+      "heading": "Complex Eigenvalues",
+      "action": "Interpret complex eigenvalues of a real 2D map.",
+      "title": "ILA §5.5 Complex Eigenvalues — Interpret complex eigenvalues of a real 2D map.",
+      "evidence": "Relate a rotation example to its characteristic polynomial.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 16,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-5-4"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-5-6",
+      "resource": "Interactive Linear Algebra",
+      "section": "§5.6",
+      "heading": "Stochastic Matrices",
+      "action": "Check a transition matrix and a stationary vector.",
+      "title": "ILA §5.6 Stochastic Matrices — Check a transition matrix and a stationary vector.",
+      "evidence": "Explain the probability interpretation and verify the fixed vector.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 17,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-5-5"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-6-1",
+      "resource": "Interactive Linear Algebra",
+      "section": "§6.1",
+      "heading": "Dot Products and Orthogonality",
+      "action": "Use dot products to check orthogonality.",
+      "title": "ILA §6.1 Dot Products and Orthogonality — Use dot products to check orthogonality.",
+      "evidence": "Solve a hand example and explain the geometric meaning.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 18,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-5-6"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-6-2",
+      "resource": "Interactive Linear Algebra",
+      "section": "§6.2",
+      "heading": "Orthogonal Complements",
+      "action": "Find a basis for an orthogonal complement.",
+      "title": "ILA §6.2 Orthogonal Complements — Find a basis for an orthogonal complement.",
+      "evidence": "Check dimensions and orthogonality against the original space.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 19,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-6-1"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-6-3",
+      "resource": "Interactive Linear Algebra",
+      "section": "§6.3",
+      "heading": "Orthogonal Projection",
+      "action": "Derive and check a projection onto a line.",
+      "title": "ILA §6.3 Orthogonal Projection — Derive and check a projection onto a line.",
+      "evidence": "Verify the residual is orthogonal and explain the closest-point property.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 20,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-6-2"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-6-4",
+      "resource": "Interactive Linear Algebra",
+      "section": "§6.4",
+      "heading": "Orthogonal Sets",
+      "action": "Use an orthogonal basis to compute coordinates.",
+      "title": "ILA §6.4 Orthogonal Sets — Use an orthogonal basis to compute coordinates.",
+      "evidence": "Verify reconstruction and compare with the nonorthogonal case.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 21,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-6-3"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "ila-6-5",
+      "resource": "Interactive Linear Algebra",
+      "section": "§6.5",
+      "heading": "The Method of Least Squares",
+      "action": "Solve a small least-squares problem and inspect its residual.",
+      "title": "ILA §6.5 The Method of Least Squares — Solve a small least-squares problem and inspect its residual.",
+      "evidence": "Explain why an exact solution may not exist and check the normal equations.",
+      "minutes": 75,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 22,
+      "preferredDays": [
+        1
+      ],
+      "url": "https://textbooks.math.gatech.edu/ila/",
+      "prerequisites": [
+        "ila-6-4"
+      ],
+      "notBefore": "2026-11-16",
+      "provenance": "Heading verified in official ILA contents during research. Bounded practice is authored; effort is estimated. Open the contents and select this section."
+    },
+    {
+      "id": "mit-trial-1",
+      "resource": "MIT 18.02SC",
+      "section": "Sessions 47–48",
+      "heading": "Definition / Examples of Double Integration",
+      "action": "Begin the two-week MIT calculus trial. Sketch a region before integrating.",
+      "title": "MIT Sessions 47–48 — Begin the two-week MIT calculus trial. Sketch a region before integrating.",
+      "evidence": "Recreate a bounded double-integral example without notes; check against the source.",
+      "minutes": 90,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 100,
+      "preferredDays": [
+        2
+      ],
+      "notBefore": "2026-11-17",
+      "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/part-a-double-integrals/",
+      "prerequisites": [],
+      "provenance": "v4 two-week trial. Source sessions verified; tasks and 90-minute estimates are proposed. Partial sessions can continue later."
+    },
+    {
+      "id": "mit-trial-2",
+      "resource": "MIT 18.02SC",
+      "section": "Sessions 49–50",
+      "heading": "Exchanging the Order / Polar Coordinates",
+      "action": "Continue the MIT trial with a change of bounds and a polar example.",
+      "title": "MIT Sessions 49–50 — Continue the MIT trial with a change of bounds and a polar example.",
+      "evidence": "Set up two unseen integrals; record whether MIT or Stewart should be your next spine.",
+      "minutes": 90,
+      "minimumMinutes": 25,
+      "track": "independent",
+      "status": "active",
+      "order": 101,
+      "preferredDays": [
+        2
+      ],
+      "notBefore": "2026-11-24",
+      "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/part-a-double-integrals/",
+      "prerequisites": [
+        "mit-trial-1"
+      ],
+      "provenance": "v4 two-week trial. Source sessions verified; tasks and 90-minute estimates are proposed. Partial sessions can continue later."
+    }
+  ],
+  "calendar": [
+    {
+      "id": "teaching-autumn",
+      "start_date": "2026-09-21",
+      "end_date_inclusive": "2026-12-18",
+      "kind": "teaching",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "CI-1",
+      "individual_exam_times_known": false,
+      "active": true,
+      "title": "Autumn teaching · CI-1"
+    },
+    {
+      "id": "personal-readiness",
+      "start_date": "2026-12-20",
+      "end_date_inclusive": "2026-12-20",
+      "kind": "readiness",
+      "source": "user_statement",
+      "date_semantics": "civil_date",
+      "cohort": "CI",
+      "individual_exam_times_known": false,
+      "active": true,
+      "title": "Personal exam readiness"
+    },
+    {
+      "id": "exams-autumn",
+      "start_date": "2026-12-21",
+      "end_date_inclusive": "2026-12-25",
+      "kind": "exam_window",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "CI",
+      "individual_exam_times_known": false,
+      "active": true,
+      "title": "Autumn CI examinations"
+    },
+    {
+      "id": "resits-autumn",
+      "start_date": "2027-01-18",
+      "end_date_inclusive": "2027-01-22",
+      "kind": "conditional_resit",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "CI",
+      "individual_exam_times_known": false,
+      "active": false,
+      "title": "Autumn CI resits"
+    },
+    {
+      "id": "winter-break",
+      "start_date": "2027-01-25",
+      "end_date_inclusive": "2027-01-31",
+      "kind": "recovery",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "CI",
+      "individual_exam_times_known": false,
+      "active": true,
+      "title": "Intersemester recovery"
+    },
+    {
+      "id": "teaching-spring",
+      "start_date": "2027-02-01",
+      "end_date_inclusive": "2027-04-30",
+      "kind": "teaching",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "CI-1",
+      "individual_exam_times_known": false,
+      "active": true,
+      "title": "Spring teaching"
+    },
+    {
+      "id": "exams-spring",
+      "start_date": "2027-05-03",
+      "end_date_inclusive": "2027-05-07",
+      "kind": "exam_window",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "CI",
+      "individual_exam_times_known": false,
+      "active": true,
+      "title": "Spring CI examinations"
+    },
+    {
+      "id": "spring-break",
+      "start_date": "2027-05-10",
+      "end_date_inclusive": "2027-05-16",
+      "kind": "recovery",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "CI",
+      "individual_exam_times_known": false,
+      "active": true,
+      "title": "Spring recovery"
+    },
+    {
+      "id": "resits-spring",
+      "start_date": "2027-05-31",
+      "end_date_inclusive": "2027-06-04",
+      "kind": "conditional_resit",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "CI",
+      "individual_exam_times_known": false,
+      "active": false,
+      "title": "Spring CI resits"
+    },
+    {
+      "id": "exam-prep",
+      "title": "Exam preparation · suggested",
+      "start_date": "2026-12-07",
+      "end_date_inclusive": "2026-12-20",
+      "kind": "exam_prep",
+      "active": true,
+      "provenance": "Suggested preparation window, editable. Not an official ENSAM date."
+    }
+  ],
+  "events": [],
+  "overrides": [],
+  "revisions": [],
+  "checkpoints": [
+    {
+      "resource": "ILA",
+      "last_demonstrated": "§2.9 The Rank Theorem — examples completed",
+      "next_section": "§3.1 Matrix Transformations",
+      "planned_start": "2026-11-16",
+      "confirmed_at": "2026-11-14",
+      "origin": "Explicit user statement; Obsidian Rank Theorem note inspected",
+      "scope": "Examples completed; no claim that all §2.9 exercises are solved."
+    }
+  ],
+  "timer": null,
+  "settings": {
+    "timezone": "Africa/Casablanca",
+    "focusMinutes": 25,
+    "breakMinutes": 5,
+    "dailyMinutes": 90,
+    "saturdayMinutes": 180,
+    "weeklyMinutes": 480,
+    "examMode": "auto",
+    "paused": false
+  }
+}
