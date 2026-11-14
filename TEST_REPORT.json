@@ -1,15 +1,16 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "date": "2026-11-14",
-  "automated_tests": 30,
-  "passed": 30,
+  "automated_tests": 34,
+  "passed": 34,
   "failed": 0,
   "syntax_checks": {
     "dist/app.js": "syntax passed",
     "dist/engine.js": "syntax passed",
     "dist/sw.js": "syntax passed",
     "server.mjs": "syntax passed",
-    "paths.mjs": "syntax passed"
+    "paths.mjs": "syntax passed",
+    "dist/today.js": "syntax passed"
   },
   "static_assets_present": true,
   "source_tasks": 307,
