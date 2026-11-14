@@ -1,3 +1,9 @@
+# 0.7.0 — browsing and reliability
+
+Fixes task-specific timer allocation, fractional estimate editing, optional-summer academic priority, catalog-only resource controls, semester filtering and saved task labels. Adds URL/back navigation, keyboard calendar controls, searchable/paginated history, projection caching and coherent offline updates. Cuts ineffective legacy settings controls from the strict-roadmap UI.
+
+187 checks pass; three socket checks and real-browser verification remain blocked locally. A Chromium CI gate is added. See [RELEASE_0_7_0.md](RELEASE_0_7_0.md) for exact evidence and publishing status.
+
 # 0.6.0 — UX and plan v3 (in progress on fix/ux-plan-v3)
 
 Curriculum:

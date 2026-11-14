@@ -15,9 +15,10 @@ export function saveChange(db,expectedRevision,change,fallback,{preservePrevious
       if(current.revision!==expectedRevision)throw Error('Another tab changed your plan. Refresh this page before making another change.');
       next=change(structuredClone(current));if(!next||typeof next.then==='function')throw Error('The save could not be completed.');
       next.revision=(current.revision||0)+1;next.updatedAt=new Date().toISOString();validateBackup(next);
-      if(!preservePrevious&&current.events.some(e=>!next.events.some(n=>n.id===e.id&&JSON.stringify(n)===JSON.stringify(e))))throw Error('Saved session attempts are immutable. Use an explicit backup restore or correction.');
+      const nextEvents=new Map(next.events.map(e=>[e.id,e]));
+      if(!preservePrevious&&current.events.some(e=>!nextEvents.has(e.id)||JSON.stringify(nextEvents.get(e.id))!==JSON.stringify(e)))throw Error('Saved session attempts are immutable. Use an explicit backup restore or correction.');
       if(current.schema===1&&next.schema===2)store.put({state:current,savedAt:next.updatedAt},'migration-v1');
-      if(preservePlanning&&read.result)store.put({state:current,savedAt:next.updatedAt},'planning-before-'+next.planning.policyVersion);
+      if(preservePlanning&&read.result){const key='planning-before-'+next.planning.policyVersion,point=store.get(key);point.onsuccess=()=>{if(!point.result)store.put({state:current,savedAt:next.updatedAt},key);};}
       if(preservePrevious&&read.result)store.put({state:current,savedAt:next.updatedAt},'restore-point');
       store.put(next,'main');
     }catch(error){failure=error;tx.abort();}};
@@ -32,7 +33,7 @@ export async function migrateDatabase(db,bundle,planning){
 }
 
 export async function refreshPlanningDatabase(db,planning){
- const current=await readSaved(db);if(!current||current.schema!==2||current.planning?.policyVersion===planning.policyVersion)return current;
+ const current=await readSaved(db);if(!current||current.schema!==2||Number(current.planning?.policyVersion||0)>=planning.policyVersion)return current;
  try{return await saveChange(db,current.revision,s=>applyPlanningUpdate(s,planning),null,{preservePlanning:true});}
  catch(error){const latest=await readSaved(db);if(latest?.planning?.policyVersion===planning.policyVersion)return latest;throw error;}
 }

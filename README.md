@@ -1,4 +1,7 @@
-# LearningOS · 0.5.0
+# LearningOS · 0.7.0
+
+**0.7.0:** safer task timers and offline updates, bookmarkable Calendar/Curriculum views, calendar keyboard navigation, searchable paginated Study Log, and faster cached calendar browsing. [Release details and verification](docs/RELEASE_0_7_0.md).
+
 
 The calendar now follows the complete **14 November learner roadmap**, including ISO odd/even Thursdays, S2 March–June study blocks, both summers, project/support gates and zero independent study during exam peaks. Existing study history is preserved. See [ROADMAP_2026_11_14.md](docs/ROADMAP_2026_11_14.md) for the exact mapping, date assumptions, verification and recovery. Reload online once to apply the planning update.
 
@@ -52,7 +55,7 @@ npm test
 npm run validate
 ```
 
-**Current roadmap verification: 169 tests pass**, including the IndexedDB reliability/migration suites and 23 new roadmap checks. Three localhost server tests are blocked by `listen EPERM`. Catalog/privacy/projection/offline validation also passes. No live browser database was modified.
+**Current verification: 187 tests pass**, including IndexedDB reliability/migration, roadmap, usability and offline-cache checks. Three localhost server tests are blocked by `listen EPERM`. Catalog/privacy/projection/offline validation also passes. No live browser database was modified.
 
 `npm run test:browser` was attempted but Playwright is unavailable; localhost binding is independently denied. The driver includes calendar navigation, roadmap choices, shared time, optional summer, monthly GPU support and the existing timer/restore/mobile/offline checks. These browser checks still need to execute on a host that supports them. Prior-release browser reports do not verify this update.
 

@@ -2,6 +2,7 @@
 // Install Playwright separately, or set PLAYWRIGHT_MODULE to its index.mjs path.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+const overallTimeout=setTimeout(()=>{console.error('Browser acceptance exceeded 10 minutes.');process.exit(1);},600000);overallTimeout.unref();
 import {createLearningServer} from '../server.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const server=createLearningServer();
@@ -17,7 +18,7 @@ try{
  legacy.timer={id:'prior-timer',taskId:'ila-311-examples',running:false,startedAt:Date.now(),accumulatedMs:2000,targetMinutes:25};
  await page.goto(origin+'/health');
  await page.evaluate(async state=>{await new Promise((resolve,reject)=>{const r=indexedDB.open('ensam-learning-os',1);r.onupgradeneeded=()=>r.result.createObjectStore('state');r.onerror=()=>reject(r.error);r.onsuccess=()=>{const db=r.result,tx=db.transaction('state','readwrite'),store=tx.objectStore('state');store.put(state,'main');store.put({state,savedAt:'pre-existing'},'restore-point');tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>reject(tx.error);};});},legacy);
- await page.goto(origin+'/');await page.getByRole('button',{name:'Resume',exact:true}).waitFor();
+ await page.goto(origin+'/#today');await page.getByRole('button',{name:'Resume',exact:true}).waitFor();
  const saved=key=>page.evaluate(async key=>{const {openDatabase,readSaved}=await import('./storage.js');const db=await openDatabase();try{return await readSaved(db,key||'main');}finally{db.close();}},key);
  const migrated=await saved();assert.equal(migrated.schema,2);assert.deepEqual(migrated.events,legacy.events);assert.deepEqual(migrated.timer,legacy.timer);assert.deepEqual((await saved('migration-v1')).state,legacy);assert.equal((await saved('restore-point')).savedAt,'pre-existing');
  await page.getByRole('button',{name:'Resume',exact:true}).click();await page.reload();await page.getByRole('button',{name:'Pause',exact:true}).waitFor();assert.equal((await saved()).timer.running,true);
@@ -45,6 +46,11 @@ try{
  await page.getByRole('button',{name:'Curriculum',exact:true}).click();await page.getByRole('tab',{name:'S3',exact:true}).click();
  assert.equal(await page.getByRole('tab',{name:'S3',exact:true}).getAttribute('aria-selected'),'true');
  await page.keyboard.press('ArrowRight');assert.equal(await page.getByRole('tab',{name:'S4',exact:true}).getAttribute('aria-selected'),'true');
+ await page.getByRole('button',{name:'Calendar',exact:true}).click();await page.getByRole('button',{name:'Month',exact:true}).click();
+ await page.getByLabel('Calendar start',{exact:true}).fill('2028-10-03');await page.getByRole('button',{name:'Go',exact:true}).click();const calendarURL=page.url();
+ await page.getByRole('button',{name:'Curriculum',exact:true}).click();await page.goBack();assert.equal(page.url(),calendarURL);assert.equal(await page.getByLabel('Calendar start',{exact:true}).inputValue(),'2028-10-03');
+ await page.reload();assert.equal(await page.getByLabel('Calendar start',{exact:true}).inputValue(),'2028-10-03');
+ await page.locator('.calendar-cell[data-calendar-date="2028-10-03"]').focus();await page.keyboard.press('ArrowRight');assert.equal(await page.getByLabel('Calendar start',{exact:true}).inputValue(),'2028-10-04');
  // A synthetic 120/75/200 task exercises the actual form, not only the model helper.
  await page.evaluate(async()=>{
   const {openDatabase,readSaved,saveChange}=await import('./storage.js');const {addLocalTask}=await import('./curriculum.js');const {recordOutcome}=await import('./engine.js');
@@ -61,22 +67,26 @@ try{
  await page.getByRole('button',{name:'Study log',exact:true}).click();assert.match(await page.locator('body').textContent(),/3 retained attempts · 75 active min/);
  await page.locator('.log-group').filter({hasText:'Synthetic networks'}).locator('summary').click();assert.match(await page.locator('body').textContent(),/Synthetic attempt 2/);
  await page.getByRole('button',{name:'Calendar',exact:true}).click();await page.getByRole('button',{name:'Month',exact:true}).click();
+ await page.getByRole('button',{name:'Study log',exact:true}).click();await page.getByLabel('Find an attempt',{exact:true}).fill('Synthetic attempt 2');assert.match(await page.locator('body').textContent(),/Synthetic networks/);
+ await page.getByRole('button',{name:'Clear filters',exact:true}).click();
+ await page.getByRole('button',{name:'Calendar',exact:true}).click();
  // The learner's roadmap keeps its blocks even when no ready source task is staged.
  const beforeRoadmapEvents=(await saved()).events;
  const visitDay=async day=>{await page.getByRole('button',{name:'Day',exact:true}).click();await page.getByLabel('Calendar start',{exact:true}).fill(day);await page.getByRole('button',{name:'Go',exact:true}).click();};
+ const saveRoadmapChoices=async()=>{const before=await page.locator('main').getAttribute('data-revision');await page.getByRole('button',{name:'Save roadmap choices',exact:true}).click();await page.waitForFunction(before=>document.querySelector('main')?.dataset.revision!==before,before);};
  const openChoices=async()=>{const details=page.locator('.roadmap-controls');if(!await details.evaluate(el=>el.open))await details.locator('summary').click();};
  await visitDay('2026-11-26');assert.match(await page.locator('.roadmap-day').textContent(),/Even ISO weeks/);
  await visitDay('2027-03-04');assert.match(await page.locator('.roadmap-block').textContent(),/VanderPlas/);assert.ok(!(await page.locator('.roadmap-block').textContent()).includes('Stat 110'));
- await visitDay('2027-07-05');await openChoices();await page.locator('input[name=summer1Enabled]').check();await page.getByRole('button',{name:'Save roadmap choices',exact:true}).click();assert.equal((await saved()).settings.roadmapChoices.summer1Enabled,true);
+ await visitDay('2027-07-05');await openChoices();await page.locator('input[name=summer1Enabled]').check();await saveRoadmapChoices();assert.equal((await saved()).settings.roadmapChoices.summer1Enabled,true);
  await visitDay('2027-09-08');assert.match(await page.locator('.roadmap-day').textContent(),/Wasserman/);assert.match(await page.locator('.roadmap-day').textContent(),/60–90 min shared/);
- await visitDay('2028-02-03');assert.match(await page.locator('.roadmap-block').textContent(),/Prince synthesis/);await openChoices();await page.locator('select[name=daySupport]').selectOption('gpu');await page.getByRole('button',{name:'Save roadmap choices',exact:true}).click();assert.match(await page.locator('.roadmap-block h3').textContent(),/GPU MODE/);
+ await visitDay('2028-02-03');assert.match(await page.locator('.roadmap-block').textContent(),/Prince synthesis/);await openChoices();await page.locator('select[name=daySupport]').selectOption('gpu');await saveRoadmapChoices();assert.match(await page.locator('.roadmap-block h3').textContent(),/GPU MODE/);
  await visitDay('2028-02-10');await openChoices();assert.equal(await page.locator('select[name=daySupport] option[value=gpu]').isDisabled(),true);
- await visitDay('2028-10-07');await openChoices();await page.locator('select[name=capstoneBranch]').selectOption('B');await page.getByRole('button',{name:'Save roadmap choices',exact:true}).click();assert.equal((await saved()).settings.roadmapChoices.capstoneBranch,'B');assert.deepEqual((await saved()).events,beforeRoadmapEvents);
+ await visitDay('2028-10-07');await openChoices();await page.locator('select[name=capstoneBranch]').selectOption('B');await saveRoadmapChoices();assert.equal((await saved()).settings.roadmapChoices.capstoneBranch,'B');assert.deepEqual((await saved()).events,beforeRoadmapEvents);
  await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'No phone-width overflow');await page.keyboard.press('Tab');assert.ok(await page.evaluate(()=>getComputedStyle(document.activeElement).outlineStyle!=='none'),'Keyboard focus visible');
  // Native IndexedDB reopens and backup state remain intact while the app shell is offline.
  await page.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise(resolve=>navigator.serviceWorker.addEventListener('controllerchange',resolve,{once:true}));});
- const beforeOffline=await saved();await context.setOffline(true);await page.reload();await page.getByRole('button',{name:'Today',exact:true}).waitFor();assert.deepEqual((await saved()).events,beforeOffline.events);
- assert.deepEqual(errors,[]);console.log('PASS: native IndexedDB migration, recovery snapshots, timer reload, manual export/restore, catalog staging, 3-Year view, phone overflow, keyboard focus and offline reload.');
+ const beforeOffline=await saved();await page.getByRole('button',{name:'Today',exact:true}).click();await context.setOffline(true);await page.reload();await page.getByRole('button',{name:'Today',exact:true}).waitFor();assert.deepEqual((await saved()).events,beforeOffline.events);
+ assert.deepEqual(errors,[]);console.log('PASS: native IndexedDB migration/recovery, timer reload, backup restore, curriculum staging, calendar deep links and keyboard navigation, roadmap controls, mobile layout and offline reload.');
  await context.close();
  // Optional real backup is read only as an isolated private test input. It is never copied to dist.
  if(process.env.LEARNINGOS_TEST_BACKUP){
@@ -95,4 +105,4 @@ try{
    console.log('PASS: isolated supplied-backup native IndexedDB roundtrip and recovery; no events lost.');
   }finally{await isolated.close();}
  }
-}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
+}finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));clearTimeout(overallTimeout);}

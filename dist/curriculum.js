@@ -1,4 +1,4 @@
-import {effortFor} from './effort.js';
+import {effortFor,activeAttempts} from './effort.js';
 import {validateBackup,validateGraph} from './validation.js';
 const copy=x=>structuredClone(x);
 const slug=s=>String(s).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -76,12 +76,32 @@ export function reviseTask(state,id,patch,{author='You',at=new Date().toISOStrin
  let next={...t,...cleanPatch,initialEstimateMinutes:effortFor(state,t).initialEstimateMinutes,reviewed:patch.status==='active'?true:patch.reviewed??t.reviewed};
  if(next.resource!==t.resource){let resource=s.resources.find(r=>r.name===next.resource);if(!resource){resource={id:'local:'+slug(next.resource),name:next.resource,edition:'unconfirmed',source:'user_authored',url:next.url||'',enabled:true};s.resources.push(resource);}next.resourceId=resource.id;next.primaryTrack=resource.id;}
  if(next.status==='active'&&s.units.find(u=>u.id===next.unitId)?.kind&&['academic_module','academic_course_file'].includes(s.units.find(u=>u.id===next.unitId).kind)&&(!next.teacherConfirmed||!next.assignmentConfirmed))throw Error('Confirm current teacher material and specify an actual assignment before activating an academic placeholder.');
- if(Object.hasOwn(cleanPatch,'remainingMinutes'))next.remainingEstimateSource='user';
+ if(Object.hasOwn(cleanPatch,'remainingMinutes')&&cleanPatch.remainingMinutes!==(t.remainingMinutes??t.minutes))next.remainingEstimateSource='user';
  if(done){next.initialEstimateMinutes=next.minutes;delete next.remainingMinutes;delete next.remainingEstimateSource;next.id=newId;next.unitId='followup:'+newId;s.units.push({...copy(s.units.find(u=>u.id===t.unitId)),id:next.unitId,resourceId:next.resourceId,heading:next.heading,dependencies:next.prerequisites.map(id=>s.tasks.find(t=>t.id===id)?.unitId),kind:'authored_followup',confidence:'authored_followup',sourceHeading:s.units.find(u=>u.id===t.unitId)?.sourceHeading||t.heading});s.tasks.push(next);}else{s.tasks[s.tasks.findIndex(x=>x.id===id)]=next;const unit=s.units.find(u=>u.id===next.unitId);if(next.heading!==t.heading){unit.sourceHeading=unit.sourceHeading||unit.heading;unit.confidence='user_edited_heading';}Object.assign(unit,{resourceId:next.resourceId,heading:next.heading,unitRef:next.section,semester:next.semester,dependencies:next.prerequisites.map(id=>s.tasks.find(t=>t.id===id)?.unitId)});}
  if(next.archived&&s.pinnedDay?.taskId===id)s.pinnedDay=null;
  s.revisions.push({id:'edit:'+id+':'+s.revisions.length,author,at,old:copy(t),new:copy(next)});return validateBackup(s);
 }
-export function setResourceEnabled(state,id,enabled){const s=copy(state),r=s.resources.find(r=>r.id===id);if(!r)throw Error('Resource not found.');r.enabled=enabled;if(!enabled&&s.pinnedDay&&s.tasks.find(t=>t.id===s.pinnedDay.taskId)?.resourceId===id)s.pinnedDay=null;s.revisions.push({id:'resource:'+id+':'+s.revisions.length,author:'You',old:{enabled:!enabled},new:{enabled},resourceId:id});return validateBackup(s);}
+export function ensureResource(state,id,fallback){
+ const s=copy(state);if(s.resources.some(r=>r.id===id))return s;
+ if(!fallback||fallback.id!==id)throw Error('Resource not found.');
+ s.resources.push({...copy(fallback),enabled:fallback.enabled!==false});return s;
+}
+export function reviseResource(state,id,patch,{fallback,at=new Date().toISOString()}={}){
+ const s=ensureResource(state,id,fallback),r=s.resources.find(r=>r.id===id),old=copy(r),done=new Set(activeAttempts(s).filter(e=>e.outcome==='completed').map(e=>e.taskId));
+ const next={...r,...copy(patch),id};
+ if(typeof next.name!=='string'||!next.name.trim())throw Error('Enter a resource name.');
+ const editionChanged=(next.edition||'')!==(r.edition||'');
+ if(editionChanged)next.enabled=false;
+ for(const t of s.tasks.filter(t=>t.resourceId===id&&!done.has(t.id))){
+  t.resource=next.name;
+  if(editionChanged){t.status='draft';t.reviewed=false;s.units.find(u=>u.id===t.unitId).confidence='edition_requires_review';}
+ }
+ Object.assign(r,next);if(!next.enabled&&s.pinnedDay&&s.tasks.find(t=>t.id===s.pinnedDay.taskId)?.resourceId===id)s.pinnedDay=null;
+ s.revisions.push({id:'resource-edit:'+id+':'+s.revisions.length,author:'You',at,old,new:copy(r)});return validateBackup(s);
+}
+export function setResourceEnabled(state,id,enabled,fallback){
+ return reviseResource(state,id,{enabled:Boolean(enabled)},{fallback});
+}
 export function addLocalTask(state,task){const s=copy(state);let r=s.resources.find(r=>r.name===task.resource);if(!r){r={id:'local:'+slug(task.resource),name:task.resource,edition:'unconfirmed',source:'user_authored',url:task.url||'',enabled:true};s.resources.push(r);}const t={...task,initialEstimateMinutes:task.initialEstimateMinutes??task.minutes,resourceId:r.id,unitId:'local:'+task.id,reviewed:task.status==='active',semester:task.semester||1,priority:task.priority||(task.track==='academic'?'P0':'P1'),primaryTrack:r.id};s.units.push({id:t.unitId,resourceId:r.id,unitRef:t.section||t.id,heading:t.heading,semester:t.semester,kind:'user_authored',confidence:'user_authored',source:'You',dependencies:t.prerequisites.map(id=>s.tasks.find(t=>t.id===id)?.unitId)});s.tasks.push(t);return validateBackup(s);}
 export function reconcileAttempts(current,incoming){
  validateBackup(incoming);const s=copy(current),events=new Map(s.events.map(e=>[e.id,e]));

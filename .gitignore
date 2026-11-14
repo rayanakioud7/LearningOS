@@ -4,3 +4,6 @@ node_modules/
 .server.pid
 private/
 *.local.json
+
+*.bundle
+artifacts/

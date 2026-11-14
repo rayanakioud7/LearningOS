@@ -1,6 +1,7 @@
+import {activeAttempts} from './effort.js';
 import {renderRoadmapDay,renderRoadmapControls,roadmapTitle} from './roadmap-view.js';
 import {addDays,weekday,deadlineRisks} from './engine.js';
-import {project,historicalDay,semesterFor} from './planner.js';
+import {project,semesterFor} from './planner.js';
 import {isCivilDate} from './validation.js';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const HORIZON='2029-06-30';
@@ -33,26 +34,50 @@ export function navigateDate(day,mode,direction,semesters=[]){
 }
 // Cache only derived rows. Identity changes on every persisted save or cross-tab refresh.
 const cache=new WeakMap();
-export function calendarRows(s,anchor,start,end,catalog){
+function calendarCache(s,anchor,catalog){
  let saved=cache.get(s);
- if(!saved||saved.anchor!==anchor||saved.catalog!==catalog){saved={anchor,catalog,end:'',rows:[]};cache.set(s,saved);}
- const futureEnd=end>HORIZON?HORIZON:end;
- if(futureEnd>=anchor&&futureEnd>saved.end){saved.rows=project(s,anchor,futureEnd,catalog);saved.end=futureEnd;}
- const map=new Map(saved.rows.map(p=>[p.day,p]));
+ if(!saved||saved.anchor!==anchor||saved.catalog!==catalog){
+  const history=new Map();for(const e of activeAttempts(s)){if(!history.has(e.day))history.set(e.day,[]);history.get(e.day).push(e);}
+  saved={anchor,catalog,end:'',map:new Map(),history};cache.set(s,saved);
+ }
+ return saved;
+}
+export function calendarRows(s,anchor,start,end,catalog){
+ if(![anchor,start,end].every(isCivilDate)||end<start)throw Error('Choose a valid calendar date range.');
+ const saved=calendarCache(s,anchor,catalog),requestedEnd=end>HORIZON?HORIZON:end;
+ if(requestedEnd>=anchor&&requestedEnd>saved.end){
+  // Project from the original anchor for correct prerequisites; cache three
+  // months ahead so ordinary next-month and day browsing need no simulation.
+  const d=new Date(requestedEnd+'T12:00Z'),ahead=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+3,0,12)).toISOString().slice(0,10);
+  const futureEnd=ahead>HORIZON?HORIZON:ahead;
+  saved.map=new Map(project(s,anchor,futureEnd,catalog).map(p=>[p.day,p]));saved.end=futureEnd;
+ }
  const result=[];
- for(let d=start;d<=end;d=addDays(d,1))result.push(d<anchor?historicalDay(s,d):map.get(d)||{day:d,band:'scenario',kind:'unavailable',minutes:0,reason:'Outside the projection horizon',task:null,unit:null});
+ for(let day=start;day<=end;day=addDays(day,1)){
+  if(day<anchor){const attempts=saved.history.get(day)||[];result.push({day,band:'actual',kind:'history',task:null,unit:null,attempts,minutes:attempts.reduce((n,e)=>n+e.minutes,0),reason:attempts.length?'Recorded attempts · completion only when explicitly confirmed':'No recorded attempts',confidence:'Actual saved history; no forward simulation',windows:s.calendar.filter(w=>w.active&&w.start_date<=day&&w.end_date_inclusive>=day)});}
+  else result.push(saved.map.get(day)||{day,band:'scenario',kind:'unavailable',minutes:0,reason:'Outside the projection horizon',task:null,unit:null});
+ }
  return result;
 }
-const title=p=>p.task?`${p.task.resource} ${p.task.section} · ${p.task.heading}${p.blocks?.slice(1).map(b=>` + ${esc(b.task.resource)}`).join('')}`:p.unit?`${p.unit.resource} ${p.unit.unitRef} · ${p.unit.heading}`:p.band==='actual'&&p.attempts.length?p.attempts.map(e=>e.taskSnapshot?.heading||e.taskId).join(' · '):roadmapTitle(p);
+export function calendarKeyDate(day,key){
+ if(!isCivilDate(day))return null;
+ const offsets={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7,Home:-((weekday(day)+6)%7),End:6-((weekday(day)+6)%7)};
+ return Object.hasOwn(offsets,key)?addDays(day,offsets[key]):key==='PageUp'?navigateDate(day,'Month',-1):key==='PageDown'?navigateDate(day,'Month',1):null;
+}
+export function allocationAction(s,task){
+ if(!task)return '';
+ return s.tasks.some(t=>t.id===task.id)?`<button class="text-button" data-edit="${esc(task.id)}">Review task</button>`:`<button class="text-button" data-stage-unit="${esc(task.unitId)}">Stage for review</button>`;
+}
+const title=p=>p.task?`${p.task.resource} ${p.task.section} · ${p.task.heading}${p.blocks?.slice(1).map(b=>` + ${b.task.resource}`).join('')}`:p.unit?`${p.unit.resource} ${p.unit.unitRef} · ${p.unit.heading}`:p.band==='actual'&&p.attempts.length?p.attempts.map(e=>e.taskSnapshot?.heading||e.taskId).join(' · '):roadmapTitle(p);
 const band=p=>p.band==='actual'?'RECORDED HISTORY':p.band==='actionable'?'ACTIONABLE · PROJECTED ALLOCATION':p.band==='tentative'?'TENTATIVE':'PROVISIONAL · NOT AN ASSIGNMENT';
-function details(p,today){
+function details(p,today,s){
  if(!p)return '';
- return `<section class="panel calendar-detail" aria-label="Selected date details"><h2>${esc(label(p.day,{weekday:'long',day:'numeric',month:'long',year:'numeric'}))}</h2><p class="tiny-label">${band(p)}${p.notActivated?' · NOT ACTIVATED':''}</p><h3>${esc(title(p))}</h3><p>${esc(p.task?.action||p.reason)}</p>${renderRoadmapDay(p)}${p.blocks?.map(b=>`<p><span class="block-kind block-${b.kind}">${b.kind}</span> ${esc(b.task.resource)} ${esc(b.task.section)} · ${esc(b.task.heading)} — ${Math.round(b.minutes)} min${b.notActivated?' · NOT ACTIVATED':''}</p>`).join('')||''}<p>${p.minutes?`${Math.round(p.minutes)} min · ${p.band==='actual'?'recorded':'estimated'}`:'No study allocation'}</p><p class="muted">${esc(p.confidence||'')} ${p.band==='actual'?'':'Unknown ENSAM requirements remain unallocated; this is not a promise of free time.'}</p>${p.attempts?.map(e=>`<p>${esc(e.outcome)} · ${Math.round(e.minutes)} min${e.note?' · '+esc(e.note):''}</p>`).join('')||''}${p.task?`<button class="text-button" data-edit="${esc(p.task.id)}">Review task and provenance</button>`:''}${p.unit?`<button class="text-button" data-source-unit="${esc(p.unit.id)}">Review source and provenance</button>`:''}${p.day>=today&&p.day<addDays(today,14)?`<button class="text-button" data-day="${p.day}">Adjust availability</button>`:''}${p.windows?.map(w=>`<p class="small">${esc(w.title)} · ${esc(w.confidence||'user / supplied dates')} · ${esc(w.start_date)}–${esc(w.end_date_inclusive)}</p>`).join('')||''}</section>`;
+ return `<section class="panel calendar-detail" aria-label="Selected date details"><h2>${esc(label(p.day,{weekday:'long',day:'numeric',month:'long',year:'numeric'}))}</h2><p class="tiny-label">${band(p)}${p.notActivated?' · NOT ACTIVATED':''}</p><h3>${esc(title(p))}</h3><p>${esc(p.task?.action||p.reason)}</p>${renderRoadmapDay(p)}${p.blocks?.map(b=>`<p><span class="block-kind block-${b.kind}">${b.kind}</span> ${esc(b.task.resource)} ${esc(b.task.section)} · ${esc(b.task.heading)} — ${Math.round(b.minutes)} min${b.notActivated?' · NOT ACTIVATED':''} ${allocationAction(s,b.task)}</p>`).join('')||''}<p>${p.minutes?`${Math.round(p.minutes)} min · ${p.band==='actual'?'recorded':'estimated'}`:'No study allocation'}</p><p class="muted">${esc(p.confidence||'')} ${p.band==='actual'?'':'Unknown ENSAM requirements remain unallocated; this is not a promise of free time.'}</p>${p.attempts?.map(e=>`<p>${esc(e.outcome)} · ${Math.round(e.minutes)} min${e.note?' · '+esc(e.note):''}</p>`).join('')||''}${!p.blocks?.length&&p.task?allocationAction(s,p.task):''}${p.unit?`<button class="text-button" data-source-unit="${esc(p.unit.id)}">Review source and provenance</button>`:''}${p.day>=today&&p.day<addDays(today,14)?`<button class="text-button" data-day="${p.day}">Adjust availability</button>`:''}${p.windows?.map(w=>`<p class="small">${esc(w.title)} · ${esc(w.confidence||'user / supplied dates')} · ${esc(w.start_date)}–${esc(w.end_date_inclusive)}</p>`).join('')||''}</section>`;
 }
 function matrix(month,map,today,selected,compact=false){
  return `<section class="calendar-month ${compact?'compact-month':''}" aria-label="${esc(label(month,{month:'long',year:'numeric'}))}">${compact?`<h3><button class="text-button" data-calendar-month="${month}">${esc(label(month,{month:'long',year:'numeric'}))}</button></h3>`:''}<div class="calendar-matrix">${weekdays.map(w=>`<span class="weekday-heading">${w}</span>`).join('')}${monthDates(month).map(day=>{
  const p=map.get(day),outside=day.slice(0,7)!==month.slice(0,7),kind=p?.track==='academic'||p?.kind==='academic'?'academic':p?.task||p?.unit||!p?.protectedDay&&p?.roadmap?.blocks.some(b=>b.track==='independent')?'study':p?.minutes?'actual':p?.kind==='rest'?'rest':'empty';
- return `<button class="calendar-cell ${outside?'outside-month':''} ${day===selected?'selected-date':''} ${day===today?'is-today':''}" data-calendar-date="${day}" data-kind="${kind}" data-band="${p?.band||'scenario'}" ${day>HORIZON?'disabled':''} ${day===today?'aria-current="date"':''} aria-pressed="${day===selected}" aria-label="${day} · ${esc(p?title(p):'No allocation')}" title="${esc(p?band(p)+' · '+title(p):day)}"><span>${Number(day.slice(-2))}</span><i aria-hidden="true"></i>${!compact?`<small>${esc(p?title(p):'')}</small><span class="cell-band">${p?band(p).split(' · ')[0]:''}</span>`:''}</button>`;
+ return `<button class="calendar-cell ${outside?'outside-month':''} ${day===selected?'selected-date':''} ${day===today?'is-today':''}" data-calendar-date="${day}" data-kind="${kind}" data-band="${p?.band||'scenario'}" ${day>HORIZON?'disabled':''} ${day===today?'aria-current="date"':''} tabindex="${day===(selected.slice(0,7)===month.slice(0,7)?selected:month)?0:-1}" aria-pressed="${day===selected}" aria-label="${day} · ${esc(p?title(p):'No allocation')}" title="${esc(p?band(p)+' · '+title(p):day)}"><span>${Number(day.slice(-2))}</span><i aria-hidden="true"></i>${!compact?`<small>${esc(p?title(p):'')}</small><span class="cell-band">${p?band(p).split(' · ')[0]:''}</span>`:''}</button>`;
  }).join('')}</div></section>`;
 }
 export function renderCalendarView(s,today,mode,catalog,selected=today){
@@ -83,5 +108,5 @@ export function renderCalendarView(s,today,mode,catalog,selected=today){
   `${label(start,{month:'short',year:'numeric'})} – ${label(end,{month:'short',year:'numeric'})}`;
  const jump=`<label class="calendar-jump">Jump to<select id="calendar-jump"><option value="">Choose a date…</option><option value="${today}">Today</option>${s.semesters.map(x=>`<option value="${x.start}" data-semester="${x.id}">S${x.id} · ${esc(x.title)}</option>`).join('')}</select></label>`;
  const windows=s.calendar.filter(w=>w.start_date<=end&&w.end_date_inclusive>=start);
- return `<div class="page-heading compact"><div><p class="eyebrow">14 DAYS ACTIONABLE · 42 DAYS TENTATIVE · THROUGH JUNE 2029</p><h1>Structure, <em>with breathing room.</em></h1><p class="subtitle">Saved outcomes are facts. Future allocations assume progress.</p></div><button class="secondary" data-action="new">+ Add a task</button></div><div class="tabs calendar-modes">${modes.map(m=>`<button data-calendar-mode="${m}" aria-pressed="${mode===m}" class="${mode===m?'selected':''}">${m}</button>`).join('')}</div><div class="calendar-navigation"><button class="secondary" data-calendar-step="-1" aria-label="Previous ${mode}">←</button><h2>${esc(heading)}</h2><button class="secondary" data-calendar-step="1" aria-label="Next ${mode}">→</button><button class="text-button" data-calendar-today>Today</button>${jump}<form id="calendar-date-form" class="calendar-date-form"><label>Go to date<input id="calendar-start" aria-label="Calendar start" type="date" min="${esc(s.semesters[0]?.start||'2026-09-01')}" max="${HORIZON}" value="${selected}" required></label><button class="secondary" type="submit">Go</button></form></div><p class="muted small">Study ● · ENSAM ◇ · Rest ○. Days 0–13 actionable, 14–41 tentative, later provisional. NOT ACTIVATED sources appear only as estimates. Future semester dates and teacher requirements may be unknown.</p>${risks.length?`<div class="quiet-notice"><p>Confirmed deadlines need attention</p>${risks.map(r=>`<p>${esc(r.title)} · ${r.overdue?'overdue · ':''}${Math.ceil(r.shortfall)} min not placeable before ${esc(r.assessmentThrough)}${r.blockedPrerequisite?' · blocked prerequisite':''}${r.limitedHorizon?' · assessment limited to one year':''}</p>`).join('')}</div>`:''}${content}${details(chosen,today)}${renderRoadmapControls(s,selected,today,catalog)}<h2 class="section-title">Academic commitments</h2><button class="secondary" data-action="new-window">+ Add protected window</button><div class="event-grid">${windows.map(w=>`<article class="event-card"><small>${w.active?'ENABLED':'DISABLED / CONDITIONAL'} · ${esc(w.confidence||'Supplied / user dates')}</small><h3>${esc(w.title)}</h3><p>${esc(w.start_date)} – ${esc(w.end_date_inclusive)}</p><button class="text-button" data-event="${esc(w.id)}">Edit dates →</button></article>`).join('')}</div>`;
+ return `<div class="page-heading compact"><div><p class="eyebrow">14 DAYS ACTIONABLE · 42 DAYS TENTATIVE · THROUGH JUNE 2029</p><h1>Structure, <em>with breathing room.</em></h1><p class="subtitle">Saved outcomes are facts. Future allocations assume progress.</p></div><button class="secondary" data-action="new">+ Add a task</button></div><div class="tabs calendar-modes">${modes.map(m=>`<button data-calendar-mode="${m}" aria-pressed="${mode===m}" class="${mode===m?'selected':''}">${m}</button>`).join('')}</div><div class="calendar-navigation"><button class="secondary" data-calendar-step="-1" aria-label="Previous ${mode}">←</button><h2>${esc(heading)}</h2><button class="secondary" data-calendar-step="1" aria-label="Next ${mode}">→</button><button class="text-button" data-calendar-today>Today</button>${jump}<form id="calendar-date-form" class="calendar-date-form"><label>Go to date<input id="calendar-start" aria-label="Calendar start" type="date" min="1900-01-01" max="${HORIZON}" value="${selected}" required></label><button class="secondary" type="submit">Go</button></form></div><p class="muted small">Study ● · ENSAM ◇ · Rest ○. Days 0–13 actionable, 14–41 tentative, later provisional. NOT ACTIVATED sources appear only as estimates. Future semester dates and teacher requirements may be unknown.</p>${risks.length?`<div class="quiet-notice"><p>Confirmed deadlines need attention</p>${risks.map(r=>`<p>${esc(r.title)} · ${r.overdue?'overdue · ':''}${Math.ceil(r.shortfall)} min not placeable before ${esc(r.assessmentThrough)}${r.blockedPrerequisite?' · blocked prerequisite':''}${r.limitedHorizon?' · assessment limited to one year':''}</p>`).join('')}</div>`:''}${content}${details(chosen,today,s)}${renderRoadmapControls(s,selected,today,catalog)}<details class="academic-windows"><summary>Academic commitments and protected dates (${windows.length})</summary><button class="secondary" data-action="new-window">+ Add protected window</button><div class="event-grid">${windows.map(w=>`<article class="event-card"><small>${w.active?'ENABLED':'DISABLED / CONDITIONAL'} · ${esc(w.confidence||'Supplied / user dates')}</small><h3>${esc(w.title)}</h3><p>${esc(w.start_date)} – ${esc(w.end_date_inclusive)}</p><button class="text-button" data-event="${esc(w.id)}">Edit dates →</button></article>`).join('')}</div></details>`;
 }

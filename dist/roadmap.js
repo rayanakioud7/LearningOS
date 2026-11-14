@@ -59,7 +59,6 @@ export function taskFitsBlock(s,t,b,day){
  if(t.track==='academic')return b.track==='academic';
  if(!b.resources.includes(t.resourceId)&&!(b.fallback&&/neet.?code/i.test(t.resource||'')))return false;
  const n=chapter(t),id=t.unitId||t.id,scope=b.scope,phase=phaseFor(s,day);
- if(t.track==='academic')return b.track==='academic';
  if(b.track!=='independent')return false;
  if(/pca/i.test(t.heading+' '+t.action)&&!gateMet(s,'svd'))return false;
  if(phase?.id==='S5'&&/kernel implementation|implement.*kernel|cuda kernel/i.test(t.heading+' '+t.action)&&(!gateMet(s,'cpu-correctness')||!gateMet(s,'measured-bottleneck')))return false;
@@ -88,7 +87,7 @@ export function taskFitsBlock(s,t,b,day){
 // Upgrade only planning metadata. Stored task IDs, estimates, attempts and
 // academic dates stay authoritative; the normal save revision guards still apply.
 export function applyPlanningUpdate(state,planning,at=new Date().toISOString()){
- if(state.schema!==2||state.planning?.policyVersion===planning.policyVersion)return state;
+ if(state.schema!==2||Number(state.planning?.policyVersion||0)>=planning.policyVersion)return state;
  const next=structuredClone(state),old=next.planning;next.planning=structuredClone(planning);
  next.revisions.push({id:'planning:'+planning.policyVersion+':'+next.revisions.length,author:'You',at,old:{planning:old},new:{policyVersion:planning.policyVersion},reason:'Apply the learner’s 14 November 2026 roadmap; preserve tasks, history, availability and academic dates.'});
  // Ordinary pins follow the newly requested weekday role; explicit early-start pins and in-flight timers stay intact.
