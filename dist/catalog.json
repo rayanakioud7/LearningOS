@@ -1,5 +1,5 @@
 {
-  "version": "research-v1",
+  "version": "research-v2-edition-corrections",
   "resources": [
     {
       "id": "ila",
@@ -222,6 +222,30 @@
         2
       ],
       "priority": 2,
+      "enabled": true
+    },
+    {
+      "id": "vanderplas-2e",
+      "name": "VanderPlas — Python Data Science Handbook (2nd edition)",
+      "edition": "Second edition, December 2022",
+      "url": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "source": "Publisher contents checked 2026-11-14",
+      "semesters": [
+        2
+      ],
+      "priority": 2,
+      "enabled": true
+    },
+    {
+      "id": "wasserman",
+      "name": "Wasserman — All of Statistics",
+      "edition": "2004",
+      "url": "https://stat.cmu.edu/~larry/all-of-statistics/index.html",
+      "source": "Author and publisher; selective reference only",
+      "semesters": [
+        3
+      ],
+      "priority": 3,
       "enabled": true
     }
   ],
@@ -5381,46 +5405,341 @@
       "branch": null
     },
     {
-      "id": "vanderplas:ch-2",
-      "resourceId": "vanderplas",
-      "semester": 2,
-      "unitRef": "Ch 2",
+      "id": "vanderplas-2e:part-ii",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part II · Chapters 4–12",
       "heading": "Introduction to NumPy",
-      "activity": "Use one relevant Python array or plotting experiment from ENSAM/probability project, validate its shape and interpretation.",
-      "completionEvidence": "User confirms a worked example, a tested program or a note demonstrating the stated objective.",
-      "estimatedMinutes": 70,
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 120,
       "priority": "P2",
       "track": "independent",
       "kind": "reading",
-      "link": "https://jakevdp.github.io/PythonDataScienceHandbook/",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
       "dependencies": [],
       "preferredDays": [
         4
       ],
-      "sourceProvenance": "previous_roadmap_reference",
-      "headingConfidence": "verified_subject_not_section_titles",
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
-      "id": "vanderplas:ch-4",
-      "resourceId": "vanderplas",
+      "id": "vanderplas-2e:ch-13",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 13",
+      "heading": "Introducing Pandas Objects",
       "semester": 2,
-      "unitRef": "Ch 4",
-      "heading": "Visualization with Matplotlib",
-      "activity": "Use one relevant Python array or plotting experiment from ENSAM/probability project, validate its shape and interpretation.",
-      "completionEvidence": "User confirms a worked example, a tested program or a note demonstrating the stated objective.",
-      "estimatedMinutes": 70,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
       "priority": "P2",
       "track": "independent",
       "kind": "reading",
-      "link": "https://jakevdp.github.io/PythonDataScienceHandbook/",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
       "dependencies": [],
       "preferredDays": [
         4
       ],
-      "sourceProvenance": "previous_roadmap_reference",
-      "headingConfidence": "verified_subject_not_section_titles",
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
       "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-14",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 14",
+      "heading": "Data Indexing and Selection",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-13"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-15",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 15",
+      "heading": "Operating on Data in Pandas",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-14"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-16",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 16",
+      "heading": "Handling Missing Data",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-15"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-17",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 17",
+      "heading": "Hierarchical Indexing",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-16"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-18",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 18",
+      "heading": "Combining Datasets: concat and append",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-17"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-19",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 19",
+      "heading": "Combining Datasets: merge and join",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-18"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-20",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 20",
+      "heading": "Aggregation and Grouping",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-19"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-21",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 21",
+      "heading": "Pivot Tables",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-20"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-22",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 22",
+      "heading": "Vectorized String Operations",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-21"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-23",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 23",
+      "heading": "Working with Time Series",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-22"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-24",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part III · Chapter 24",
+      "heading": "High-Performance Pandas: eval and query",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-23"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:part-iv",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Part IV · Chapters 25–36",
+      "heading": "Visualization with Matplotlib",
+      "semester": 2,
+      "activity": "Authored practice: reproduce one relevant example, then explain the result without the source.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 120,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "wasserman:selective-reference",
+      "resourceId": "wasserman",
+      "unitRef": "Selective reference · choose a section when needed",
+      "heading": "Statistical inference gaps — user-selected reference",
+      "semester": 3,
+      "activity": "Authored reference task: identify one inference gap in current ML work, choose a relevant section, and record the section used.",
+      "completionEvidence": "A checked worked example and an explanation of its assumptions.",
+      "estimatedMinutes": 60,
+      "priority": "P3",
+      "track": "independent",
+      "kind": "reference",
+      "link": "https://stat.cmu.edu/~larry/all-of-statistics/index.html",
+      "dependencies": [],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Author book page and Springer book overview; no fine-grained section claimed.",
+      "headingConfidence": "authored_scope_not_section_heading",
+      "branch": "selective_reference"
     }
   ],
   "semesters": [

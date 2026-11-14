@@ -1,4 +1,4 @@
-# LearningOS · 0.4.0
+# LearningOS · 0.5.0
 
 A quiet, local-first study companion for ENSAM and the 2026–2029 ML systems roadmap. Today remains one precisely titled task, one timer and four explicit outcomes. No hosting, account, API key or runtime dependency installation is required.
 
@@ -12,16 +12,16 @@ npm start
 
 Open **http://127.0.0.1:4173/**. Keep that terminal open. Windows can use **Start Learning OS.cmd** and **Stop Learning OS.cmd**. Keep the same browser profile and origin to keep the same study space. Opening index.html directly is unsupported. After updating, reload online once; the service worker then caches the new modules and catalog for offline use.
 
-## Curriculum and forecasts
+## Scheduling, calendar and study history
 
-- **Today:** explicit Completed / Partial / ENSAM priority / Skipped. Timer expiry never completes a task. Partial without a new estimate subtracts recorded focused minutes. Fast completion offers a prerequisite-ready task on the same primary track, or rest.
-- **Calendar:** Day, Week, Month, 42 days, Semester and 3-Year. The next 14 civil dates contain only reviewed, activated tasks. Days 15–42 are tentative and may preview reviewed drafts. Later dates through 30 June 2029 are hypothetical scenarios, including unactivated source headings, with no invented completion events or confirmed future exams.
-- **Curriculum:** data-driven semesters; Active / Research / Completed / Suspended filters; resource and semester search; editable actions, evidence, estimates, dates, priorities, order and dependencies. Completed-task edits create a follow-up. Source provenance and confidence remain separate from authored actions and estimated effort.
-- **Review catalog import:** automatically loads a sanitized catalog, previews additions, duplicates, renames and conflicts, then imports only checked units. Reviewing and activating are separate decisions. Optional branches and academic placeholders require individual review. A placeholder needs current teacher material and a specific assignment confirmed before activation.
-- **Private documents:** attach selected documents from a task editor. They stay in IndexedDB and personal backups; the app makes no upload. Local-file locators are displayed as text. Downloaded attachments use an inert download type.
-- **Study log:** immutable attempts, append-only corrections, user checkpoints and estimated-versus-recorded duration. No streaks or inferred mastery.
+- **Today** retains the quiet dark interface, timer and four explicit outcomes. Completing a timer never completes a task. A ready same-track continuation is offered only after explicit completion and within remaining capacity.
+- **Scheduling Engine v2** distinguishes a confirmed teacher deadline from a soft P0 academic target. Academic and independent work share the same actual discretionary time. Defaults remain Monday 75, Tuesday 75, Thursday 75 and Saturday 150 independent minutes, Wednesday ENSAM-only, Friday ENSAM overflow and Sunday rest. Small partial rescue into unused slack is optional.
+- **Effort** keeps the initial estimate, recorded time and revised remaining estimate separate. Editing a title no longer erases remaining effort. Study Log groups task/day attempts while retaining expandable notes and corrections.
+- **Calendar** has real Monday-first month grids, Day/Week/Month/Year/3-Year views, previous/next/today, and date input committed with **Go or Enter**. Select a day for details. Past dates show recorded attempts. Days 0–13 are actionable, 14–41 tentative, and later projections through June 2029 provisional. Unknown teacher work is not scheduled as homework.
+- **Curriculum** has S1–S6 tabs, collapsed resources, filters, source metadata and editable ordering. Import/review and activation remain separate. Second-edition pandas chapters and a selective Wasserman reference are staged with distinct source IDs; existing completed units are not remapped.
+- **Privacy**: attachments and personal notes remain only in browser state/backups. Public catalog data contains no private archive filenames or document bytes. The app has no cloud sync or AI dependency.
 
-Default independent slots are Monday 75, Tuesday 75, Thursday 75 and Saturday 150 minutes: **375 of the 480-minute hard weekly maximum**, leaving 105 minutes free. Weekday/session ceilings remain 90 minutes; Saturday 180. Wednesday is ENSAM-only, Friday ENSAM overflow or rest, Sunday rest. Academic work uses a separate budget. Settings include per-day slots, fixed/flexible roles, preferred subjects, campus reservations, recovery dates, timezone, exam-prep lead time and PFE mode. Academic deadlines and protection beat independent study; missed days never create extra hours.
+See [the precise implementation and verification report](docs/SCHEDULING_V2_REPORT.md) for changed files, policy details, limitations and recovery instructions. The complete handoff ZIP could not be downloaded in the implementation environment; its ZIP-only specifications and scenario matrix remain an explicit acceptance gate.
 
 ## Progress, upgrade and recovery
 
@@ -35,7 +35,7 @@ Two tabs use revision checks to reject stale writes. User-confirmed completions 
 
 ## Sources and private research
 
-The shipped catalog contains **17 resources, 234 public source units and 286 opaque archive references**. The full private input has 321 units; 87 historical archive-file entries, archive filenames/paths and all document bytes are excluded from the public catalog. Old private note-derived drafts have also been removed from the distributed seed. Existing browser drafts remain local and are preserved by migration.
+The shipped catalog contains **19 resources, 247 public source units and 286 opaque archive references**. The full private input has 321 units; 87 historical archive-file entries, archive filenames/paths and all document bytes are excluded from the public catalog. Old private note-derived drafts have also been removed from the distributed seed. Existing browser drafts remain local and are preserved by migration.
 
 The Git-ignored `private/research/` folder contains the original research pack. `npm run build:catalog` rebuilds only allowlisted runtime metadata from it. A normal checkout already contains the sanitized outputs and does not need the private files to run. Historical PDFs never establish the current professor’s syllabus or exam dates. The builder actions are authored milestones, not official source headings. Géron uses the 2025 PyTorch notebook sequence; Huang keeps verified code-directory references while the owned edition remains unconfirmed.
 
@@ -49,10 +49,10 @@ npm test
 npm run validate
 ```
 
-The sole required development dependency is `fake-indexeddb`; it is never shipped to the browser. The existing tests are retained, with all 25 research QA scenarios and additional import, migration, dependency, DST, protection, reconciliation, privacy and property checks added.
+**115 dependency-free core tests pass**, along with catalog/privacy/projection/offline validation. The supplied backup passed an isolated file/model roundtrip preserving 241 tasks, all 3 events and the 120/75/200 effort values. No live browser database was modified.
 
-**Current environment evidence:** 88 core tests pass and seed/catalog/offline-manifest validation passes. The full suite is **not yet green here**: npm downloads fail with `EAI_AGAIN`, leaving fake-indexeddb unavailable; socket tests fail with `listen EPERM`. A Chromium launch also failed at sandbox initialization. New transactional storage tests are present but could not execute here. Earlier 0.3.1 browser observations do not verify this version.
+The full suite is **not green in the restricted implementation environment**: fake-indexeddb installation fails with `EAI_AGAIN`, localhost tests fail with `EPERM`, and Playwright is unavailable. `npm run test:browser` contains the native IndexedDB, timer, restoration, date navigation, effort form, mobile and offline acceptance driver, but it must still execute successfully on an unrestricted host. Prior-release browser reports do not verify this build.
 
-`npm run test:browser` runs an optional Playwright integration driver in a fresh context and ephemeral origin. Install Playwright separately or set `PLAYWRIGHT_MODULE`; an existing browser executable can be supplied through `PLAYWRIGHT_CHROMIUM`. It checks native IndexedDB migration, recovery copies, timer reload, actual backup download/restore, staged import, all-year projection, phone overflow, keyboard focus and offline reload. It intentionally requires a working browser sandbox.
+Use `LEARNINGOS_TEST_BACKUP=/absolute/private/path/backup.json npm run test:browser` for an optional real-backup test in a disposable browser context, never the live profile. Playwright may be supplied through `PLAYWRIGHT_MODULE` and its browser through `PLAYWRIGHT_CHROMIUM`.
 
-See `docs/IMPLEMENTATION_V2.md`, `docs/RELEASE_CHECKLIST.md` and `TEST_REPORT.json` for the exact model, evidence and remaining gates. This implementation is ready for local review; a full browser/storage release pass is still required.
+Read [SCHEDULING_V2_REPORT.md](docs/SCHEDULING_V2_REPORT.md) and [BROWSER_QA_0_5_0.md](docs/BROWSER_QA_0_5_0.md) before treating this as a verified release. Export a fresh backup before loading the changed build; do not clear site data as an update step.

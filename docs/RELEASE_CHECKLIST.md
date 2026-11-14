@@ -1,3 +1,7 @@
+# Current build: 0.5.0
+
+See [SCHEDULING_V2_REPORT.md](SCHEDULING_V2_REPORT.md) and [BROWSER_QA_0_5_0.md](BROWSER_QA_0_5_0.md) for the current, incomplete release gate. The checklist below is historical evidence for 0.4.0, not verification of 0.5.0.
+
 # Curriculum + Forecast v2 — 0.4.0 release gate
 
 ## Completed implementation and executed checks

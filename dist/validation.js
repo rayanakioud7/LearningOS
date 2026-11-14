@@ -12,6 +12,9 @@ export function validateBackup(x){
     if(!t||!text(t.id,true)||tasks.has(t.id)||!text(t.title,true)||!text(t.resource,true)||!text(t.heading,true)||!text(t.action,true)||!text(t.evidence,true)||!text(t.section??'')||!Number.isFinite(t.minutes)||t.minutes<1||t.minutes>10000||!['draft','active'].includes(t.status)||!['academic','independent'].includes(t.track)||!Array.isArray(t.prerequisites))throw Error('Invalid task in backup.');
     if(!optionalDate(t.notBefore)||!optionalDate(t.deadline)||!optionalDate(t.snoozedUntil)||t.remainingMinutes!=null&&(!Number.isFinite(t.remainingMinutes)||t.remainingMinutes<1||t.remainingMinutes>10000)||t.minimumMinutes!=null&&(!Number.isFinite(t.minimumMinutes)||t.minimumMinutes<1)||t.preferredDays!=null&&(!Array.isArray(t.preferredDays)||t.preferredDays.some(d=>!Number.isInteger(d)||d<0||d>6)))throw Error('Invalid task estimate or date.');
     if(['url','provenance'].some(k=>t[k]!=null&&!text(t[k]))||t.order!=null&&!Number.isFinite(t.order)||t.archived!=null&&typeof t.archived!=='boolean')throw Error('Invalid task metadata.');
+    for(const k of ['initialEstimateMinutes'])if(t[k]!=null&&(!Number.isFinite(t[k])||t[k]<1||t[k]>10000))throw Error('Invalid initial estimate.');
+    if(t.deadlineType!=null&&!['unknown','personal','teacher'].includes(t.deadlineType))throw Error('Invalid deadline classification.');
+    for(const k of ['assignmentConfirmed','teacherConfirmed','deadlineConfirmed'])if(t[k]!=null&&typeof t[k]!=='boolean')throw Error('Invalid deadline confirmation.');
     tasks.set(t.id,t);
   }
   for(const t of tasks.values())if(t.prerequisites.some(id=>!tasks.has(id)))throw Error('Invalid task dependency.');
@@ -49,7 +52,7 @@ export function validateGraph(nodes,label='task'){
 function validateV2(s){
  for(const k of ['resources','units','semesters','calendarSlots','importBatches','attachments'])if(!Array.isArray(s[k]))throw Error('Missing curriculum model: '+k);
  if(s.resources.length>1000||s.units.length>5000||s.attachments.length>200)throw Error('Curriculum too large.');
- const resources=new Map();for(const r of s.resources){if(!r||typeof r.id!=='string'||!r.id||resources.has(r.id)||typeof r.name!=='string'||!r.name||typeof r.enabled!=='boolean'||r.url!=null&&typeof r.url!=='string'||r.source!=null&&typeof r.source!=='string'||r.edition!=null&&typeof r.edition!=='string')throw Error('Invalid resource.');resources.set(r.id,r);}
+ const resources=new Map();for(const r of s.resources){if(!r||typeof r.id!=='string'||!r.id||resources.has(r.id)||typeof r.name!=='string'||!r.name||typeof r.enabled!=='boolean'||r.url!=null&&typeof r.url!=='string'||r.source!=null&&typeof r.source!=='string'||r.edition!=null&&typeof r.edition!=='string')throw Error('Invalid resource.');for(const k of ['order','priority'])if(r[k]!=null&&(!Number.isFinite(r[k])||r[k]<0||r[k]>999))throw Error('Invalid resource order or priority.');resources.set(r.id,r);}
  validateGraph(s.units.map(u=>({id:u.id,prerequisites:u.dependencies})),'unit');
  const units=new Map(s.units.map(u=>[u.id,u]));
  for(const u of s.units)if(!resources.has(u.resourceId)||typeof u.heading!=='string'||!u.heading.trim()||typeof u.unitRef!=='string'||!Number.isInteger(u.semester)||u.semester<1||u.semester>6||u.suspended!=null&&typeof u.suspended!=='boolean')throw Error('Invalid learning unit.');
@@ -60,6 +63,10 @@ function validateV2(s){
  for(const slot of s.calendarSlots)if(!Number.isInteger(slot.day)||slot.day<0||slot.day>6||!Number.isFinite(slot.minutes)||slot.minutes<0||slot.minutes>([0,3,5].includes(slot.day)?0:slot.day===6?180:90)||!['rest','primary','lecture','academic','support','builder'].includes(slot.role)||typeof slot.fixed!=='boolean'||!Array.isArray(slot.resources)||slot.resources.some(id=>!resources.has(id)))throw Error('Invalid calendar slot.');
  if(s.settings.weeklyMinutes>480||s.settings.dailyMinutes>90||s.settings.saturdayMinutes>180)throw Error('Independent study hard maximum is 480 minutes weekly, 90 weekdays / 180 Saturday.');
  if(!Number.isInteger(s.settings.examPrepLeadDays)||s.settings.examPrepLeadDays<0||s.settings.examPrepLeadDays>90||typeof s.settings.pfeMode!=='boolean'||!Array.isArray(s.settings.recoveryDays)||s.settings.recoveryDays.some(d=>!isCivilDate(d))||!Array.isArray(s.settings.preferredResources)||s.settings.preferredResources.some(id=>!resources.has(id))||!Array.isArray(s.settings.campusTimetable))throw Error('Invalid planning settings.');
+ if(s.settings.discretionaryMinutes!=null&&(!Array.isArray(s.settings.discretionaryMinutes)||s.settings.discretionaryMinutes.length!==7||s.settings.discretionaryMinutes.some(n=>!Number.isFinite(n)||n<0||n>1440)))throw Error('Invalid shared discretionary time.');
+ if(s.settings.smallResidualMinutes!=null&&(!Number.isFinite(s.settings.smallResidualMinutes)||s.settings.smallResidualMinutes<1||s.settings.smallResidualMinutes>50))throw Error('Invalid residual threshold.');
+ if(s.settings.deadlineLeadDays!=null&&(!Number.isInteger(s.settings.deadlineLeadDays)||s.settings.deadlineLeadDays<0||s.settings.deadlineLeadDays>14))throw Error('Invalid deadline lead time.');
+ if(s.settings.crossDayRescue!=null&&typeof s.settings.crossDayRescue!=='boolean')throw Error('Invalid rescue preference.');
  for(const c of s.settings.campusTimetable)if(!Number.isInteger(c.day)||c.day<0||c.day>6||!Number.isFinite(c.minutes)||c.minutes<0||c.minutes>1440)throw Error('Invalid campus timetable.');
  if(s.sameDayTrack&&(!isCivilDate(s.sameDayTrack.day)||typeof s.sameDayTrack.resourceId!=='string'))throw Error('Invalid same-day continuity.');
  if(s.pinnedDay&&(!isCivilDate(s.pinnedDay.day)||!s.tasks.some(t=>t.id===s.pinnedDay.taskId)))throw Error('Invalid pinned task.');

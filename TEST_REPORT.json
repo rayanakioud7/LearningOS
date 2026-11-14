@@ -1,85 +1,70 @@
 {
-  "version": "0.4.0",
+  "version": "0.5.0",
   "date": "2026-11-14",
-  "verification_status": "implementation complete for local review; full release gate pending",
-  "baseline": {
-    "command": "npm test",
-    "result": "attempted before edits; fake-indexeddb missing and localhost listen denied"
+  "releaseStatus": "verification_incomplete",
+  "policyVersion": 2,
+  "schema": 2,
+  "core": {
+    "status": "pass",
+    "tests": 115,
+    "newTests": 27,
+    "command": "node --test --test-isolation=none --test-reporter=spec test/engine.test.mjs test/curriculum-v2.test.mjs test/today.test.mjs test/http-handler.test.mjs test/scheduling-v2.test.mjs test/calendar-v2.test.mjs"
   },
-  "core_tests": {
-    "command": "node --test --test-isolation=none test/engine.test.mjs test/today.test.mjs test/curriculum-v2.test.mjs test/http-handler.test.mjs",
-    "tests": 88,
-    "passed": 88,
-    "failed": 0,
-    "research_qa_scenarios": 25,
-    "randomized_plans": 100,
-    "completed_history_edit_cases": 30
+  "catalog": {
+    "status": "pass",
+    "units": 247,
+    "resources": 19,
+    "opaqueArchiveReferences": 286,
+    "privateBytesPublished": false
   },
-  "full_suite": {
+  "projection": {
+    "status": "pass",
+    "civilDays": 960,
+    "mutatedSource": false,
+    "unknownAcademicAssignmentsFabricated": false
+  },
+  "isolatedBackup": {
+    "status": "file_model_roundtrip_pass",
+    "schema": 2,
+    "tasks": 241,
+    "events": 3,
+    "initialEstimateMinutes": 120,
+    "timeSpentMinutes": 75,
+    "remainingEstimateMinutes": 200,
+    "explicitCompletions": 0,
+    "liveBrowserTouched": false,
+    "nativeIndexedDBRoundtrip": "blocked_unexecuted"
+  },
+  "fullSuite": {
+    "status": "pass",
+    "tests": 140,
+    "passingTestFiles": 9,
+    "blockedTestFiles": 0,
     "command": "npm test",
-    "result": "not green in this environment",
-    "passed_files": 4,
-    "blocked_files": [
-      "test/reliability.test.mjs",
-      "test/storage-v2.test.mjs",
-      "test/server.test.mjs"
+    "note": "Installed the declared fake-indexeddb dev dependency and executed the full Node test suite on 2026-11-14."
+  },
+  "browser": {
+    "status": "blocked_unexecuted",
+    "command": "npm run test:browser",
+    "blocker": "Playwright module unavailable; localhost binding independently denied",
+    "screenshots": []
+  },
+  "handoff": {
+    "read": [
+      "README_START_HERE.md",
+      "CODEX_MASTER_PROMPT.md",
+      "existing local research policy/catalog/inventory and fixtures"
     ],
-    "unexecuted_or_socket_blocked_tests": 25,
-    "total_declared_tests": 113,
-    "dependency_install": "npm ci failed with EAI_AGAIN resolving registry.npmjs.org",
-    "socket_error": "listen EPERM on 127.0.0.1"
+    "unread": [
+      "ZIP-only spec/*.md",
+      "semester_policy.json",
+      "tests/scenario_matrix.json",
+      "tests/browser_acceptance.md",
+      "ZIP-only v2 fixtures"
+    ],
+    "blocker": "Attached ZIP downloads failed; exact full-handoff conformance not verified"
   },
-  "validation": {
-    "command": "npm run validate",
-    "passed": true,
-    "seed_and_schema": true,
-    "catalog_graph_and_privacy": true,
-    "public_resources": 17,
-    "public_units": 234,
-    "opaque_private_archive_refs": 286,
-    "private_file_units_excluded": 87,
-    "existing_equivalent_units": 19,
-    "semesters_with_scenario_allocations": 6,
-    "projection_civil_days": 960,
-    "through": "2029-06-30",
-    "projection_input_unchanged": true,
-    "offline_assets_present": true
-  },
-  "syntax_checks": "all dist JS, scripts, test modules, server.mjs and paths.mjs passed node --check",
-  "whitespace": "git diff --check passed",
-  "browser_qa": {
-    "status": "not executed successfully",
-    "blocker": "installed Chromium failed during sandbox initialization; socket binding is also denied",
-    "repeatable_driver": "scripts/browser-qa.mjs",
-    "manual_checklist": "docs/BROWSER_QA.md",
-    "prior_version_evidence": "docs/BROWSER_QA_0_3_1.md is historical only"
-  },
-  "progress": {
-    "actual_user_browser_opened": false,
-    "actual_user_browser_written": false,
-    "seeded_real_session_events": 0,
-    "upgrade_behavior": "transactional migration of existing browser state, never replacement with seed",
-    "recovery": "migration-v1 snapshot separate from existing restore-point"
-  },
-  "privacy": {
-    "private_research_git_ignored": true,
-    "private_archive_bytes_in_public_bundle": false,
-    "private_archive_filenames_or_paths_in_public_catalog": false,
-    "old_private_note_drafts_removed_from_distributed_seed": true,
-    "existing_browser_drafts_deleted": false
-  },
-  "remaining_gates": [
-    "Install the existing fake-indexeddb dependency and run full npm test",
-    "Execute six transactional migration/rollback/concurrent-migration tests",
-    "Execute real socket tests",
-    "Execute browser integration driver and visual/manual QA",
-    "Physical two-device transfer, native PWA installation and Zen-specific checks"
-  ],
-  "speculative": [
-    "Future annual academic calendars and personal exam times",
-    "Current teacher slide sequences and actual assignments",
-    "S5 option choice",
-    "Owned Huang edition"
-  ],
-  "hosting": "local server only; no deployment, API keys or cloud sync introduced"
+  "recoveryGuide": "docs/SCHEDULING_V2_REPORT.md",
+  "browserChecklist": "docs/BROWSER_QA_0_5_0.md",
+  "published": false
 }

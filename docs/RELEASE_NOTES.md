@@ -1,3 +1,9 @@
+# 0.5.0 — Scheduling Engine v2 (local implementation; verification pending)
+
+Fixes remaining-effort reset, soft-vs-confirmed deadlines, shared daily capacity, pin validity and prerequisite deadline feasibility. Adds real civil-date calendar navigation through June 2029, keyboard semester tabs, collapsed resources, corrected edition staging and grouped immutable attempt history. Today retains its focus layout and four outcomes. Schema 2 remains compatible; no user backup is shipped.
+
+115 core tests and release validation pass. Full storage/socket/browser verification and comparison to the inaccessible ZIP-only handoff remain required. See `SCHEDULING_V2_REPORT.md` for exact evidence, limitations and recovery.
+
 # 0.3.1 — verified browser workflows
 
 - Fixed Add task being blocked when no focus timer existed. Actual focused tasks still require finishing or cancelling their session before editing.

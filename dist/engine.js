@@ -1,3 +1,4 @@
+import {effortFor,isHardDeadline} from './effort.js';
 import {ruleV2,readyV2,choiceV2,planRange,nextOnTrack} from './planner.js';
 export const SCHEMA=2;
 export function civilDate(now=new Date(),zone='Africa/Casablanca') {
@@ -64,10 +65,13 @@ export function forecast(state,start,days=14) {
 }
 export function recordOutcome(state,event) {
   if(!['completed','partial','ensam','skipped'].includes(event.outcome))throw new Error('Choose a session outcome.');
-  if(state.events.some(e=>e.id===event.id))return state;
+  const existing=state.events.find(e=>e.id===event.id);
+  if(existing){if(existing.type!=='session'||['taskId','day','outcome','minutes','remainingMinutes','note'].some(k=>(existing[k]??null)!==(event[k]??null)))throw Error('Conflicting immutable session ID.');return state;}
   if(!Number.isFinite(event.minutes)||event.minutes<0||event.minutes>10000||event.remainingMinutes!=null&&(!Number.isFinite(event.remainingMinutes)||event.remainingMinutes<1||event.remainingMinutes>10000))throw Error('Invalid actual or remaining minutes.');
   const task=state.tasks.find(t=>t.id===event.taskId);if(!task)throw new Error('Task no longer exists.');
-  const next=structuredClone(state);next.events.push({...event,type:'session',taskSnapshot:state.timer?.taskId===task.id&&state.timer.taskSnapshot?structuredClone(state.timer.taskSnapshot):{...structuredClone(task),...(state.schema===2?{resourceSnapshot:structuredClone(state.resources.find(r=>r.id===task.resourceId)),sourceSnapshot:structuredClone(state.units.find(u=>u.id===task.unitId))}:{})},minutes:Math.max(0,Number(event.minutes)||0)});
+  const next=structuredClone(state);const updatedTask=next.tasks.find(t=>t.id===task.id);updatedTask.initialEstimateMinutes=effortFor(state,task).initialEstimateMinutes;
+  if(event.outcome==='partial')updatedTask.remainingEstimateSource=Number.isFinite(event.remainingMinutes)?'user':'fallback: previous remaining minus focused minutes';
+  next.events.push({...event,type:'session',taskSnapshot:state.timer?.taskId===task.id&&state.timer.taskSnapshot?structuredClone(state.timer.taskSnapshot):{...structuredClone(task),...(state.schema===2?{resourceSnapshot:structuredClone(state.resources.find(r=>r.id===task.resourceId)),sourceSnapshot:structuredClone(state.units.find(u=>u.id===task.unitId))}:{})},minutes:Math.max(0,Number(event.minutes)||0)});
   if(event.outcome==='ensam'&&!next.overrides.some(o=>o.day===event.day&&o.kind==='ensam'))next.overrides.push({id:event.id+'-override',day:event.day,kind:'ensam'});
   if(event.outcome==='skipped')next.tasks.find(t=>t.id===event.taskId).snoozedUntil=addDays(event.day,1);
   if(event.outcome==='partial'&&Number.isFinite(event.remainingMinutes)&&event.remainingMinutes>=1)next.tasks.find(t=>t.id===event.taskId).remainingMinutes=event.remainingMinutes;
@@ -87,17 +91,40 @@ export function weeklyActual(state,day){
 export function dailyActual(state,day,track){const voided=new Set(state.events.filter(e=>e.type==='void').map(e=>e.target));return state.events.filter(e=>e.type==='session'&&!voided.has(e.id)&&e.day===day&&(state.schema===2||['completed','partial'].includes(e.outcome))&&(e.taskSnapshot?.track||state.tasks.find(t=>t.id===e.taskId)?.track)===track).reduce((n,e)=>n+e.minutes,0);}
 export function deadlineRisks(state,day){
   const done=completed(state),tasks=new Map(state.tasks.map(t=>[t.id,t]));
-  const required=state.tasks.filter(t=>t.status==='active'&&!t.archived&&t.track==='academic'&&t.deadline&&!done.has(t.id)),result=[];
+  const required=state.tasks.filter(t=>t.status==='active'&&!t.archived&&t.track==='academic'&&t.deadline&&(state.schema!==2||isHardDeadline(t))&&!done.has(t.id)),result=[];
   for(const task of required){
     const workload=new Set();
     const collect=id=>{const pending=[id];while(pending.length){const next=pending.pop();if(done.has(next)||workload.has(next))continue;const t=tasks.get(next);if(!t)continue;workload.add(next);pending.push(...(t.prerequisites||[]));}};
     required.filter(t=>t.deadline<=task.deadline).forEach(t=>collect(t.id));
     const dueWork=[...workload].reduce((n,id)=>n+remaining(state,tasks.get(id)),0);
     let available=0;const end=task.deadline<addDays(day,365)?task.deadline:addDays(day,365);
-    for(let d=day;d<=end;d=addDays(d,1))available+=Math.max(0,dayRule(state,d).minutes-dailyActual(state,d,'academic'));
-    const blocked=[...workload].some(id=>{const t=tasks.get(id);return t.archived||t.status!=='active'||t.notBefore>task.deadline;});
-    if(task.deadline<day||dueWork>available||blocked)result.push({id:task.id,title:task.heading,shortfall:Math.max(0,dueWork-available),overdue:task.deadline<day,blockedPrerequisite:blocked});
+    for(let d=day;d<=end;d=addDays(d,1))available+=Math.max(0,dayRule(state,d).minutes-dailyActual(state,d,'academic')-(state.schema===2?dailyActual(state,d,'independent'):0));
+    const blocked=[...workload].some(id=>{const t=tasks.get(id);return t.archived||t.status!=='active'||t.notBefore>task.deadline||state.schema===2&&(!t.reviewed||state.resources.find(r=>r.id===t.resourceId)?.enabled===false||state.units.find(u=>u.id===t.unitId)?.suspended);});
+    const unplaced=state.schema===2?deadlineUnplaced(state,day,end,workload,done):Math.max(0,dueWork-available);
+    if(task.deadline<day||unplaced>0||blocked)result.push({id:task.id,title:task.heading,shortfall:unplaced,overdue:task.deadline<day,blockedPrerequisite:blocked,assessmentThrough:end,limitedHorizon:end<task.deadline});
   }return result;
+}
+
+// Feasibility simulates remaining work and prerequisite order without creating study events.
+function deadlineUnplaced(state,start,end,workload,alreadyDone){
+ const sim=structuredClone(state),done=new Set(alreadyDone),left=new Map([...workload].map(id=>[id,remaining(state,state.tasks.find(t=>t.id===id))]));
+ sim.sameDayTrack=null;sim.pinnedDay=null;
+ for(const t of sim.tasks)if(!workload.has(t.id))t.status='draft';
+ let monday='',used=0;
+ for(let day=start;day<=end;day=addDays(day,1)){
+  const mon=addDays(day,-((weekday(day)+6)%7));if(mon!==monday){monday=mon;used=weeklyActual(state,day);}
+  const rule=ruleV2(sim,day);let shared=Math.max(0,rule.minutes-dailyActual(state,day,'academic')-dailyActual(state,day,'independent'));
+  let independent=Math.max(0,rule.independentMinutes-dailyActual(state,day,'independent'));
+  while(shared>0){
+   const ready=readyV2(sim,day,done),capacity=t=>t.track==='academic'?shared:Math.min(shared,independent,state.settings.weeklyMinutes-used);
+   const task=ready.find(t=>minimumBlock(sim,t)<=capacity(t));if(!task)break;
+   const minutes=Math.min(left.get(task.id),capacity(task));shared-=minutes;
+   if(task.track==='independent'){independent-=minutes;used+=minutes;}
+   left.set(task.id,left.get(task.id)-minutes);
+   if(left.get(task.id)<=0)done.add(task.id);else task.remainingMinutes=left.get(task.id);
+  }
+ }
+ return [...left.values()].reduce((n,value)=>n+value,0);
 }
 
 export {validateBackup} from './validation.js';

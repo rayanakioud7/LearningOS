@@ -1,11 +1,17 @@
+import {isCivilDate} from './validation.js';
+import {activeAttempts,isHardDeadline} from './effort.js';
 import {previewImport,applyImport} from './curriculum.js';
 import {addDays,weekday,completed,remaining,weeklyActual,dailyActual,minimumBlock} from './engine.js';
+export const SCHEDULING_POLICY_VERSION=2;
 export function semesterFor(s,day){return s.semesters?.find(x=>x.start<=day&&x.end>=day)||null;}
+const policySemester=(s,day)=>semesterFor(s,day)||[...s.semesters].sort((a,b)=>b.start.localeCompare(a.start)).find(x=>x.start<=day)||null;
 export function windowsOn(s,day){return s.calendar.filter(w=>w.active&&w.start_date<=day&&w.end_date_inclusive>=day);}
 export function ruleV2(s,day){
- const wd=weekday(day),slot=s.calendarSlots.find(x=>x.day===wd),overrides=s.overrides.filter(o=>o.day===day),windows=windowsOn(s,day),sem=semesterFor(s,day);
- const academicMinutes=Math.max(0,(wd===6?s.settings.saturdayMinutes:s.settings.dailyMinutes)-(s.settings.campusTimetable.find(c=>c.day===wd)?.minutes||0));
- if(overrides.some(o=>o.kind==='rest')||s.settings.recoveryDays.includes(day))return {minutes:0,independentMinutes:0,kind:'rest',reason:'Protected recovery day.'};
+ if(!isCivilDate(day))throw Error('Invalid civil date.');
+ const wd=weekday(day),slot=s.calendarSlots.find(x=>x.day===wd),overrides=s.overrides.filter(o=>o.day===day),windows=windowsOn(s,day),sem=policySemester(s,day);
+ if(day>'2029-06-30'||day<(s.semesters[0]?.start||'1900-01-01'))return {minutes:0,independentMinutes:0,kind:'rest',reason:'Outside the configured program dates.'};
+ const academicMinutes=Math.max(0,(s.settings.discretionaryMinutes?.[wd]??(wd===6?s.settings.saturdayMinutes:s.settings.dailyMinutes))-(s.settings.campusTimetable.find(c=>c.day===wd)?.minutes||0));
+ if(overrides.some(o=>o.kind==='rest')||s.settings.recoveryDays.includes(day)||windows.some(w=>['no_work','holiday'].includes(w.kind)))return {minutes:0,independentMinutes:0,kind:'rest',reason:'Protected recovery day.'};
  if(overrides.some(o=>o.kind==='ensam'))return {minutes:academicMinutes,independentMinutes:0,kind:'academic',reason:'Your ENSAM override protects unfinished independent work.'};
  if(wd===0||slot.role==='rest')return {minutes:0,independentMinutes:0,kind:'rest',reason:'Rest. No missed-work debt.'};
  const protectedWindow=windows.some(w=>['exam_window','exam_prep','conditional_resit'].includes(w.kind));
@@ -16,40 +22,62 @@ export function ruleV2(s,day){
  return {minutes:academicMinutes,independentMinutes:Math.max(0,Math.min(slot.minutes,cap)-(s.settings.campusTimetable.find(c=>c.day===wd)?.minutes||0)),kind:'normal',reason:s.planning.weeklySlots['S'+(sem?.id||1)]?.[ ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][wd] ]||'Flexible independent study',slot};
 }
 function resourceAllowed(s,t,day,rule){
- if(t.track==='academic')return !t.hypothetical||semesterFor(s,day)?.id===6||[3,5].includes(weekday(day));if(rule.kind!=='normal'||!rule.independentMinutes)return false;
- const slot=s.calendarSlots.find(x=>x.day===weekday(day)),sem=semesterFor(s,day);
+ if(t.track==='academic')return (rule.kind==='academic'||isHardDeadline(t)&&t.deadline<=addDays(day,s.settings.deadlineLeadDays??2))&&(!t.hypothetical||semesterFor(s,day)?.id===6||[3,5].includes(weekday(day))); if(rule.kind!=='normal'||!rule.independentMinutes)return false;
+ const slot=s.calendarSlots.find(x=>x.day===weekday(day)),sem=policySemester(s,day);
  const allowed=slot.resources.length?slot.resources:s.planning.weeklyResources['S'+(sem?.id||1)]?.[weekday(day)]||[];
- return !slot.fixed||allowed.includes(t.resourceId);
+ return !slot.fixed||allowed.includes(t.resourceId)||t.resourceId==='vanderplas-2e'&&allowed.includes('vanderplas');
+}
+function urgentWork(s,day,done){
+ const result=new Map(),tasks=new Map(s.tasks.map(t=>[t.id,t]));
+ for(const t of s.tasks.filter(t=>isHardDeadline(t)&&t.status==='active'&&!t.archived&&!done.has(t.id)&&t.deadline<=addDays(day,s.settings.deadlineLeadDays??2))){
+  const pending=[t.id],seen=new Set();while(pending.length){const id=pending.pop();if(done.has(id)||seen.has(id))continue;seen.add(id);if(!result.has(id)||result.get(id)>t.deadline)result.set(id,t.deadline);pending.push(...(tasks.get(id)?.prerequisites||[]));}
+ }
+ return result;
 }
 export function readyV2(s,day,done=completed(s),{relaxRole=false}={}){
  const rule=ruleV2(s,day),sem=semesterFor(s,day)||[...s.semesters].reverse().find(x=>x.start<=day);if(!rule.minutes&& !rule.independentMinutes)return [];
- const lastResource=[...s.events].reverse().find(e=>e.type==='session'&&e.minutes>0)?.taskSnapshot?.resourceId;
- const recent=[...s.events].reverse().find(e=>e.type==='session'&&e.outcome==='partial'&&!done.has(e.taskId));
- return s.tasks.filter(t=>(!s.sameDayTrack||s.sameDayTrack.day!==day||t.track==='academic'||(t.primaryTrack||t.resourceId)===s.sameDayTrack.resourceId)&&(!t.hypothetical||t.semester===(sem?.id||1))&&(t.semester<=(sem?.id||1)||t.track==='academic'&&t.deadline&&t.deadline<=addDays(day,14))&&t.status==='active'&&t.reviewed&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day)&&(!t.snoozedUntil||t.snoozedUntil<=day)&&s.resources.find(r=>r.id===t.resourceId)?.enabled!==false&&!s.units.find(u=>u.id===t.unitId)?.suspended&&(t.prerequisites||[]).every(id=>done.has(id))&&(relaxRole&&t.track==='independent'&&rule.kind==='normal'||resourceAllowed(s,t,day,rule))).sort((a,b)=>{
- const academic=t=>t.track==='academic'?0:1,deadline=t=>t.deadline||'9999',priority=t=>Number((t.priority||'P1')[1]),relevance=t=>t.semester===(sem?.id||1)?0:1,partial=t=>t.id===recent?.taskId?0:1,preferred=t=>s.settings.preferredResources.includes(t.resourceId)?0:1,resourcePriority=t=>s.resources.find(r=>r.id===t.resourceId)?.priority??9,continuity=t=>t.resourceId===lastResource?0:1,dayPreference=t=>!t.preferredDays?.length||t.preferredDays.includes(weekday(day))?0:1;
+ const urgency=urgentWork(s,day,done),attempts=activeAttempts(s);
+ const lastResource=[...attempts].reverse().find(e=>e.type==='session'&&e.minutes>0)?.taskSnapshot?.resourceId;
+ const recent=[...attempts].reverse().find(e=>e.type==='session'&&e.outcome==='partial'&&!done.has(e.taskId));
+ return s.tasks.filter(t=>(!s.sameDayTrack||s.sameDayTrack.day!==day||t.track==='academic'||urgency.has(t.id)||(t.primaryTrack||t.resourceId)===s.sameDayTrack.resourceId)&&(!t.hypothetical||t.semester===(sem?.id||1))&&(t.semester<=(sem?.id||1)||isHardDeadline(t)&&t.deadline<=addDays(day,14))&&(!t.hypothetical||t.track!=='academic')&&t.status==='active'&&t.reviewed&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day)&&(!t.snoozedUntil||t.snoozedUntil<=day)&&s.resources.find(r=>r.id===t.resourceId)?.enabled!==false&&!s.units.find(u=>u.id===t.unitId)?.suspended&&(t.prerequisites||[]).every(id=>done.has(id))&&(urgency.has(t.id)&&(t.track==='academic'||rule.kind==='normal')||relaxRole&&t.track==='independent'&&rule.kind==='normal'||resourceAllowed(s,t,day,rule))).sort((a,b)=>{
+ const academic=t=>urgency.has(t.id)?0:1,deadline=t=>urgency.get(t.id)||(isHardDeadline(t)?t.deadline:'9999'),priority=t=>Number((t.priority||'P1')[1]),relevance=t=>t.semester===(sem?.id||1)?0:1,partial=t=>t.id===recent?.taskId?0:1,preferred=t=>s.settings.preferredResources.includes(t.resourceId)?0:1,resourcePriority=t=>s.resources.find(r=>r.id===t.resourceId)?.priority??9,continuity=t=>t.resourceId===lastResource?0:1,dayPreference=t=>!t.preferredDays?.length||t.preferredDays.includes(weekday(day))?0:1;
  return academic(a)-academic(b)||deadline(a).localeCompare(deadline(b))||priority(a)-priority(b)||relevance(a)-relevance(b)||partial(a)-partial(b)||resourcePriority(a)-resourcePriority(b)||continuity(a)-continuity(b)||preferred(a)-preferred(b)||dayPreference(a)-dayPreference(b)||(a.order??999)-(b.order??999)||remaining(s,a)-remaining(s,b)||a.id.localeCompare(b.id);
  });
 }
-function capFor(s,t,day,rule,weeklyUsed){const daily=(t.track==='academic'?rule.minutes:rule.independentMinutes)-dailyActual(s,day,t.track);return Math.max(0,t.track==='academic'?daily:Math.min(daily,Math.min(480,s.settings.weeklyMinutes)-weeklyUsed));}
-export function choiceV2(s,day,done=completed(s),weeklyUsed=weeklyActual(s,day),usePin=true){
+export function capFor(s,t,day,rule=ruleV2(s,day),weeklyUsed=weeklyActual(s,day)){
+ const shared=rule.minutes-dailyActual(s,day,'academic')-dailyActual(s,day,'independent');
+ const target=rule.independentMinutes-dailyActual(s,day,'independent');
+ return Math.max(0,t.track==='academic'?shared:Math.min(shared,target,s.settings.weeklyMinutes-weeklyUsed));
+}
+export function choiceV2(s,day,done=completed(s),weeklyUsed=weeklyActual(s,day),usePin=true,diagnostics=true){
  const rule=ruleV2(s,day),ready=readyV2(s,day,done),available=t=>minimumBlock(s,t)<=capFor(s,t,day,rule,weeklyUsed);
  const pin=usePin&&s.pinnedDay?.day===day&&!done.has(s.pinnedDay.taskId)?s.tasks.find(t=>t.id===s.pinnedDay.taskId):null;
- const hard=ready.find(t=>t.track==='academic'&&t.deadline&&t.deadline<=addDays(day,1)&&available(t));
+ const urgency=urgentWork(s,day,done),hard=ready.find(t=>urgency.has(t.id)&&available(t));
  let task,why;
- if(hard&&pin?.track!=='academic'){task=hard;why='A new hard academic deadline takes priority over the pinned task.';}
- else if(pin&&(resourceAllowed(s,pin,day,rule)||pin.userOverride&&rule.kind==='normal')&&!pin.archived&&pin.status==='active'&&pin.reviewed&&s.resources.find(r=>r.id===pin.resourceId)?.enabled!==false&&!s.units.find(u=>u.id===pin.unitId)?.suspended&&pin.prerequisites.every(id=>done.has(id))&&available(pin)){task=pin;why='Pinned for today; curriculum changes apply to later days.';}
- else {task=ready.find(available);why=task?.remainingMinutes<task?.minutes?'Continue partially finished work within today’s '+rule.reason:task?.track==='academic'&&task?.deadline?'Academic deadline '+task.deadline+' takes priority; prerequisites are ready.':rule.reason;}
- return {task:task||null,rule,reason:why,blocked:task?null:rule.kind==='academic'?rule.reason:'No reviewed, activated task fits this slot. Request activation in Curriculum or rest.'};
+ if(hard&&hard.id!==pin?.id){task=hard;why=isHardDeadline(hard)?'A confirmed hard academic deadline takes priority over the pinned task.':'Prerequisite for a confirmed hard academic deadline takes priority.';}
+ else if(pin&&pin.semester<=(semesterFor(s,day)?.id||[...s.semesters].reverse().find(x=>x.start<=day)?.id||1)&&(!pin.notBefore||pin.notBefore<=day)&&(!pin.snoozedUntil||pin.snoozedUntil<=day)&&(!s.sameDayTrack||s.sameDayTrack.day!==day||pin.track==='academic'||(pin.primaryTrack||pin.resourceId)===s.sameDayTrack.resourceId)&&(resourceAllowed(s,pin,day,rule)||s.pinnedDay?.userOverride&&rule.kind==='normal')&&!pin.archived&&pin.status==='active'&&pin.reviewed&&s.resources.find(r=>r.id===pin.resourceId)?.enabled!==false&&!s.units.find(u=>u.id===pin.unitId)?.suspended&&pin.prerequisites.every(id=>done.has(id))&&available(pin)){task=pin;why='Pinned for today; curriculum changes apply to later days.';}
+ else {task=ready.find(available);why=task?.remainingMinutes<task?.minutes?'Continue partially finished work within today’s '+rule.reason:task&&isHardDeadline(task)?'Confirmed academic deadline '+task.deadline+' takes priority; prerequisites are ready.':rule.reason;}
+ let rescueMinutes=0;
+ if(!task&&s.settings.crossDayRescue&&rule.kind==='normal'){
+  const partials=new Set(activeAttempts(s).filter(e=>e.outcome==='partial'&&!done.has(e.taskId)).map(e=>e.taskId));
+  const slack=Math.max(0,Math.min(rule.minutes-dailyActual(s,day,'academic')-Math.max(rule.independentMinutes,dailyActual(s,day,'independent')),s.settings.weeklyMinutes-weeklyUsed));
+  task=readyV2(s,day,done,{relaxRole:true}).find(t=>t.track==='independent'&&partials.has(t.id)&&remaining(s,t)<=(s.settings.smallResidualMinutes??30)&&remaining(s,t)<=slack);
+  if(task){rescueMinutes=remaining(s,task);why='Small partial resumed in unused slack; the full home-track block remains reserved.';}
+ }
+ const waiting=diagnostics?backlogWarnings(s,day):[];
+ return {task:task||null,rule,reason:why,rescueMinutes,unplacedReadyTasks:ready.filter(t=>t.id!==task?.id).map(t=>t.id),warnings:waiting,blocked:task?null:rule.kind==='rest'?rule.reason:ready.length?'The remaining shared time or weekly ceiling cannot fit a ready task. No extra work is owed.':rule.kind==='academic'?rule.reason+' No confirmed coursework is ready; this is not assumed free time.':'No reviewed, activated task fits this weekday role, start date and prerequisites. Review Curriculum or rest.'};
 }
 export function pinToday(s,day){const next=structuredClone(s);if(next.pinnedDay?.day===day)return next;if(next.sameDayTrack?.day!==day)next.sameDayTrack=null;const task=next.timer?next.tasks.find(t=>t.id===next.timer.taskId):choiceV2(next,day).task;next.pinnedDay=task?{day,taskId:task.id,reason:'Selected from explicit current progress.'}:null;return next;}
 export function nextOnTrack(s,day,task){if(ruleV2(s,day).kind!=='normal')return null;return readyV2(s,day,completed(s),{relaxRole:true}).find(t=>t.track==='independent'&&(t.primaryTrack||t.resourceId)===(task.primaryTrack||task.resourceId)&&minimumBlock(s,t)<=capFor(s,t,day,ruleV2(s,day),weeklyActual(s,day)))||null;}
 export function planRange(s,start,days=14,{staged=false,anchor=start}={}){
+ if(!isCivilDate(start)||!isCivilDate(anchor)||!Number.isInteger(days)||days<1||days>1500)throw Error('Invalid date range.');
  const sim=structuredClone(s),done=completed(sim),result=[],left=new Map(sim.tasks.map(t=>[t.id,remaining(sim,t)]));let week='',used=0;
  for(let i=0;i<days;i++){
   const day=addDays(start,i),monday=addDays(day,-((weekday(day)+6)%7));if(monday!==week){week=monday;used=weeklyActual(s,day);}
   // Only a simulation may make reviewed drafts available beyond the actionable band.
+  if(day<anchor){result.push(historicalDay(s,day));continue;}
   if(staged&&day>=addDays(anchor,14))for(const t of sim.tasks)if(t.status==='draft'&&t.reviewed&&!t.branch){t.status='active';t.hypothetical=true;}
-  const choice=choiceV2(sim,day,done,used,i===0),t=choice.task,cap=t?capFor(s,t,day,choice.rule,used):0;
+  const choice=choiceV2(sim,day,done,used,day===anchor,false),t=choice.task,cap=t?(choice.rescueMinutes||capFor(s,t,day,choice.rule,used)):0;
   if(!t){result.push({day,kind:choice.rule.kind,task:null,reason:choice.blocked||choice.reason,minutes:0,band:day<addDays(anchor,14)?'actionable':'tentative'});continue;}
   const minutes=Math.min(left.get(t.id),cap);if(minutes<=0){done.add(t.id);continue;}
   if(t.track==='independent')used+=minutes;left.set(t.id,left.get(t.id)-minutes);
@@ -58,7 +86,8 @@ export function planRange(s,start,days=14,{staged=false,anchor=start}={}){
  }
  return result;
 }
-export function project(s,start,end='2029-06-30',catalog){
+export function project(s,start,end='2029-06-30',catalog,{anchor=start}={}){
+ if(!isCivilDate(start)||!isCivilDate(end)||!isCivilDate(anchor))throw Error('Invalid projection date.');
  const days=Math.floor((new Date(end+'T12:00Z')-new Date(start+'T12:00Z'))/86400000)+1;if(days<1||days>1500)throw Error('Projection must be between 1 and 1500 civil days.');
  let sim=structuredClone(s);
  if(catalog){
@@ -72,10 +101,12 @@ export function project(s,start,end='2029-06-30',catalog){
  const done=completed(sim),left=new Map(sim.tasks.map(t=>[t.id,remaining(sim,t)])),rows=[];let week='',used=0;
  for(let i=0;i<days;i++){
   const day=addDays(start,i),mon=addDays(day,-((weekday(day)+6)%7));if(mon!==week){week=mon;used=weeklyActual(s,day);}
-  const band=i<14?'actionable':i<42?'tentative':'scenario',sem=semesterFor(s,day);
-  for(const t of sim.tasks)if(t.status==='draft'&&!t.branch&&(i>=42||i>=14&&t.reviewed)){t.status='active';t.reviewed=true;t.hypothetical=true;}
-  const choice=choiceV2(sim,day,done,used,i===0),task=choice.task,unit=task&&sim.units.find(u=>u.id===task.unitId),rule=choice.rule;
-  const minutes=task?Math.min(left.get(task.id),capFor(s,task,day,rule,used)):0;
+  if(day<anchor){rows.push(historicalDay(s,day));continue;}
+  const offset=Math.round((new Date(day+'T12:00Z')-new Date(anchor+'T12:00Z'))/86400000);
+  const band=offset<14?'actionable':offset<42?'tentative':'scenario',sem=semesterFor(s,day);
+  for(const t of sim.tasks)if(t.status==='draft'&&!t.branch&&t.track!=='academic'&&(offset>=42||offset>=14&&t.reviewed)){t.status='active';t.reviewed=true;t.hypothetical=true;}
+  const choice=choiceV2(sim,day,done,used,day===anchor,false),task=choice.task,unit=task&&sim.units.find(u=>u.id===task.unitId),rule=choice.rule;
+  const minutes=task?Math.min(left.get(task.id),choice.rescueMinutes||capFor(s,task,day,rule,used)):0;
   const original=s.tasks.find(t=>t.id===task?.id),notActivated=Boolean(task&&(!original||original.status!=='active'));
   const confidence=band==='actionable'?'activated · projected allocation; completion unconfirmed':band==='tentative'?'tentative · assumes earlier learning outcomes':sem?.confidence==='planning_assumption'?'estimated future dates · NOT AN ACADEMIC COMMITMENT':'hypothetical source sequence · NOT AN ASSIGNMENT';
   rows.push({day,kind:task?'proposed':rule.kind,task:task&&band!=='scenario'?structuredClone(task):null,unit:task&&band==='scenario'?{id:unit.id,heading:unit.heading,unitRef:unit.unitRef,resourceId:unit.resourceId,resource:task.resource,confidence:unit.confidence}:null,track:task?.track,minutes,semester:sem?.id,band,confidence,notActivated,reason:band==='scenario'&&task?'PROVISIONAL · '+(notActivated?'NOT ACTIVATED · ':'')+(unit.kind==='academic_module'?'Module placeholder; teacher sequence unknown':'Source heading; authored action and estimated effort'):choice.blocked||choice.reason,windows:windowsOn(s,day)});
@@ -85,6 +116,29 @@ export function project(s,start,end='2029-06-30',catalog){
 }
 export function explainTask(s,t,day){
  const done=completed(s),voided=new Set(s.events.filter(e=>e.type==='void').map(e=>e.target)),fact=s.events.find(e=>e.type==='session'&&e.taskId===t.id&&e.outcome==='completed'&&!voided.has(e.id)),snapshot=fact?.taskSnapshot;
+ const selection=fact?null:choiceV2(s,day);
  const u=snapshot?.sourceSnapshot||s.units.find(u=>u.id===t.unitId),r=snapshot?.resourceSnapshot||(fact?{edition:'Historical edition not recorded'}:s.resources.find(r=>r.id===t.resourceId));
- return {heading:u?.sourceHeading||u?.heading||snapshot?.heading||t.heading,objective:snapshot?.action||t.action,why:fact?'Completed evidence is retained; changes create a follow-up.':choiceV2(s,day).task?.id===t.id?choiceV2(s,day).reason:'Review task; not selected for this slot.',prerequisites:t.prerequisites.map(id=>({id,heading:s.tasks.find(t=>t.id===id)?.heading,satisfied:done.has(id)})),evidence:snapshot?.evidence||t.evidence,source:u?.source||t.provenance,confidence:u?.confidence||t.confidence||'user_authored',edition:r?.edition||'unconfirmed',url:snapshot?.url||t.url,estimate:'ESTIMATED duration · AUTHORED learning action',attachment:s.attachments.find(a=>a.unitId===t.unitId)?.name||t.localLocator};
+ return {warnings:selection?.warnings||[],heading:u?.sourceHeading||u?.heading||snapshot?.heading||t.heading,objective:snapshot?.action||t.action,why:fact?'Completed evidence is retained; changes create a follow-up.':selection?.task?.id===t.id?selection.reason:'Review task; not selected for this slot.',prerequisites:t.prerequisites.map(id=>({id,heading:s.tasks.find(t=>t.id===id)?.heading,satisfied:done.has(id)})),evidence:snapshot?.evidence||t.evidence,source:u?.source||t.provenance,confidence:u?.confidence||t.confidence||'user_authored',edition:r?.edition||'unconfirmed',url:snapshot?.url||t.url,estimate:'ESTIMATED duration · AUTHORED learning action',attachment:s.attachments.find(a=>a.unitId===t.unitId)?.name||t.localLocator};
+}
+
+export function historicalDay(s,day){
+ const attempts=activeAttempts(s).filter(e=>e.day===day);
+ return {day,band:'actual',kind:'history',task:null,unit:null,attempts,minutes:attempts.reduce((n,e)=>n+e.minutes,0),reason:attempts.length?'Recorded attempts · completion only when explicitly confirmed':'No recorded attempts',confidence:'Actual saved history; no forward simulation',windows:windowsOn(s,day)};
+}
+export const selectNext=choiceV2;
+export function allocateWeek(s,day){const start=addDays(day,-((weekday(day)+6)%7));return project(s,start,addDays(start,6),undefined,{anchor:day});}
+export const simulateRange=project;
+
+export function backlogWarnings(s,day){
+ const done=completed(s),attempts=activeAttempts(s),warnings=[];
+ for(const resource of s.resources.filter(r=>r.enabled)){
+  const tasks=s.tasks.filter(t=>t.resourceId===resource.id&&t.track==='independent'&&t.status==='active'&&t.reviewed&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day));
+  if(!tasks.length)continue;
+  const last=attempts.filter(e=>e.day<=day&&(e.taskSnapshot?.resourceId||s.tasks.find(t=>t.id===e.taskId)?.resourceId)===resource.id).map(e=>e.day).sort().at(-1);
+  // Count protected/missed home opportunities, rather than borrowing another subject's weekday.
+  let slots=0;
+  for(let i=1;i<=28;i++){const d=addDays(day,-i);if(last&&d<=last)break;const rule=ruleV2(s,d);if(rule.kind==='normal'&&tasks.some(t=>(!t.notBefore||t.notBefore<=d)&&resourceAllowed(s,t,d,rule)))slots++;}
+  if(slots>=2)warnings.push({resourceId:resource.id,homeSlotsSincePractice:slots,reason:'Backlog needs review; home-track roles remain protected.'});
+ }
+ return warnings;
 }

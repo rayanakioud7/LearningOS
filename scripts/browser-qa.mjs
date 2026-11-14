@@ -27,10 +27,61 @@ try{
  await page.getByRole('button',{name:'Today',exact:true}).click();await page.getByRole('button',{name:'Skipped',exact:true}).click();await page.getByRole('button',{name:'Save session',exact:true}).click();await page.getByRole('button',{name:'Settings',exact:true}).click();await page.getByRole('button',{name:'Recover previous plan',exact:true}).click();await page.getByRole('button',{name:'Recover previous plan',exact:true}).last().click();assert.equal((await saved()).events.length,2);assert.equal((await saved()).timer,null);
  await page.getByRole('button',{name:'Curriculum',exact:true}).click();await page.getByRole('button',{name:'Review catalog import',exact:true}).click();await page.getByRole('button',{name:'Clear selection',exact:true}).click();await page.locator('input[name=unit][value="velleman:3-4"]').check();await page.locator('input[name=reviewed]').check();await page.getByRole('button',{name:'Import selected units',exact:true}).click();assert.equal((await saved()).tasks.find(t=>t.id==='catalog:velleman:3-4').status,'draft');
  await page.getByRole('button',{name:'Calendar',exact:true}).click();await page.getByRole('button',{name:'3-Year',exact:true}).click();assert.match(await page.locator('body').textContent(),/NOT ACTIVATED/);assert.equal((await saved()).events.length,2);
+ // Date input is committed by Go/Enter, so typing does not replace the native control mid-edit.
+ await page.getByRole('button',{name:'Month',exact:true}).click();
+ for(const date of ['2026-10-15','2028-10-03','2029-06-20']){
+  await page.getByLabel('Calendar start',{exact:true}).fill(date);
+  await page.getByRole('button',{name:'Go',exact:true}).click();
+  assert.equal(await page.getByLabel('Calendar start',{exact:true}).inputValue(),date);
+  assert.ok(await page.locator('.calendar-detail').textContent());
+ }
+ await page.getByRole('button',{name:'Week',exact:true}).click();assert.equal(await page.getByLabel('Calendar start',{exact:true}).inputValue(),'2029-06-20');
+ await page.getByLabel('Calendar start',{exact:true}).fill('2030-01-01');await page.getByRole('button',{name:'Go',exact:true}).click();
+ assert.equal(await page.getByLabel('Calendar start',{exact:true}).evaluate(el=>el.validity.rangeOverflow),true);
+ await page.getByLabel('Calendar start',{exact:true}).fill('2028-10-03');await page.getByLabel('Calendar start',{exact:true}).press('Enter');
+ await page.getByRole('button',{name:'Year',exact:true}).click();assert.equal(await page.locator('.compact-month').count(),12);
+ await page.locator('[data-calendar-month="2028-10-01"]').click();await page.locator('[data-calendar-date="2028-10-03"]').click();assert.equal(await page.getByLabel('Calendar start',{exact:true}).inputValue(),'2028-10-03');
+ assert.match(await page.locator('.calendar-detail').textContent(),/PROVISIONAL/);
+ await page.getByRole('button',{name:'Curriculum',exact:true}).click();await page.getByRole('tab',{name:'S3',exact:true}).click();
+ assert.equal(await page.getByRole('tab',{name:'S3',exact:true}).getAttribute('aria-selected'),'true');
+ await page.keyboard.press('ArrowRight');assert.equal(await page.getByRole('tab',{name:'S4',exact:true}).getAttribute('aria-selected'),'true');
+ // A synthetic 120/75/200 task exercises the actual form, not only the model helper.
+ await page.evaluate(async()=>{
+  const {openDatabase,readSaved,saveChange}=await import('./storage.js');const {addLocalTask}=await import('./curriculum.js');const {recordOutcome}=await import('./engine.js');
+  const db=await openDatabase(),s=await readSaved(db);
+  await saveChange(db,s.revision,state=>{
+   let next=addLocalTask(state,{...state.tasks[0],id:'browser-networks',resource:'Synthetic networks',heading:'Synthetic networks exercise',title:'Synthetic networks exercise',minutes:120,initialEstimateMinutes:120,remainingMinutes:200,track:'academic',deadline:'2026-11-15',notBefore:'',prerequisites:[],status:'active'});
+   for(let i=0;i<3;i++)next=recordOutcome(next,{id:'browser-part-'+i,taskId:'browser-networks',day:'2026-11-16',outcome:'partial',minutes:25,remainingMinutes:200,note:'Synthetic attempt '+i});return next;
+  });db.close();
+ });
+ await page.reload();await page.getByRole('button',{name:'Curriculum',exact:true}).click();
+ await page.locator('.resource-group').filter({hasText:'Synthetic networks'}).locator('summary').click();
+ await page.locator('[data-edit="browser-networks"]').click();await page.locator('input[name=heading]').fill('Edited synthetic heading');await page.getByRole('button',{name:'Save task',exact:true}).click();
+ assert.equal((await saved()).tasks.find(t=>t.id==='browser-networks').remainingMinutes,200);assert.equal((await saved()).events.filter(e=>e.taskId==='browser-networks').length,3);
+ await page.getByRole('button',{name:'Study log',exact:true}).click();assert.match(await page.locator('body').textContent(),/3 retained attempts · 75 active min/);
+ await page.locator('.log-group').filter({hasText:'Synthetic networks'}).locator('summary').click();assert.match(await page.locator('body').textContent(),/Synthetic attempt 2/);
+ await page.getByRole('button',{name:'Calendar',exact:true}).click();await page.getByRole('button',{name:'Month',exact:true}).click();
  await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'No phone-width overflow');await page.keyboard.press('Tab');assert.ok(await page.evaluate(()=>getComputedStyle(document.activeElement).outlineStyle!=='none'),'Keyboard focus visible');
  // Native IndexedDB reopens and backup state remain intact while the app shell is offline.
  await page.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise(resolve=>navigator.serviceWorker.addEventListener('controllerchange',resolve,{once:true}));});
  const beforeOffline=await saved();await context.setOffline(true);await page.reload();await page.getByRole('button',{name:'Today',exact:true}).waitFor();assert.deepEqual((await saved()).events,beforeOffline.events);
  assert.deepEqual(errors,[]);console.log('PASS: native IndexedDB migration, recovery snapshots, timer reload, manual export/restore, catalog staging, 3-Year view, phone overflow, keyboard focus and offline reload.');
  await context.close();
+ // Optional real backup is read only as an isolated private test input. It is never copied to dist.
+ if(process.env.LEARNINGOS_TEST_BACKUP){
+  const raw=JSON.parse(readFileSync(process.env.LEARNINGOS_TEST_BACKUP)),isolated=await browser.newContext(),p=await isolated.newPage();
+  try{
+   await p.goto(origin+'/health');
+   const result=await p.evaluate(async raw=>{
+    const {openDatabase,saveChange,readSaved,migrateDatabase}=await import('./storage.js');const {prepareRestore,prepareTransfer}=await import('./backup.js');const {validateBackup}=await import('./validation.js');
+    validateBackup(raw);const db=await openDatabase();const [catalog,planning]=await Promise.all(['./catalog.json','./planning.json'].map(u=>fetch(u).then(r=>r.json())));
+    const source=prepareRestore(raw,0);await saveChange(db,0,s=>s,source);await migrateDatabase(db,catalog,planning);
+    const saved=await readSaved(db),roundTrip=prepareRestore(JSON.parse(JSON.stringify(prepareTransfer(saved))),saved.revision);await saveChange(db,saved.revision,()=>roundTrip,null,{preservePrevious:true});
+    const final=await readSaved(db),previous=await readSaved(db,'restore-point');db.close();
+    return {events:final.events,tasks:final.tasks.length,recoveryEvents:previous.state.events};
+   },raw);
+   assert.deepEqual(result.events,raw.events);assert.deepEqual(result.recoveryEvents,raw.events);assert.equal(result.tasks,raw.tasks.length);
+   console.log('PASS: isolated supplied-backup native IndexedDB roundtrip and recovery; no events lost.');
+  }finally{await isolated.close();}
+ }
 }finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
