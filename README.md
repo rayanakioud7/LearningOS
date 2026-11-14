@@ -1,4 +1,4 @@
-# LearningOS · 0.3.0
+# LearningOS · 0.3.1
 
 A quiet, local-first study companion for ENSAM and your ML systems roadmap. Today stays minimal: one task, one timer, four outcomes.
 
@@ -50,6 +50,6 @@ npm test
 
 The only development dependency is fake-indexeddb, used to test database transactions in memory. It is not shipped as a browser dependency. Tests cover scheduling, calendar protection, timer transfer, invalid backups, concurrent-tab conflicts, atomic recovery copies, durable saves, source escaping and the local server. GitHub Actions runs on Windows/Linux with Node 22/24.
 
-These tests do not substitute for a real-browser pass. Browser automation still reports a saved access block for the local origin, even after the user's permission attempt. Real-browser interaction, installability and offline browser verification remain the release gate. The neutral design has been approved by the user; no automated screenshot review is claimed.
+The core workflows have also passed a real-browser check on a separate disposable origin: focus refresh, all four outcomes, task editing, backup restore/recovery, concurrent tabs, offline reopening and desktop/phone-width layouts. The user’s real study history was not modified. Physical two-device transfer, native PWA installation and Zen-specific behavior remain unverified. See docs/BROWSER_QA.md for evidence and limits.
 
 See `docs/RELEASE_NOTES.md` and `docs/RELEASE_CHECKLIST.md` for scope and remaining verification.

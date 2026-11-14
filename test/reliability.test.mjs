@@ -5,7 +5,7 @@ import {IDBFactory} from 'fake-indexeddb';
 import {openDatabase,readSaved,saveChange} from '../dist/storage.js';
 import {prepareTransfer,prepareRestore} from '../dist/backup.js';
 import {validateBackup,isCivilDate} from '../dist/validation.js';
-import {dailyChoice,dayRule,deadlineRisks,recordOutcome,forecast} from '../dist/engine.js';
+import {dailyChoice,dayRule,deadlineRisks,recordOutcome,forecast,taskIsInFocus} from '../dist/engine.js';
 const seed=()=>JSON.parse(readFileSync(new URL('../dist/seed.json',import.meta.url)));
 async function database(run){const factory=new IDBFactory(),db=await openDatabase(factory);try{await run(db,factory);}finally{db.close();}}
 async function initialize(db){return saveChange(db,0,s=>s,seed());}
@@ -67,3 +67,5 @@ test('deadline warnings include unfinished prerequisites and already-used academ
 });
 
 test('imported historical snapshots cannot inject non-text values into the study log',()=>{const s=recordOutcome(seed(),{id:'old',taskId:'ila-311',day:'2026-11-16',minutes:5,outcome:'partial'});s.events[0].taskSnapshot.heading={toString:1};assert.throws(()=>validateBackup(s),/snapshot/);});
+
+test('new task creation is not mistaken for editing a focused task',()=>{const s=seed();assert.equal(taskIsInFocus(s,undefined),false);assert.equal(taskIsInFocus(s,null),false);s.timer={taskId:'ila-311'};assert.equal(taskIsInFocus(s,undefined),false);assert.equal(taskIsInFocus(s,'ila-311'),true);assert.equal(taskIsInFocus(s,'other'),false);});

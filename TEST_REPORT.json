@@ -1,8 +1,8 @@
 {
-  "version": "0.3.0",
+  "version": "0.3.1",
   "date": "2026-11-14",
-  "automated_tests": 52,
-  "passed": 52,
+  "automated_tests": 53,
+  "passed": 53,
   "failed": 0,
   "syntax_checks": {
     "dist/app.js": "syntax passed",
@@ -20,9 +20,17 @@
   "active_tasks": 25,
   "draft_tasks": 282,
   "real_sessions_seeded": 0,
-  "browser_qa": "Saved origin permission still rejects access to http://127.0.0.1:4173 after the user permission attempt. No real-browser verification claimed.",
-  "offline_and_indexeddb_in_browser": "implemented; not verified end to end",
+  "browser_qa": "Core workflows verified in ChatGPT in-app browser on 2026-11-14; see docs/BROWSER_QA.md. Former local-origin permission block resolved.",
+  "offline_and_indexeddb_in_browser": "Verified: running timer survived reload; restore/recovery worked; cached app and four retained study-log events reopened with server stopped.",
   "publication": "Private GitHub source; local server; no website hosting deployment",
   "cloud_sync": "Manual backup transfer with a paused focus session; no automatic merge or cloud sync",
-  "persistence_tests": "fake-indexeddb 6.2.8: transactions, conflict rejection, atomic restore points and recovery"
+  "persistence_tests": "fake-indexeddb 6.2.8: transactions, conflict rejection, atomic restore points and recovery",
+  "browser_layouts": "1280px desktop, 714px normal pane and 390px narrow layout visually inspected; narrow layout had no horizontal overflow; keyboard focus visible.",
+  "browser_qa_isolation": "All session and curriculum test writes used localhost:4173. Real 127.0.0.1:4173 plan inspected without test writes.",
+  "unverified": [
+    "Physical two-device transfer",
+    "Native PWA installation",
+    "Zen-specific behavior"
+  ],
+  "ci": "See GitHub Actions for the commit-specific Windows/Linux Node 22/24 results."
 }

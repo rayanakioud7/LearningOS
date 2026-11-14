@@ -89,3 +89,5 @@ export function deadlineRisks(state,day){
 }
 
 export {validateBackup} from './validation.js';
+
+export function taskIsInFocus(state,id){return Boolean(id&&state.timer?.taskId===id);}

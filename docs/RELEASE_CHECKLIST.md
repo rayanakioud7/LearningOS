@@ -1,32 +1,35 @@
-# Local v1 release gate
+# Local MVP release — 0.3.1
 
-## Implemented and covered by automated checks
+## Automated checks
 
 - [x] Minimal monochrome Today, explicit task outcomes and versioned curriculum edits.
-- [x] Focus refresh/resume data, capped elapsed time and paused cross-device transfer.
+- [x] Focus refresh/resume data, capped elapsed time and paused cross-device transfer payloads.
 - [x] Exam/rest overrides, prerequisites, independent capacity and deadline risks.
 - [x] Transactional saves, stale-tab conflict rejection and validated imports.
 - [x] Atomic restore-point creation and recovery without deleting the replaced plan.
 - [x] Local server version health check and repeatable background launch.
 - [x] Source-safe rendering and offline module manifest.
-- [x] Windows/Linux CI on Node 22/24.
+- [x] Windows/Linux CI on Node 22/24 for the previous release; the current commit is checked by the same workflow.
 
-## Required real-browser pass — currently blocked by the local-origin permission
+## Observed real-browser pass
 
-- [ ] On a separate disposable test profile, start/pause/resume, refresh and verify elapsed time.
-- [ ] Record each outcome and inspect the next recommendation and study log.
-- [ ] Export a partial focus session, restore in a second profile and resume it.
-- [ ] Restore another backup, recover the previous plan and verify both histories.
-- [ ] Edit/activate/archive a task; confirm history and prerequisite behavior.
-- [ ] Open two tabs and confirm concurrent edits produce no silent overwrite.
-- [ ] Load once, stop the server, reopen offline, then restart and load the current version.
-- [ ] Inspect desktop and narrow layouts and keyboard focus.
+- [x] Separate disposable origin; real study history was not used for test writes.
+- [x] Start/pause, refresh and timer persistence.
+- [x] Record all four outcomes and inspect the recommendation and study log.
+- [x] Export a running focus session, restore via file picker and resume paused focus.
+- [x] Recover the previous plan and verify its history.
+- [x] Add/edit an active academic task, archive it, and retain its history.
+- [x] Correct an outcome without erasing the original.
+- [x] Two tabs: shared updates and stale-editor rejection.
+- [x] Reopen cached app with server stopped, inspect persisted history, then restart current server.
+- [x] Desktop / narrow layouts and visible keyboard focus.
 
-Do not use the user's real study history as disposable test data. No claim of complete browser verification or final production release is made until these checks are observed.
+See BROWSER_QA.md for the exact observations and limits. Browser access is working; the former saved-origin block is resolved.
 
-## Intentional local-v1 boundaries
+## Intentional local-MVP boundaries
 
-- Manual export/restore rather than cloud sync or automatic history merging.
+- Manual export/restore rather than cloud sync or automatic history merging. Physical two-device transfer remains a user acceptance check.
+- Native PWA installation and Zen-specific testing were not performed. Regular browser use is supported.
 - Teacher-restricted documents remain local; source links can be added manually.
 - Future academic years and unconfirmed coursework stay tentative.
 - Detailed self-study dates are adaptive; calendar blocks are forecasts rather than Google Calendar appointments.
