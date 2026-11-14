@@ -1,5 +1,5 @@
 import {effortFor,isHardDeadline} from './effort.js';
-import {ruleV2,readyV2,choiceV2,planRange,nextOnTrack} from './planner.js';
+import {ruleV2,readyV2,choiceV2,planRange,nextOnTrack,nextSecondary} from './planner.js';
 export const SCHEMA=2;
 export function civilDate(now=new Date(),zone='Africa/Casablanca') {
   const p=new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
@@ -78,8 +78,9 @@ export function recordOutcome(state,event) {
   if(state.schema===2&&event.outcome==='partial'&&!Number.isFinite(event.remainingMinutes))next.tasks.find(t=>t.id===event.taskId).remainingMinutes=Math.max(1,remaining(state,task)-Math.max(0,Number(event.minutes)||0));
   next.timer=null;
   if(state.schema===2&&event.outcome==='completed'){
-    const follow=nextOnTrack(next,event.day,task);next.pinnedDay=follow?{day:event.day,taskId:follow.id,reason:'Next prerequisite-ready task on the same primary track.'}:null;
-    next.sameDayTrack={day:event.day,resourceId:task.primaryTrack||task.resourceId};
+    const secondary=nextSecondary(next,event.day,task),follow=secondary||nextOnTrack(next,event.day,task);
+    next.pinnedDay=follow?{day:event.day,taskId:follow.id,reason:secondary?'Next block on this weekday after the primary track.':'Next prerequisite-ready task on the same primary track.'}:null;
+    next.sameDayTrack={day:event.day,resourceId:(secondary||task).primaryTrack||(secondary||task).resourceId};
   }
   return next;
 }

@@ -47,6 +47,17 @@ test('forecast keeps Sunday and recovery empty and never writes simulated comple
  for(const r of rows.filter(r=>new Date(r.day+'T12:00Z').getUTCDay()===0))assert.equal(r.minutes,0);
  assert.deepEqual(s,original);assert.equal(completed(s).size,0);
 });
+test('the Monday primary block hands off to Data Science only after it is finished',()=>{
+ let s=seed(),dataName=catalog.resources.find(r=>r.id==='vanderplas-2e').name;
+ s=addLocalTask(s,{...s.tasks[0],id:'ds-local',resource:dataName,section:'Ch 13',heading:'Pandas objects',title:dataName+' Ch 13 · Pandas objects',action:'Reproduce one pandas example.',evidence:'A checked notebook cell and a short explanation.',minutes:60,minimumMinutes:25,track:'independent',priority:'P2',semester:2,status:'active',prerequisites:[],order:0,preferredDays:[1],notBefore:'',deadline:''});
+ const day='2027-02-01',first=dailyChoice(s,day).task;
+ assert.equal(first.resourceId,'ila');
+ s=recordOutcome(s,{id:'ila-finish',taskId:first.id,day,minutes:30,outcome:'completed'});
+ const after=dailyChoice(s,day);
+ assert.equal(after.task.id,'ds-local');
+ assert.equal(after.task.resourceId,'vanderplas-2e');
+ assert.equal(s.sameDayTrack.day,day);assert.equal(s.sameDayTrack.resourceId,'vanderplas-2e');
+});
 test('substantial partials return to their home track; small rescue is opt-in and only uses slack',()=>{
  let s=seed();s=recordOutcome(s,{id:'carry',taskId:'ila-311',day:'2026-11-16',minutes:25,outcome:'partial',remainingMinutes:45});
  assert.equal(dailyChoice(s,'2026-11-17').task.resourceId,'mit1802');assert.equal(dailyChoice(s,'2026-11-23').task.id,'ila-311');

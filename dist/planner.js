@@ -21,10 +21,25 @@ export function ruleV2(s,day){
  const cap=wd===6?Math.min(180,s.settings.saturdayMinutes):Math.min(90,s.settings.dailyMinutes);
  return {minutes:academicMinutes,independentMinutes:Math.max(0,Math.min(slot.minutes,cap)-(s.settings.campusTimetable.find(c=>c.day===wd)?.minutes||0)),kind:'normal',reason:s.planning.weeklySlots['S'+(sem?.id||1)]?.[ ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][wd] ]||'Flexible independent study',slot};
 }
+function primaryResourcesFor(s,day){
+ const slot=s.calendarSlots.find(x=>x.day===weekday(day)),sem=policySemester(s,day),semester='S'+(sem?.id||1);
+ return slot.resources.length?slot.resources:s.planning.weeklyResources?.[semester]?.[weekday(day)]||[];
+}
+function weeklyResourcesFor(s,day){
+ const sem=policySemester(s,day),semester='S'+(sem?.id||1),weekdayIndex=weekday(day);
+ const primary=primaryResourcesFor(s,day);
+ const secondary=s.planning.weeklySecondary?.[semester]?.[weekdayIndex]||[];
+ const continuation=s.sameDayTrack?.day===day?[s.sameDayTrack.resourceId]:[];
+ return [...new Set([...primary,...secondary,...continuation])];
+}
+export function secondaryResources(s,day){
+ const sem=policySemester(s,day),semester='S'+(sem?.id||1),weekdayIndex=weekday(day);
+ return s.planning.weeklySecondary?.[semester]?.[weekdayIndex]||[];
+}
 function resourceAllowed(s,t,day,rule){
  if(t.track==='academic')return (rule.kind==='academic'||isHardDeadline(t)&&t.deadline<=addDays(day,s.settings.deadlineLeadDays??2))&&(!t.hypothetical||semesterFor(s,day)?.id===6||[3,5].includes(weekday(day))); if(rule.kind!=='normal'||!rule.independentMinutes)return false;
- const slot=s.calendarSlots.find(x=>x.day===weekday(day)),sem=policySemester(s,day);
- const allowed=slot.resources.length?slot.resources:s.planning.weeklyResources['S'+(sem?.id||1)]?.[weekday(day)]||[];
+ const slot=s.calendarSlots.find(x=>x.day===weekday(day));
+ const allowed=weeklyResourcesFor(s,day);
  return !slot.fixed||allowed.includes(t.resourceId)||t.resourceId==='vanderplas-2e'&&allowed.includes('vanderplas');
 }
 function urgentWork(s,day,done){
@@ -69,6 +84,12 @@ export function choiceV2(s,day,done=completed(s),weeklyUsed=weeklyActual(s,day),
 }
 export function pinToday(s,day){const next=structuredClone(s);if(next.pinnedDay?.day===day)return next;if(next.sameDayTrack?.day!==day)next.sameDayTrack=null;const task=next.timer?next.tasks.find(t=>t.id===next.timer.taskId):choiceV2(next,day).task;next.pinnedDay=task?{day,taskId:task.id,reason:'Selected from explicit current progress.'}:null;return next;}
 export function nextOnTrack(s,day,task){if(ruleV2(s,day).kind!=='normal')return null;return readyV2(s,day,completed(s),{relaxRole:true}).find(t=>t.track==='independent'&&(t.primaryTrack||t.resourceId)===(task.primaryTrack||task.resourceId)&&minimumBlock(s,t)<=capFor(s,t,day,ruleV2(s,day),weeklyActual(s,day)))||null;}
+export function nextSecondary(s,day,task){
+ const rule=ruleV2(s,day);if(rule.kind!=='normal'||!rule.independentMinutes)return null;
+ if(!primaryResourcesFor(s,day).includes(task.primaryTrack||task.resourceId))return null;
+ const secondary=secondaryResources(s,day),used=weeklyActual(s,day);
+ return readyV2(s,day,completed(s)).find(t=>secondary.includes(t.primaryTrack||t.resourceId)&&minimumBlock(s,t)<=capFor(s,t,day,rule,used))||null;
+}
 export function planRange(s,start,days=14,{staged=false,anchor=start}={}){
  if(!isCivilDate(start)||!isCivilDate(anchor)||!Number.isInteger(days)||days<1||days>1500)throw Error('Invalid date range.');
  const sim=structuredClone(s),done=completed(sim),result=[],left=new Map(sim.tasks.map(t=>[t.id,remaining(sim,t)]));let week='',used=0;

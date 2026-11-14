@@ -582,7 +582,7 @@
   "calendar": [
     {
       "id": "teaching-autumn",
-      "start_date": "2026-09-21",
+      "start_date": "2026-09-14",
       "end_date_inclusive": "2026-12-18",
       "kind": "teaching",
       "source": "calendar_image",
@@ -607,7 +607,7 @@
     {
       "id": "exams-autumn",
       "start_date": "2026-12-21",
-      "end_date_inclusive": "2026-12-25",
+      "end_date_inclusive": "2026-12-26",
       "kind": "exam_window",
       "source": "calendar_image",
       "date_semantics": "civil_date",
@@ -618,15 +618,15 @@
     },
     {
       "id": "resits-autumn",
-      "start_date": "2027-01-18",
-      "end_date_inclusive": "2027-01-22",
+      "start_date": "2027-01-11",
+      "end_date_inclusive": "2027-01-23",
       "kind": "conditional_resit",
       "source": "calendar_image",
       "date_semantics": "civil_date",
       "cohort": "CI",
       "individual_exam_times_known": false,
       "active": false,
-      "title": "Autumn CI resits"
+      "title": "Autumn resit period · 2AP and CI"
     },
     {
       "id": "winter-break",
@@ -643,7 +643,7 @@
     {
       "id": "teaching-spring",
       "start_date": "2027-02-01",
-      "end_date_inclusive": "2027-04-30",
+      "end_date_inclusive": "2027-05-07",
       "kind": "teaching",
       "source": "calendar_image",
       "date_semantics": "civil_date",
@@ -654,8 +654,8 @@
     },
     {
       "id": "exams-spring",
-      "start_date": "2027-05-03",
-      "end_date_inclusive": "2027-05-07",
+      "start_date": "2027-05-17",
+      "end_date_inclusive": "2027-05-22",
       "kind": "exam_window",
       "source": "calendar_image",
       "date_semantics": "civil_date",
@@ -665,28 +665,28 @@
       "title": "Spring CI examinations"
     },
     {
-      "id": "spring-break",
+      "id": "exams-spring-2ap",
       "start_date": "2027-05-10",
-      "end_date_inclusive": "2027-05-16",
-      "kind": "recovery",
+      "end_date_inclusive": "2027-05-15",
+      "kind": "exam_window",
       "source": "calendar_image",
       "date_semantics": "civil_date",
       "cohort": "CI",
       "individual_exam_times_known": false,
-      "active": true,
-      "title": "Spring recovery"
+      "active": false,
+      "title": "Spring 2AP examinations · reference only"
     },
     {
       "id": "resits-spring",
-      "start_date": "2027-05-31",
-      "end_date_inclusive": "2027-06-04",
+      "start_date": "2027-05-24",
+      "end_date_inclusive": "2027-06-05",
       "kind": "conditional_resit",
       "source": "calendar_image",
       "date_semantics": "civil_date",
       "cohort": "CI",
       "individual_exam_times_known": false,
       "active": false,
-      "title": "Spring CI resits"
+      "title": "Spring CI resit period"
     },
     {
       "id": "exam-prep",
@@ -696,6 +696,18 @@
       "kind": "exam_prep",
       "active": true,
       "provenance": "Suggested preparation window, editable. Not an official ENSAM date."
+    },
+    {
+      "id": "pfe-period",
+      "start_date": "2027-06-14",
+      "end_date_inclusive": "2027-07-23",
+      "kind": "pfe_period",
+      "source": "calendar_image",
+      "date_semantics": "civil_date",
+      "cohort": "S6",
+      "individual_exam_times_known": false,
+      "active": false,
+      "title": "PFE / stage period · reference only"
     }
   ],
   "events": [],

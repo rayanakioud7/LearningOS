@@ -56,7 +56,7 @@ test('slot and setting validation reject invalid values and semester overlap',()
 test('local documents round trip in personal backup and never appear in public catalog',()=>{const s=seed();s.attachments.push({id:'local',unitId:s.tasks[0].unitId,name:'private.pdf',data:'YWJj',private:true});assert.deepEqual(prepareRestore(JSON.parse(JSON.stringify(prepareTransfer(s))),0).attachments,s.attachments);assert.ok(!JSON.stringify(bundle).includes('private.pdf'));});
 test('rendered imports and calendar source titles remain escaped',()=>{const s=seed();s.tasks[0].heading='<script>x</script>';s.tasks[0].action='<img src=x>';const html=renderCalendarView(s,'2026-11-16','Week',bundle);assert.ok(!html.includes('<script>'));assert.ok(html.includes('&lt;script&gt;'));});
 test('all v2 modules and sanitized datasets are cached for offline use',()=>{const sw=readFileSync(new URL('../dist/sw.js',import.meta.url),'utf8');for(const name of ['planner.js','curriculum.js','views.js','catalog.json','planning.json'])assert.ok(sw.includes(name));});
-test('seed and sanitized catalog contain no private draft slide or vault content',()=>{const s=read('../dist/seed.json');assert.equal(s.tasks.length,25);assert.ok(!JSON.stringify(s).includes('Cybersécurité'));assert.equal(bundle.units.length,247);});
+test('seed and sanitized catalog contain no private draft slide or vault content',()=>{const s=read('../dist/seed.json');assert.equal(s.tasks.length,25);assert.ok(!JSON.stringify(s).includes('Cybersécurité'));assert.equal(bundle.units.length,333);});
 test('property: protected days and all weekly ceilings across randomized plans',()=>{
  let rng=15296;const random=()=>((rng=(Math.imul(rng,1664525)+1013904223)>>>0)/4294967296);
  for(let run=0;run<100;run++){

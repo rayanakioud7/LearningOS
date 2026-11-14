@@ -36,6 +36,16 @@ async function boot(){
     db=await openDB();state=await readDB();
     if(!state){state=await fetch('./seed.json').then(r=>r.json());if(!await commit(x=>x))throw Error('Initial data could not be saved.');}
     validateBackup(state);if(state.schema===1)state=await migrateDatabase(db,catalog,planning);
+    if(state.schema===2&&state.planning?.policyVersion!==planning.policyVersion){
+      const previous=state.planning?.policyVersion??0;
+      state=await saveChange(db,state.revision,s=>{
+        const verified=new Map((planning.semesters||[]).map(x=>[x.id,x]));
+        for(const sem of s.semesters){const next=verified.get(sem.id);if(next&&sem.confidence==='verified_2026_27'){sem.start=next.start;sem.end=next.end;}}
+        s.planning=structuredClone(planning);
+        s.revisions.push({id:'planning:'+planning.policyVersion+':'+s.revisions.length,author:'system',at:new Date().toISOString(),old:{policyVersion:previous},new:{policyVersion:planning.policyVersion},reason:'Refresh public weekly roadmap and ENSAM envelope; user tasks and attempts unchanged.'});
+        return s;
+      });
+    }
     hasRestorePoint=Boolean(await readSaved(db,'restore-point'));hasMigrationPoint=Boolean(await readSaved(db,'migration-v1'));
     const pinned=pinToday(state,today());if(JSON.stringify(pinned.pinnedDay)!==JSON.stringify(state.pinnedDay))state=await saveChange(db,state.revision,()=>pinned);
     render();if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{offlineReady=true;render();}).catch(()=>{});
