@@ -1,0 +1,23 @@
+{
+  "version": "0.1.0",
+  "date": "2026-11-14",
+  "automated_tests": 30,
+  "passed": 30,
+  "failed": 0,
+  "syntax_checks": {
+    "dist/app.js": "syntax passed",
+    "dist/engine.js": "syntax passed",
+    "dist/sw.js": "syntax passed",
+    "server.mjs": "syntax passed",
+    "paths.mjs": "syntax passed"
+  },
+  "static_assets_present": true,
+  "source_tasks": 307,
+  "active_tasks": 25,
+  "draft_tasks": 282,
+  "real_sessions_seeded": 0,
+  "browser_qa": "Blocked by saved permission for http://127.0.0.1:4173; no browser automation performed",
+  "offline_and_indexeddb_in_browser": "implemented; not verified end to end",
+  "publication": "Local project; private GitHub push requested; no website deployment",
+  "cloud_sync": "not implemented; per-browser storage with explicit backup restore"
+}
