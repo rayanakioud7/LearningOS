@@ -1,5 +1,5 @@
 {
-  "policyVersion": 2,
+  "policyVersion": 4,
   "timezone": "Africa/Casablanca",
   "nowAnchor": "2026-11-14",
   "horizons": {
@@ -35,58 +35,85 @@
   },
   "weeklySlots": {
     "S1": {
-      "Mon": "ILA primary",
-      "Tue": "MIT 18.02SC calculus",
-      "Wed": "ENSAM required coursework",
-      "Thu": "Velleman proof lab; DSA continuation if capacity remains",
-      "Fri": "ENSAM overflow or recovery",
-      "Sat": "Builder Lab; optional Missing Semester tooling",
-      "Sun": "Rest"
+      "Sun": "Full recovery",
+      "Mon": "Interactive Linear Algebra",
+      "Tue": "MIT 18.02SC · Unit 3, Part A — Double Integrals",
+      "Wed": "ENSAM — current TD/TP",
+      "Thu": "Velleman · 1–2 proofs / ENSAM",
+      "Fri": "ENSAM overflow / exams, otherwise rest",
+      "Sat": "Builder’s Lab · C memory / MiniTorch-in-C"
+    },
+    "Winter": {
+      "Sun": "Full recovery",
+      "Mon": "ENSAM exams / recovery / transition",
+      "Tue": "ENSAM exams / recovery / transition",
+      "Wed": "ENSAM exams / recovery / transition",
+      "Thu": "ENSAM exams / recovery / transition",
+      "Fri": "ENSAM overflow / exams, otherwise rest",
+      "Sat": "ENSAM exams / recovery / transition"
     },
     "S2": {
-      "Mon": "ILA remaining",
-      "Tue": "Stat 110 core",
-      "Wed": "ENSAM Java/Web/automation",
-      "Thu": "Stat 110 problem solving; Data Science Handbook / MML after the primary block",
-      "Fri": "ENSAM overflow or recovery",
-      "Sat": "Numerical computing Builder Lab; DSA continuation",
-      "Sun": "Rest"
+      "Sun": "Full recovery",
+      "Mon": "ILA · eigenvalues, orthogonality, projections, least squares",
+      "Tue": "Harvard Stat 110 + Blitzstein problems",
+      "Wed": "ENSAM · Java/web, automation, statistics or math-for-CS",
+      "Thu": "VanderPlas · NumPy / pandas / Matplotlib",
+      "Fri": "ENSAM overflow / exams, otherwise rest",
+      "Sat": "Numerical Builder’s Lab"
+    },
+    "Summer1": {
+      "Sun": "Full recovery",
+      "Mon": "Finish ILA; targeted SVD / PCA comparison",
+      "Tue": "MML · Part I",
+      "Wed": "Internships, CV, portfolio and applications",
+      "Thu": "NumPy / Python craft",
+      "Fri": "ENSAM overflow / exams, otherwise rest",
+      "Sat": "Polish numerical repository + engineering report"
     },
     "S3": {
-      "Mon": "Géron concept / model evaluation",
-      "Tue": "CS229 lecture on gaps; Wasserman optional",
-      "Wed": "ENSAM cloud/data/Java/AI",
-      "Thu": "Géron notebook and from-scratch exercises",
-      "Fri": "ENSAM overflow or recovery",
-      "Sat": "Classical ML Builder Lab",
-      "Sun": "Rest"
+      "Sun": "Full recovery",
+      "Mon": "Math clinic · one derivation for the current Géron topic",
+      "Tue": "Géron · 2025 PyTorch edition · Part I + Chapters 9–11",
+      "Wed": "Wasserman · Chapters 6–10, then ENSAM / ENSAM after Wasserman",
+      "Thu": "Géron implementation day",
+      "Fri": "ENSAM · Advanced DB/cloud/Java/AI TP and projects",
+      "Sat": "ML Builder’s Lab"
     },
     "S4": {
-      "Mon": "UDL core theory + notebook",
-      "Tue": "Huang PyTorch implementation",
-      "Wed": "ENSAM ML/DL/AR/IoT/RL coursework",
-      "Thu": "Karpathy when unblocking MiniTorch; PMPP/GPU or UDL after the primary block",
-      "Fri": "ENSAM overflow or recovery",
-      "Sat": "MiniTorch C Builder Lab",
-      "Sun": "Rest"
+      "Sun": "Full recovery",
+      "Mon": "Prince · Understanding Deep Learning",
+      "Tue": "Huang et al. · Deep Learning with PyTorch, 2nd ed.",
+      "Wed": "ENSAM · applied ML, text mining, AR/VR, mobile/IoT",
+      "Thu": "Prince synthesis · backpropagation / optimization",
+      "Fri": "ENSAM overflow / exams, otherwise rest",
+      "Sat": "MiniTorch-in-C Builder’s Lab"
+    },
+    "Summer2": {
+      "Sun": "Full recovery",
+      "Mon": "MiniTorch · tests, documentation and benchmarks",
+      "Tue": "MiniTorch · tests, documentation and benchmarks",
+      "Wed": "Reproduce one modest paper experiment",
+      "Thu": "Paper reproduction · measured report",
+      "Fri": "Internship outreach / buffer",
+      "Sat": "Tagged MiniTorch release"
     },
     "S5": {
-      "Mon": "UDL Transformers or branch-specific theory",
-      "Tue": "Raschka GPT from scratch",
-      "Wed": "ENSAM selected option",
-      "Thu": "Tunstall/Hugging Face practical task; PMPP systems after the primary block",
-      "Fri": "ENSAM overflow or recovery",
-      "Sat": "One ML-systems capstone Builder Lab",
-      "Sun": "Rest"
+      "Sun": "Full recovery",
+      "Mon": "Prince UDL · Chapters 12 onward",
+      "Tue": "Raschka · Chapters 2–5",
+      "Wed": "ENSAM S5 elective and coursework",
+      "Thu": "Tunstall + Hugging Face · selected practical work",
+      "Fri": "ENSAM overflow / exams, otherwise rest",
+      "Sat": "ONE capstone · correctness → profiling → improvement"
     },
     "S6": {
-      "Mon": "PFE",
-      "Tue": "PFE",
-      "Wed": "PFE",
-      "Thu": "PFE",
-      "Fri": "PFE",
-      "Sat": "Optional thesis / PFE polish",
-      "Sun": "Rest"
+      "Sun": "Full recovery",
+      "Mon": "PFE · internship and thesis",
+      "Tue": "PFE · internship and thesis",
+      "Wed": "PFE · internship and thesis",
+      "Thu": "PFE · internship and thesis",
+      "Fri": "ENSAM overflow / exams, otherwise rest",
+      "Sat": "PFE · internship and thesis"
     }
   },
   "academicWindows": [
@@ -229,500 +256,1506 @@
     "tentative_15_42": "active and reviewed units, clearly tentative; no completion history",
     "long_range_43_plus": "may use curated research source headings to show forecast scenarios, labeled unapproved; unknown ENSAM teacher chapters are placeholders, not invented tasks"
   },
+  "roadmap": {
+    "version": 4,
+    "asOf": "2026-11-14",
+    "weekParity": "ISO-8601",
+    "gates": [
+      {
+        "id": "s1-project",
+        "phase": "S1",
+        "title": "C dynamic array/list and BFS/DFS; passing tests, clean memory checks, Git branch/merge conflict, reproducible clean clone. ENSAM work counts when it demonstrates the skill."
+      },
+      {
+        "id": "linear-foundations",
+        "phase": "S2",
+        "title": "Eigenvalues, orthogonality, projections and least squares demonstrated before the SVD supplement."
+      },
+      {
+        "id": "svd",
+        "phase": "S2",
+        "title": "SVD understood and checked before PCA."
+      },
+      {
+        "id": "s2-project",
+        "phase": "S2",
+        "title": "Broadcasting/vectorization; least squares compared with np.linalg.lstsq; gradient checks; probability simulation with uncertainty explained."
+      },
+      {
+        "id": "ml-evaluation",
+        "phase": "S3",
+        "title": "Evaluation gate: protected test set, train/validation split, preprocessing and leakage checks before micrograd."
+      },
+      {
+        "id": "s3-project",
+        "phase": "S3",
+        "title": "Linear/logistic regression from scratch; fair scikit-learn comparison; metrics, leakage checks and failed approaches reported."
+      },
+      {
+        "id": "pretrained-baseline",
+        "phase": "S5",
+        "title": "A reproducible pretrained-model baseline is evaluated before optional GPU MODE or CS336 support."
+      },
+      {
+        "id": "cpu-correctness",
+        "phase": "S5",
+        "title": "CPU implementation and tests establish correctness before kernel work."
+      },
+      {
+        "id": "measured-bottleneck",
+        "phase": "S5",
+        "title": "Profiling identifies a measured bottleneck before GPU kernel implementation."
+      },
+      {
+        "id": "capstone",
+        "phase": "S5",
+        "title": "Dataset/splits/permissions, baseline, tests, 2–3 ablations, measured bottleneck, documented limitation and readable README."
+      }
+    ],
+    "phaseNotes": {
+      "S1": [
+        "One current roadmap; resume actual progress. ENSAM work counts toward the C project gate when it proves the skill.",
+        "The MIT trial has two Tuesday sessions (17 and 24 November); from 1 December it awaits a continuation decision."
+      ],
+      "S2": [
+        "SVD follows linear-algebra foundations; PCA follows SVD.",
+        "Thursday practice alternates probability simulation and arrays/broadcasting/plots."
+      ],
+      "Summer1": [
+        "Optional July–August plan, 12–15 h/week including career time. Enable it when you want to use it; it creates no catch-up debt."
+      ],
+      "S3": [
+        "CS229 and MML are topic-specific references, not parallel mandatory courses.",
+        "Wasserman and ENSAM share Wednesday’s 60–90 minutes."
+      ],
+      "S4": [
+        "Study priority: ENSAM → UDL → Huang → MiniTorch. Karpathy and GPU concepts are supports, not extra tracks. Do not rush every UDL chapter by June.",
+        "UDL routine: slides/notebook → 6–12 pages → derive key equation → predict one modification → run/test → capture failure and result in Obsidian. If stuck for three sessions, use a short lecture explanation, then return to UDL.",
+        "Every 2–3 MiniTorch labs, cross-check with Huang/PyTorch."
+      ],
+      "Summer2": [
+        "One modest paper reproduction; finish a tagged MiniTorch release and measured report."
+      ],
+      "S5": [
+        "Prince explains why; Raschka builds the model; Tunstall/Hugging Face teaches use/evaluation of pretrained models.",
+        "ONE capstone only. GPU kernels require CPU correctness and a measured bottleneck. RX 7900 XT: supported ROCm/Triton/HIP paths; no CUDA/cuBLAS benchmark claims without NVIDIA hardware."
+      ],
+      "S6": [
+        "PFE takes priority. Independent study stays at zero."
+      ]
+    },
+    "examPeak": "At an exam peak the independent-study budget can be zero. Keep university study time; cancel optional sessions and move milestones forward without doubled hours."
+  },
   "weeklyResources": {
     "S1": {
+      "0": [],
       "1": [
         "ila"
       ],
       "2": [
         "mit1802"
       ],
+      "3": [],
       "4": [
         "velleman"
       ],
+      "5": [],
       "6": [
         "builder"
       ]
     },
     "S2": {
+      "0": [],
       "1": [
         "ila"
       ],
       "2": [
         "stat110"
       ],
+      "3": [],
       "4": [
-        "stat110"
+        "vanderplas-2e",
+        "vanderplas"
       ],
+      "5": [],
       "6": [
         "builder"
       ]
     },
     "S3": {
+      "0": [],
       "1": [
-        "geron"
+        "cs229",
+        "mml"
       ],
       "2": [
-        "cs229"
+        "geron"
+      ],
+      "3": [
+        "wasserman"
       ],
       "4": [
         "geron"
       ],
+      "5": [],
       "6": [
         "builder"
       ]
     },
     "S4": {
+      "0": [],
       "1": [
         "udl"
       ],
       "2": [
         "huang"
       ],
+      "3": [],
       "4": [
-        "karpathy"
+        "udl"
       ],
+      "5": [],
       "6": [
         "builder"
       ]
     },
     "S5": {
+      "0": [],
       "1": [
         "udl"
       ],
       "2": [
         "raschka"
       ],
+      "3": [],
       "4": [
         "tunstall"
       ],
+      "5": [],
       "6": [
         "builder"
       ]
     },
     "S6": {
-      "6": [
-        "builder"
-      ]
+      "0": [],
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": []
     }
   },
-  "weeklySecondary": {
-    "S1": {
-      "4": [
-        "dsa"
-      ],
-      "6": [
-        "missing"
-      ]
-    },
-    "S2": {
-      "1": [
-        "vanderplas-2e"
-      ],
-      "4": [
-        "vanderplas-2e",
-        "mml"
-      ],
-      "6": [
-        "dsa"
-      ]
-    },
-    "S3": {},
-    "S4": {
-      "4": [
-        "pmpp",
-        "udl"
-      ]
-    },
-    "S5": {
-      "4": [
-        "pmpp"
-      ]
-    },
-    "S6": {}
-  },
+  "weeklySecondary": {},
   "phases": [
     {
-      "id": "S1A",
-      "start": "2026-09-14",
-      "end": "2027-01-10",
+      "id": "S1",
+      "semester": 1,
+      "title": "Foundations and C memory",
+      "start": "2026-11-14",
+      "end": "2026-12-31",
       "mode": "teaching",
-      "weeklyIndependentMinutes": 480,
-      "dailyIndependentMinutes": 90,
-      "saturdayMinutes": 180
+      "weeklyIndependentMinutes": 480
     },
     {
-      "id": "S1B",
-      "start": "2027-01-11",
-      "end": "2027-01-31",
-      "mode": "recovery",
-      "weeklyIndependentMinutes": 240,
-      "dailyIndependentMinutes": 60,
-      "saturdayMinutes": 60
+      "id": "Winter",
+      "semester": 1,
+      "title": "ENSAM exams, recovery and transition",
+      "start": "2027-01-01",
+      "end": "2027-02-28",
+      "mode": "academic",
+      "weeklyIndependentMinutes": 0
     },
     {
       "id": "S2",
-      "start": "2027-02-01",
-      "end": "2027-06-13",
+      "semester": 2,
+      "title": "Probability and numerical computing",
+      "start": "2027-03-01",
+      "end": "2027-06-30",
       "mode": "teaching",
-      "weeklyIndependentMinutes": 480,
-      "dailyIndependentMinutes": 90,
-      "saturdayMinutes": 180
+      "weeklyIndependentMinutes": 480
     },
     {
       "id": "Summer1",
-      "start": "2027-06-14",
+      "semester": 2,
+      "title": "Repair and polish",
+      "start": "2027-07-01",
       "end": "2027-08-31",
       "mode": "summer",
+      "optional": true,
       "weeklyIndependentMinutes": 780,
-      "dailyIndependentMinutes": 120,
-      "saturdayMinutes": 240
+      "weeklyRangeMinutes": [
+        720,
+        900
+      ]
     },
     {
       "id": "S3",
+      "semester": 3,
+      "title": "Classical machine learning",
       "start": "2027-09-01",
       "end": "2028-01-31",
       "mode": "teaching",
-      "weeklyIndependentMinutes": 540,
-      "dailyIndependentMinutes": 90,
-      "saturdayMinutes": 180
+      "weeklyIndependentMinutes": 480
     },
     {
       "id": "S4",
+      "semester": 4,
+      "title": "Deep-learning theory + PyTorch + MiniTorch",
       "start": "2028-02-01",
       "end": "2028-06-30",
       "mode": "teaching",
-      "weeklyIndependentMinutes": 540,
-      "dailyIndependentMinutes": 90,
-      "saturdayMinutes": 180
+      "weeklyIndependentMinutes": 480
     },
     {
       "id": "Summer2",
+      "semester": 4,
+      "title": "MiniTorch and paper reproduction",
       "start": "2028-07-01",
       "end": "2028-08-31",
       "mode": "summer",
-      "weeklyIndependentMinutes": 780,
-      "dailyIndependentMinutes": 120,
-      "saturdayMinutes": 240
+      "weeklyIndependentMinutes": 780
     },
     {
       "id": "S5",
+      "semester": 5,
+      "title": "Transformers, LLMs and ONE ML-systems specialization",
       "start": "2028-09-01",
       "end": "2029-01-31",
       "mode": "teaching",
-      "weeklyIndependentMinutes": 480,
-      "dailyIndependentMinutes": 90,
-      "saturdayMinutes": 180
+      "weeklyIndependentMinutes": 480
     },
     {
       "id": "S6",
+      "semester": 6,
+      "title": "PFE",
       "start": "2029-02-01",
       "end": "2029-06-30",
       "mode": "pfe",
-      "weeklyIndependentMinutes": 0,
-      "dailyIndependentMinutes": 0,
-      "saturdayMinutes": 0
+      "weeklyIndependentMinutes": 0
     }
   ],
   "weeklyBlocks": {
-    "S1A": {
+    "S1": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
       "1": [
         {
+          "id": "ila-s1",
+          "title": "Interactive Linear Algebra",
           "resources": [
             "ila"
           ],
-          "minutes": 75
+          "minutes": 90,
+          "maxMinutes": 120,
+          "minMinutes": 90,
+          "description": "Resume at the last solved exercise: one section + 2–4 problems, then a small NumPy check. Do not restart with Strang.",
+          "doneWhen": "Problems solved and checked.",
+          "track": "independent",
+          "links": [
+            {
+              "title": "Interactive Linear Algebra",
+              "url": "https://textbooks.math.gatech.edu/ila/"
+            }
+          ]
         }
       ],
       "2": [
         {
+          "id": "calculus-trial",
+          "title": "MIT 18.02SC · Unit 3, Part A — Double Integrals",
           "resources": [
             "mit1802"
           ],
-          "minutes": 75
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Two-week trial against Stewart Chapter 15: lecture/recitation AND exercise. Review the trial before continuing.",
+          "doneWhen": "One problem set solved without notes.",
+          "track": "independent",
+          "trialReviewDate": "2026-12-01",
+          "scope": "mit-double-integrals",
+          "links": [
+            {
+              "title": "MIT double integrals",
+              "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/"
+            }
+          ]
+        }
+      ],
+      "3": [
+        {
+          "id": "ensam-s1",
+          "title": "ENSAM — current TD/TP",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Work the current TD/TP. Goodrich/NeetCode only if there is no ENSAM work; exams come first.",
+          "doneWhen": "One tested class function.",
+          "track": "academic"
         }
       ],
       "4": [
         {
+          "id": "proofs",
+          "title": "Velleman · 1–2 proofs",
           "resources": [
             "velleman"
           ],
-          "minutes": 60
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Odd ISO weeks: resume near Chapter 3.4 and write 1–2 proofs.",
+          "doneWhen": "Written proof.",
+          "track": "independent",
+          "weekParity": "odd"
         },
         {
+          "id": "ensam-thursday",
+          "title": "ENSAM",
           "resources": [
-            "dsa"
+            "ensam"
           ],
-          "minutes": 30
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Even ISO weeks: current ENSAM work.",
+          "doneWhen": "Runnable query or checked experiment.",
+          "track": "academic",
+          "weekParity": "even"
+        }
+      ],
+      "5": [
+        {
+          "id": "overflow",
+          "title": "ENSAM overflow / exams, otherwise rest",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 0,
+          "maxMinutes": 60,
+          "minMinutes": 0,
+          "description": "Use only for real ENSAM backlog or exam preparation; otherwise rest.",
+          "doneWhen": "Backlog reduced.",
+          "track": "academic"
         }
       ],
       "6": [
         {
+          "id": "c-lab",
+          "title": "Builder’s Lab · C memory / MiniTorch-in-C",
           "resources": [
             "builder"
           ],
-          "minutes": 180
+          "minutes": 180,
+          "maxMinutes": 240,
+          "minMinutes": 180,
+          "description": "Integrate pointer/ownership practice with C dynamic arrays/lists and BFS/DFS. Missing Semester Git belongs inside this lab.",
+          "doneWhen": "Tests + sanitizer checks + commit.",
+          "track": "independent",
+          "supports": [
+            {
+              "id": "git",
+              "title": "Missing Semester: Git, integrated into this lab",
+              "resources": [
+                "missing"
+              ],
+              "url": "https://missing.csail.mit.edu/2026/version-control/",
+              "description": "Branch/merge conflict and clean-clone practice inside lab time; no extra hours."
+            }
+          ],
+          "scope": "s1-builder"
         }
       ]
     },
-    "S1B": {},
-    "S2": {
+    "Winter": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
       "1": [
         {
+          "id": "transition",
+          "title": "ENSAM exams / recovery / transition",
           "resources": [
-            "ila"
+            "ensam"
           ],
-          "minutes": 75
+          "minutes": 0,
+          "maxMinutes": 90,
+          "minMinutes": 0,
+          "description": "No new independent track is prescribed for January–February. Follow actual ENSAM requirements, exam windows and recovery.",
+          "doneWhen": "Current university work or recovery.",
+          "track": "academic"
         }
       ],
       "2": [
         {
+          "id": "transition",
+          "title": "ENSAM exams / recovery / transition",
           "resources": [
-            "stat110"
+            "ensam"
           ],
-          "minutes": 75
+          "minutes": 0,
+          "maxMinutes": 90,
+          "minMinutes": 0,
+          "description": "No new independent track is prescribed for January–February. Follow actual ENSAM requirements, exam windows and recovery.",
+          "doneWhen": "Current university work or recovery.",
+          "track": "academic"
+        }
+      ],
+      "3": [
+        {
+          "id": "transition",
+          "title": "ENSAM exams / recovery / transition",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 0,
+          "maxMinutes": 90,
+          "minMinutes": 0,
+          "description": "No new independent track is prescribed for January–February. Follow actual ENSAM requirements, exam windows and recovery.",
+          "doneWhen": "Current university work or recovery.",
+          "track": "academic"
         }
       ],
       "4": [
         {
+          "id": "transition",
+          "title": "ENSAM exams / recovery / transition",
           "resources": [
-            "stat110"
+            "ensam"
           ],
-          "minutes": 45
-        },
+          "minutes": 0,
+          "maxMinutes": 90,
+          "minMinutes": 0,
+          "description": "No new independent track is prescribed for January–February. Follow actual ENSAM requirements, exam windows and recovery.",
+          "doneWhen": "Current university work or recovery.",
+          "track": "academic"
+        }
+      ],
+      "5": [
         {
+          "id": "overflow",
+          "title": "ENSAM overflow / exams, otherwise rest",
           "resources": [
-            "vanderplas-2e",
-            "mml"
+            "ensam"
           ],
-          "minutes": 30
+          "minutes": 0,
+          "maxMinutes": 60,
+          "minMinutes": 0,
+          "description": "Use only for real ENSAM backlog or exam preparation; otherwise rest.",
+          "doneWhen": "Backlog reduced.",
+          "track": "academic"
         }
       ],
       "6": [
         {
+          "id": "transition",
+          "title": "ENSAM exams / recovery / transition",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 0,
+          "maxMinutes": 180,
+          "minMinutes": 0,
+          "description": "No new independent track is prescribed for January–February. Follow actual ENSAM requirements, exam windows and recovery.",
+          "doneWhen": "Current university work or recovery.",
+          "track": "academic"
+        }
+      ]
+    },
+    "S2": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
+      "1": [
+        {
+          "id": "ila-s2",
+          "title": "ILA · eigenvalues, orthogonality, projections, least squares",
+          "resources": [
+            "ila"
+          ],
+          "minutes": 90,
+          "maxMinutes": 120,
+          "minMinutes": 90,
+          "description": "One hand problem and a NumPy validation. Add the targeted SVD supplement only after these foundations.",
+          "doneWhen": "Hand problem + NumPy validation.",
+          "track": "independent",
+          "supports": [
+            {
+              "id": "svd",
+              "title": "Strang Lecture 29 — SVD (targeted supplement)",
+              "resources": [
+                "svd"
+              ],
+              "requires": [
+                "linear-foundations"
+              ],
+              "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/positive-definite-matrices-and-applications/singular-value-decomposition/",
+              "description": "Use only after eigenvalues, orthogonality, projections and least squares; no restart of Strang."
+            }
+          ]
+        }
+      ],
+      "2": [
+        {
+          "id": "probability",
+          "title": "Harvard Stat 110 + Blitzstein problems",
+          "resources": [
+            "stat110"
+          ],
+          "minutes": 90,
+          "maxMinutes": 90,
+          "minMinutes": 90,
+          "description": "One to three lectures depending on energy, plus 1–2 Blitzstein problems within the same timebox.",
+          "doneWhen": "Solved probability exercises.",
+          "track": "independent",
+          "maxUnits": 3,
+          "links": [
+            {
+              "title": "Stat 110 lectures",
+              "url": "https://stat110.hsites.harvard.edu/youtube"
+            }
+          ]
+        }
+      ],
+      "3": [
+        {
+          "id": "ensam-s2",
+          "title": "ENSAM · Java/web, automation, statistics or math-for-CS",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Required exercises plus one engineering improvement.",
+          "doneWhen": "TP or tested simulation.",
+          "track": "academic"
+        }
+      ],
+      "4": [
+        {
+          "id": "numerical-practice",
+          "title": "VanderPlas · NumPy / pandas / Matplotlib",
+          "resources": [
+            "vanderplas-2e",
+            "vanderplas"
+          ],
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Alternate probability simulation with arrays/broadcasting/plots.",
+          "doneWhen": "Theory vs simulation check.",
+          "track": "independent",
+          "practiceAlternation": true
+        }
+      ],
+      "5": [
+        {
+          "id": "overflow",
+          "title": "ENSAM overflow / exams, otherwise rest",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 0,
+          "maxMinutes": 60,
+          "minMinutes": 0,
+          "description": "Use only for real ENSAM backlog or exam preparation; otherwise rest.",
+          "doneWhen": "Backlog reduced.",
+          "track": "academic"
+        }
+      ],
+      "6": [
+        {
+          "id": "numerical-lab",
+          "title": "Numerical Builder’s Lab",
           "resources": [
             "builder"
           ],
-          "minutes": 180
+          "minutes": 180,
+          "maxMinutes": 240,
+          "minMinutes": 180,
+          "description": "Elimination → Monte Carlo → numerical gradient checks → least squares → PCA only after SVD.",
+          "doneWhen": "Tests, plot and benchmark with settings.",
+          "track": "independent",
+          "scope": "numerical-builder"
         }
       ]
     },
     "Summer1": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
       "1": [
         {
+          "id": "finish-ila",
+          "title": "Finish ILA; targeted SVD / PCA comparison",
           "resources": [
-            "vanderplas-2e"
+            "ila"
           ],
-          "minutes": 120
+          "minutes": 120,
+          "maxMinutes": 120,
+          "minMinutes": 120,
+          "description": "Repair gaps and finish ILA. Targeted Strang SVD only if needed; PCA after SVD.",
+          "doneWhen": "Checked comparison.",
+          "track": "independent",
+          "supports": [
+            {
+              "id": "svd",
+              "title": "Strang Lecture 29 — SVD (targeted supplement)",
+              "resources": [
+                "svd"
+              ],
+              "requires": [
+                "linear-foundations"
+              ],
+              "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/positive-definite-matrices-and-applications/singular-value-decomposition/",
+              "description": "Use only after eigenvalues, orthogonality, projections and least squares; no restart of Strang."
+            }
+          ]
         }
       ],
       "2": [
         {
+          "id": "mml-part1",
+          "title": "MML · Part I",
           "resources": [
             "mml"
           ],
-          "minutes": 120
+          "minutes": 120,
+          "maxMinutes": 120,
+          "minMinutes": 120,
+          "description": "Start Mathematics for Machine Learning Part I.",
+          "doneWhen": "Worked mathematical example.",
+          "track": "independent",
+          "scope": "mml-part1"
         }
       ],
       "3": [
         {
+          "id": "career",
+          "title": "Internships, CV, portfolio and applications",
           "resources": [
-            "geron"
+            "career"
           ],
-          "minutes": 120
+          "minutes": 120,
+          "maxMinutes": 120,
+          "minMinutes": 120,
+          "description": "Use this time for internships, CV, portfolio and applications.",
+          "doneWhen": "A concrete application or portfolio improvement.",
+          "track": "independent"
         }
       ],
       "4": [
         {
+          "id": "python-craft",
+          "title": "NumPy / Python craft",
           "resources": [
-            "udl"
+            "vanderplas-2e",
+            "vanderplas"
           ],
-          "minutes": 120
+          "minutes": 120,
+          "maxMinutes": 120,
+          "minMinutes": 120,
+          "description": "Python craft OR a head start on Géron Part I, within the same block.",
+          "doneWhen": "Tested code or bounded Géron exercise.",
+          "track": "independent",
+          "supports": [
+            {
+              "id": "geron-headstart",
+              "title": "Géron Part I head start instead",
+              "resources": [
+                "geron"
+              ],
+              "url": "https://github.com/ageron/handson-mlp",
+              "scope": "geron-part1"
+            }
+          ]
         }
       ],
       "5": [
         {
+          "id": "overflow",
+          "title": "ENSAM overflow / exams, otherwise rest",
           "resources": [
-            "vanderplas-2e",
-            "mml"
+            "ensam"
           ],
-          "minutes": 120
+          "minutes": 0,
+          "maxMinutes": 60,
+          "minMinutes": 0,
+          "description": "Use only for real ENSAM backlog or exam preparation; otherwise rest.",
+          "doneWhen": "Backlog reduced.",
+          "track": "academic"
         }
       ],
       "6": [
         {
+          "id": "numerical-polish",
+          "title": "Polish numerical repository + engineering report",
           "resources": [
             "builder"
           ],
-          "minutes": 180
+          "minutes": 240,
+          "maxMinutes": 240,
+          "minMinutes": 180,
+          "description": "Polish the numerical repo and write a 1–2-page engineering report.",
+          "doneWhen": "Reproducible repo and report.",
+          "track": "independent",
+          "scope": "summer1-builder"
         }
       ]
     },
     "S3": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
       "1": [
         {
+          "id": "math-clinic",
+          "title": "Math clinic · one derivation for the current Géron topic",
           "resources": [
-            "geron"
+            "cs229",
+            "mml"
           ],
-          "minutes": 75
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Use CS229 Autumn 2018 only for the topic Géron raised: lectures 1–9, 12–15 and the first half of 16. MML Part II is reference/deepening.",
+          "doneWhen": "Derivation done on paper.",
+          "track": "independent",
+          "scope": "math-clinic",
+          "requiresTopic": true,
+          "links": [
+            {
+              "title": "CS229 syllabus",
+              "url": "https://cs229.stanford.edu/syllabus-autumn2018.html"
+            },
+            {
+              "title": "CS229 lectures",
+              "url": "https://youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU"
+            }
+          ]
         }
       ],
       "2": [
         {
-          "resources": [
-            "cs229"
-          ],
-          "minutes": 75
-        }
-      ],
-      "4": [
-        {
+          "id": "geron-theory",
+          "title": "Géron · 2025 PyTorch edition · Part I + Chapters 9–11",
           "resources": [
             "geron"
           ],
-          "minutes": 75
-        }
-      ],
-      "6": [
-        {
-          "resources": [
-            "builder"
-          ],
-          "minutes": 180
-        }
-      ]
-    },
-    "Summer2": {
-      "1": [
-        {
-          "resources": [
-            "udl"
-          ],
-          "minutes": 120
-        }
-      ],
-      "2": [
-        {
-          "resources": [
-            "huang"
-          ],
-          "minutes": 120
+          "minutes": 90,
+          "maxMinutes": 120,
+          "minMinutes": 90,
+          "description": "One bounded section and exercise; run a baseline and explain its assumptions.",
+          "doneWhen": "Baseline runs; assumptions explained.",
+          "track": "independent",
+          "scope": "geron-s3",
+          "links": [
+            {
+              "title": "Official Géron notebooks",
+              "url": "https://github.com/ageron/handson-mlp"
+            }
+          ]
         }
       ],
       "3": [
         {
+          "id": "inference",
+          "title": "Wasserman · Chapters 6–10, then ENSAM",
           "resources": [
-            "karpathy"
+            "wasserman"
           ],
-          "minutes": 120
+          "minutes": 45,
+          "maxMinutes": 45,
+          "minMinutes": 45,
+          "description": "Selected MLE, convergence and hypothesis-testing work from Chapters 6–10. Use the rest of the shared 60–90-minute block for ENSAM.",
+          "doneWhen": "Selected inference exercise checked.",
+          "track": "independent",
+          "scope": "wasserman-6-10",
+          "dayRange": [
+            60,
+            90
+          ]
+        },
+        {
+          "id": "ensam-after-inference",
+          "title": "ENSAM after Wasserman",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 15,
+          "maxMinutes": 45,
+          "minMinutes": 15,
+          "description": "Remaining time goes to current university work; confirmed urgency preempts the independent block.",
+          "doneWhen": "Tested course artifact.",
+          "track": "academic"
         }
       ],
       "4": [
         {
+          "id": "geron-code",
+          "title": "Géron implementation day",
           "resources": [
-            "pmpp"
+            "geron"
           ],
-          "minutes": 120
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Close the book; reproduce preprocessing/model/evaluation in code.",
+          "doneWhen": "Leak-free, tested pipeline.",
+          "track": "independent",
+          "scope": "geron-s3"
         }
       ],
       "5": [
         {
+          "id": "ensam-s3",
+          "title": "ENSAM · Advanced DB/cloud/Java/AI TP and projects",
           "resources": [
-            "raschka",
-            "tunstall"
+            "ensam"
           ],
-          "minutes": 120
+          "minutes": 0,
+          "maxMinutes": 60,
+          "minMinutes": 0,
+          "description": "Current ENSAM TD/TP or project first.",
+          "doneWhen": "Course deliverable checked.",
+          "track": "academic"
         }
       ],
       "6": [
         {
+          "id": "ml-lab",
+          "title": "ML Builder’s Lab",
           "resources": [
             "builder"
           ],
-          "minutes": 180
+          "minutes": 180,
+          "maxMinutes": 240,
+          "minMinutes": 180,
+          "description": "Baseline → train/validation/test → preprocessing → cross-validation → error analysis → model card. StatQuest may support relaxed understanding inside this time.",
+          "doneWhen": "Reproducible 3–5-model comparison.",
+          "track": "independent",
+          "scope": "ml-builder",
+          "supports": [
+            {
+              "id": "micrograd",
+              "title": "Karpathy micrograd — only after the evaluation gate",
+              "resources": [
+                "karpathy"
+              ],
+              "url": "https://karpathy.ai/zero-to-hero.html",
+              "description": "Replace this block only when needed; return to the primary resource.",
+              "requires": [
+                "ml-evaluation"
+              ],
+              "scope": "micrograd"
+            }
+          ]
         }
       ]
     },
     "S4": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
       "1": [
         {
+          "id": "udl-theory",
+          "title": "Prince · Understanding Deep Learning",
           "resources": [
             "udl"
           ],
-          "minutes": 75
+          "minutes": 90,
+          "maxMinutes": 120,
+          "minMinutes": 90,
+          "description": "Bounded reading, equation shapes, hand derivation and one official UDL notebook.",
+          "doneWhen": "Derivation + notebook with one changed variable.",
+          "track": "independent",
+          "scope": "udl-foundations",
+          "links": [
+            {
+              "title": "UDL notebooks",
+              "url": "https://github.com/udlbook/udlbook"
+            }
+          ]
         }
       ],
       "2": [
         {
+          "id": "pytorch",
+          "title": "Huang et al. · Deep Learning with PyTorch, 2nd ed.",
           "resources": [
             "huang"
           ],
-          "minutes": 75
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Tensors, Dataset/DataLoader, autograd, train/eval loops and CNNs. Use official PyTorch tutorials for current APIs.",
+          "doneWhen": "Tested reusable training component.",
+          "track": "independent",
+          "links": [
+            {
+              "title": "Huang companion code",
+              "url": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e"
+            },
+            {
+              "title": "PyTorch tutorials",
+              "url": "https://docs.pytorch.org/tutorials/"
+            }
+          ]
+        }
+      ],
+      "3": [
+        {
+          "id": "ensam-s4",
+          "title": "ENSAM · applied ML, text mining, AR/VR, mobile/IoT",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Course TP/project first.",
+          "doneWhen": "Course deliverable.",
+          "track": "academic"
         }
       ],
       "4": [
         {
+          "id": "udl-synthesis",
+          "title": "Prince synthesis · backpropagation / optimization",
           "resources": [
-            "karpathy"
+            "udl"
           ],
-          "minutes": 45
-        },
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Derive and gradient-check. Replace with one Karpathy lecture as needed, or a profiling/memory lesson on at most one Thursday per month.",
+          "doneWhen": "Gradient check or profiler result.",
+          "track": "independent",
+          "scope": "udl-foundations",
+          "supports": [
+            {
+              "id": "karpathy",
+              "title": "One Karpathy lecture to unblock current work",
+              "resources": [
+                "karpathy"
+              ],
+              "url": "https://karpathy.ai/zero-to-hero.html",
+              "description": "Replace this block only when needed; return to the primary resource."
+            },
+            {
+              "id": "gpu",
+              "title": "GPU MODE: one profiling / memory-hierarchy lesson",
+              "resources": [
+                "gpu-mode"
+              ],
+              "url": "https://github.com/gpu-mode/lectures",
+              "maxPerMonth": 1,
+              "description": "At most one Thursday per calendar month; replaces synthesis, adds no hours."
+            }
+          ]
+        }
+      ],
+      "5": [
         {
+          "id": "overflow",
+          "title": "ENSAM overflow / exams, otherwise rest",
           "resources": [
-            "pmpp"
+            "ensam"
           ],
-          "minutes": 30
+          "minutes": 0,
+          "maxMinutes": 60,
+          "minMinutes": 0,
+          "description": "Use only for real ENSAM backlog or exam preparation; otherwise rest.",
+          "doneWhen": "Backlog reduced.",
+          "track": "academic"
         }
       ],
       "6": [
         {
+          "id": "minitorch-lab",
+          "title": "MiniTorch-in-C Builder’s Lab",
           "resources": [
             "builder"
           ],
-          "minutes": 180
+          "minutes": 180,
+          "maxMinutes": 240,
+          "minMinutes": 180,
+          "description": "Tensor ownership → operators → computation graph → backward → gradient checks → optimizer/MLP. Every 2–3 labs, cross-check with Huang/PyTorch; selected CMU 10-414 only if needed.",
+          "doneWhen": "C tests + sanitizer + loss plot.",
+          "track": "independent",
+          "scope": "minitorch-builder",
+          "links": [
+            {
+              "title": "Optional CMU autodiff support",
+              "url": "https://dlsyscourse.org/lectures/"
+            }
+          ]
+        }
+      ]
+    },
+    "Summer2": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
+      "1": [
+        {
+          "id": "minitorch-repair",
+          "title": "MiniTorch · tests, documentation and benchmarks",
+          "resources": [
+            "builder"
+          ],
+          "minutes": 120,
+          "maxMinutes": 120,
+          "minMinutes": 120,
+          "description": "Selected CMU 10-414 autograd lectures only when necessary.",
+          "doneWhen": "Tested/documented component.",
+          "track": "independent",
+          "scope": "minitorch-builder",
+          "links": [
+            {
+              "title": "CMU 10-414",
+              "url": "https://dlsyscourse.org/lectures/"
+            }
+          ]
+        }
+      ],
+      "2": [
+        {
+          "id": "minitorch-repair-2",
+          "title": "MiniTorch · tests, documentation and benchmarks",
+          "resources": [
+            "builder"
+          ],
+          "minutes": 120,
+          "maxMinutes": 120,
+          "minMinutes": 120,
+          "description": "Continue the measured MiniTorch repair work.",
+          "doneWhen": "Benchmark with reproducible settings.",
+          "track": "independent",
+          "scope": "minitorch-builder"
+        }
+      ],
+      "3": [
+        {
+          "id": "paper-reproduction",
+          "title": "Reproduce one modest paper experiment",
+          "resources": [
+            "paper"
+          ],
+          "minutes": 120,
+          "maxMinutes": 120,
+          "minMinutes": 120,
+          "description": "One paper, one modest experiment, measured report.",
+          "doneWhen": "Experiment and measurements captured.",
+          "track": "independent"
+        }
+      ],
+      "4": [
+        {
+          "id": "paper-report",
+          "title": "Paper reproduction · measured report",
+          "resources": [
+            "paper"
+          ],
+          "minutes": 120,
+          "maxMinutes": 120,
+          "minMinutes": 120,
+          "description": "Continue the SAME paper experiment and report; no extra paper track.",
+          "doneWhen": "Measured report.",
+          "track": "independent"
+        }
+      ],
+      "5": [
+        {
+          "id": "career-buffer",
+          "title": "Internship outreach / buffer",
+          "resources": [
+            "career"
+          ],
+          "minutes": 0,
+          "maxMinutes": 120,
+          "minMinutes": 0,
+          "description": "Flexible outreach or recovery; no automatic catch-up.",
+          "doneWhen": "Useful outreach or rest.",
+          "track": "independent"
+        }
+      ],
+      "6": [
+        {
+          "id": "minitorch-release",
+          "title": "Tagged MiniTorch release",
+          "resources": [
+            "builder"
+          ],
+          "minutes": 240,
+          "maxMinutes": 240,
+          "minMinutes": 180,
+          "description": "Reproducible instructions and benchmark report.",
+          "doneWhen": "Tagged release + reproducibility + benchmark report.",
+          "track": "independent",
+          "scope": "summer2-release"
         }
       ]
     },
     "S5": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
       "1": [
         {
+          "id": "udl-transformers",
+          "title": "Prince UDL · Chapters 12 onward",
           "resources": [
             "udl"
           ],
-          "minutes": 75
+          "minutes": 90,
+          "maxMinutes": 120,
+          "minMinutes": 90,
+          "description": "Attention, masking and Transformer equations. Later chapters only when the ONE capstone needs them.",
+          "doneWhen": "Derived or tested attention component.",
+          "track": "independent",
+          "scope": "udl-transformers"
         }
       ],
       "2": [
         {
+          "id": "tiny-gpt",
+          "title": "Raschka · Chapters 2–5",
           "resources": [
             "raschka"
           ],
-          "minutes": 75
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Tokenization → attention → GPT → training. Karpathy GPT/tokenizer is an optional on-ramp inside this block.",
+          "doneWhen": "Incrementally working tiny GPT.",
+          "track": "independent",
+          "scope": "raschka-2-5",
+          "links": [
+            {
+              "title": "Raschka implementation",
+              "url": "https://github.com/rasbt/LLMs-from-scratch"
+            }
+          ],
+          "supports": [
+            {
+              "id": "gpt-onramp",
+              "title": "Karpathy GPT/tokenizer on-ramp",
+              "resources": [
+                "karpathy"
+              ],
+              "url": "https://karpathy.ai/zero-to-hero.html",
+              "description": "Replace this block only when needed; return to the primary resource.",
+              "scope": "gpt-onramp"
+            }
+          ]
+        }
+      ],
+      "3": [
+        {
+          "id": "ensam-s5",
+          "title": "ENSAM S5 elective and coursework",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Option 2 AI/Connected Industry only if chosen; otherwise chosen Option 1. Integrate required projects with the capstone.",
+          "doneWhen": "ENSAM artifact.",
+          "track": "academic"
         }
       ],
       "4": [
         {
+          "id": "pretrained",
+          "title": "Tunstall + Hugging Face · selected practical work",
           "resources": [
             "tunstall"
           ],
-          "minutes": 45
-        },
-        {
-          "resources": [
-            "pmpp"
+          "minutes": 60,
+          "maxMinutes": 90,
+          "minMinutes": 60,
+          "description": "Fine-tune and evaluate a pretrained baseline. After the baseline, GPU MODE or CS336 may replace a session only if the chosen branch requires it.",
+          "doneWhen": "Reproducible evaluated model.",
+          "track": "independent",
+          "links": [
+            {
+              "title": "Hugging Face LLM Course",
+              "url": "https://huggingface.co/learn/llm-course/chapter1/1"
+            },
+            {
+              "title": "Transformers docs",
+              "url": "https://huggingface.co/docs/transformers/index"
+            }
           ],
-          "minutes": 30
+          "supports": [
+            {
+              "id": "hf-course",
+              "title": "Hugging Face course / maintained docs practice",
+              "resources": [
+                "huggingface"
+              ],
+              "url": "https://huggingface.co/learn/llm-course/chapter1/1"
+            },
+            {
+              "id": "gpu",
+              "title": "GPU MODE: one profiling / memory-hierarchy lesson",
+              "resources": [
+                "gpu-mode"
+              ],
+              "url": "https://github.com/gpu-mode/lectures",
+              "description": "At most one Thursday per calendar month; replaces synthesis, adds no hours.",
+              "requires": [
+                "pretrained-baseline"
+              ],
+              "requiresSystemsBranch": true
+            },
+            {
+              "id": "cs336",
+              "title": "Stanford CS336 · branch-specific support",
+              "resources": [
+                "cs336"
+              ],
+              "url": "https://cs336.stanford.edu/",
+              "requires": [
+                "pretrained-baseline"
+              ],
+              "requiresSystemsBranch": true
+            }
+          ]
+        }
+      ],
+      "5": [
+        {
+          "id": "overflow",
+          "title": "ENSAM overflow / exams, otherwise rest",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 0,
+          "maxMinutes": 60,
+          "minMinutes": 0,
+          "description": "Use only for real ENSAM backlog or exam preparation; otherwise rest.",
+          "doneWhen": "Backlog reduced.",
+          "track": "academic"
         }
       ],
       "6": [
         {
+          "id": "capstone",
+          "title": "ONE capstone · correctness → profiling → improvement",
           "resources": [
             "builder"
           ],
-          "minutes": 180
+          "minutes": 180,
+          "maxMinutes": 240,
+          "minMinutes": 180,
+          "description": "Choose A: LLM inference/batching, B: sign-language/industrial vision, or C: production ML. Read relevant papers. Measure p50/p95 latency or throughput and memory.",
+          "doneWhen": "Vertical slice + measurements.",
+          "track": "independent",
+          "scope": "capstone-builder",
+          "requiresBranch": true,
+          "links": [
+            {
+              "title": "Full Stack Deep Learning",
+              "url": "https://fullstackdeeplearning.com/course/2022/"
+            }
+          ]
         }
       ]
     },
-    "S6": {}
+    "S6": {
+      "0": [
+        {
+          "id": "recovery",
+          "title": "Full recovery",
+          "resources": [],
+          "minutes": 0,
+          "maxMinutes": 0,
+          "minMinutes": 0,
+          "description": "Sunday is off. No catch-up debt.",
+          "doneWhen": "Rest.",
+          "track": "rest"
+        }
+      ],
+      "1": [
+        {
+          "id": "pfe",
+          "title": "PFE · internship and thesis",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 120,
+          "minMinutes": 60,
+          "description": "PFE has priority; independent study budget is zero.",
+          "doneWhen": "PFE artifact or protected recovery.",
+          "track": "academic"
+        }
+      ],
+      "2": [
+        {
+          "id": "pfe",
+          "title": "PFE · internship and thesis",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 120,
+          "minMinutes": 60,
+          "description": "PFE has priority; independent study budget is zero.",
+          "doneWhen": "PFE artifact or protected recovery.",
+          "track": "academic"
+        }
+      ],
+      "3": [
+        {
+          "id": "pfe",
+          "title": "PFE · internship and thesis",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 120,
+          "minMinutes": 60,
+          "description": "PFE has priority; independent study budget is zero.",
+          "doneWhen": "PFE artifact or protected recovery.",
+          "track": "academic"
+        }
+      ],
+      "4": [
+        {
+          "id": "pfe",
+          "title": "PFE · internship and thesis",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 120,
+          "minMinutes": 60,
+          "description": "PFE has priority; independent study budget is zero.",
+          "doneWhen": "PFE artifact or protected recovery.",
+          "track": "academic"
+        }
+      ],
+      "5": [
+        {
+          "id": "overflow",
+          "title": "ENSAM overflow / exams, otherwise rest",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 0,
+          "maxMinutes": 60,
+          "minMinutes": 0,
+          "description": "Use only for real ENSAM backlog or exam preparation; otherwise rest.",
+          "doneWhen": "Backlog reduced.",
+          "track": "academic"
+        }
+      ],
+      "6": [
+        {
+          "id": "pfe",
+          "title": "PFE · internship and thesis",
+          "resources": [
+            "ensam"
+          ],
+          "minutes": 60,
+          "maxMinutes": 240,
+          "minMinutes": 60,
+          "description": "PFE has priority; independent study budget is zero.",
+          "doneWhen": "PFE artifact or protected recovery.",
+          "track": "academic"
+        }
+      ]
+    }
   }
 }

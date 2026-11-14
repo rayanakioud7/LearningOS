@@ -9,8 +9,9 @@
     "build:catalog": "node scripts/build-catalog.mjs",
     "validate": "node scripts/validate-release.mjs",
     "test:browser": "node scripts/browser-qa.mjs",
-    "test:core": "node --test test/engine.test.mjs test/curriculum-v2.test.mjs test/today.test.mjs test/http-handler.test.mjs test/scheduling-v2.test.mjs test/calendar-v2.test.mjs",
-    "test:backup": "node scripts/check-private-backup.mjs"
+    "test:core": "node --test test/engine.test.mjs test/curriculum-v2.test.mjs test/today.test.mjs test/http-handler.test.mjs test/scheduling-v2.test.mjs test/calendar-v2.test.mjs test/learner-roadmap.test.mjs",
+    "test:backup": "node scripts/check-private-backup.mjs",
+    "test:roadmap": "node --test test/learner-roadmap.test.mjs"
   },
   "engines": {
     "node": ">=20"

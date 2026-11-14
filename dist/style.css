@@ -112,3 +112,11 @@ body[data-view=today] .topbar,body[data-view=today] footer{display:none}body[dat
 .block-kind.block-secondary {border-color:#7b6a4e;color:#d8c49c}
 @media(max-width:900px){.resource-list{grid-template-columns:1fr}.resource-picks{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.resource-picks{grid-template-columns:1fr}.resource-detail-stats{grid-template-columns:1fr 1fr}.resource-detail-stats>div:nth-child(2){border-right:0}.resource-detail-stats>div:nth-child(-n+2){border-bottom:1px solid #292929}.resource-stage-bar{flex-direction:column;align-items:flex-start}.unit-row{flex-wrap:wrap}.unit-actions{width:100%;flex-direction:row;align-items:center;justify-content:flex-end;min-width:0}.resource-card-actions{gap:10px}.calendar-jump{width:100%}.calendar-jump select{flex:1}}
+
+/* Roadmap details extend the existing calendar without changing its navigation. */
+.roadmap-day {border-top:1px solid #303030;margin:20px 0;padding-top:18px}
+.roadmap-block {border-left:2px solid #50564d;margin:18px 0;padding:2px 0 2px 16px}
+.roadmap-block h3 {font-size:17px;line-height:1.45}.roadmap-block p {line-height:1.6}
+.roadmap-controls {border:1px solid #303030;border-radius:8px;padding:18px;margin-top:18px}
+.roadmap-controls summary {cursor:pointer;color:#ddd}.roadmap-controls form {max-width:760px;padding-top:18px}
+.roadmap-gates {border-top:1px solid #303030;padding-top:12px}.roadmap-gates .checkbox {align-items:flex-start;line-height:1.6}

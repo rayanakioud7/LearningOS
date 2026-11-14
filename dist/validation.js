@@ -64,6 +64,17 @@ function validateV2(s){
  if(s.settings.weeklyMinutes>480||s.settings.dailyMinutes>90||s.settings.saturdayMinutes>180)throw Error('Independent study hard maximum is 480 minutes weekly, 90 weekdays / 180 Saturday.');
  if(!Number.isInteger(s.settings.examPrepLeadDays)||s.settings.examPrepLeadDays<0||s.settings.examPrepLeadDays>90||typeof s.settings.pfeMode!=='boolean'||!Array.isArray(s.settings.recoveryDays)||s.settings.recoveryDays.some(d=>!isCivilDate(d))||!Array.isArray(s.settings.preferredResources)||s.settings.preferredResources.some(id=>!resources.has(id))||!Array.isArray(s.settings.campusTimetable))throw Error('Invalid planning settings.');
  if(s.settings.discretionaryMinutes!=null&&(!Array.isArray(s.settings.discretionaryMinutes)||s.settings.discretionaryMinutes.length!==7||s.settings.discretionaryMinutes.some(n=>!Number.isFinite(n)||n<0||n>1440)))throw Error('Invalid shared discretionary time.');
+ if(s.settings.summerWeeklyMinutes!=null&&(!Number.isFinite(s.settings.summerWeeklyMinutes)||s.settings.summerWeeklyMinutes<0||s.settings.summerWeeklyMinutes>900))throw Error('Invalid summer weekly ceiling.');
+ if(s.settings.roadmapChoices!=null){
+  const c=s.settings.roadmapChoices;if(typeof c!=='object'||Array.isArray(c))throw Error('Invalid roadmap choices.');
+  for(const k of ['summer1Enabled','mitTrialContinues','systemsSupportNeeded','capstoneTheoryNeeded'])if(c[k]!=null&&typeof c[k]!=='boolean')throw Error('Invalid roadmap confirmation.');
+  if(c.mathClinicUnitId!=null&&(typeof c.mathClinicUnitId!=='string'||c.mathClinicUnitId.length>500))throw Error('Invalid clinic reference.');
+  if(c.geronTopic!=null&&(typeof c.geronTopic!=='string'||c.geronTopic.length>500))throw Error('Invalid Géron topic.');
+  if(c.capstoneBranch!=null&&!['','A','B','C'].includes(c.capstoneBranch)||c.elective!=null&&!['','1','2'].includes(c.elective))throw Error('Choose one valid branch or elective.');
+  if(c.gates!=null&&(typeof c.gates!=='object'||Array.isArray(c.gates)||Object.entries(c.gates).some(([id,v])=>!s.planning.roadmap?.gates.some(g=>g.id===id)||typeof v!=='boolean')))throw Error('Invalid roadmap gate.');
+  if(c.noEnsamDays!=null&&(!Array.isArray(c.noEnsamDays)||c.noEnsamDays.length>1000||c.noEnsamDays.some(d=>!isCivilDate(d))))throw Error('Invalid no-work declaration.');
+  if(c.daySupports!=null&&(typeof c.daySupports!=='object'||Array.isArray(c.daySupports)||Object.keys(c.daySupports).length>1500||Object.entries(c.daySupports).some(([day,id])=>!isCivilDate(day)||typeof id!=='string'||!s.planning.weeklyBlocks?.[s.planning.phases?.find(p=>p.start<=day&&day<=p.end)?.id]?.[new Date(day+'T12:00Z').getUTCDay()]?.some(b=>b.supports?.some(x=>x.id===id)))))throw Error('Invalid dated roadmap support.');
+ }
  if(s.settings.smallResidualMinutes!=null&&(!Number.isFinite(s.settings.smallResidualMinutes)||s.settings.smallResidualMinutes<1||s.settings.smallResidualMinutes>50))throw Error('Invalid residual threshold.');
  if(s.settings.deadlineLeadDays!=null&&(!Number.isInteger(s.settings.deadlineLeadDays)||s.settings.deadlineLeadDays<0||s.settings.deadlineLeadDays>14))throw Error('Invalid deadline lead time.');
  if(s.settings.crossDayRescue!=null&&typeof s.settings.crossDayRescue!=='boolean')throw Error('Invalid rescue preference.');

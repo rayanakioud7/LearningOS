@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 const read=name=>JSON.parse(readFileSync(new URL('../dist/'+name,import.meta.url)));
 const seed=read('seed.json'),catalog=read('catalog.json'),planning=read('planning.json');
 validateBackup(seed);const s=migrateState(seed,catalog,planning);validateBackup(s);const preview=previewImport(s,catalog);
-assert.equal(catalog.units.length,333);assert.ok(catalog.units.some(u=>u.id==='ensam:recherche-operationnelle'));assert.ok(catalog.units.some(u=>u.id==='dsa:ch-7'));assert.equal(catalog.archiveRegistry.length,286);assert.equal(s.semesters.length,6);
+assert.equal(catalog.units.length,359);assert.ok(catalog.units.some(u=>u.id==='ensam:recherche-operationnelle'));assert.ok(catalog.units.some(u=>u.id==='dsa:ch-7'));assert.equal(catalog.archiveRegistry.length,286);assert.equal(s.semesters.length,6);
 const publicData=JSON.stringify({seed,catalog,planning});for(const marker of ['internalPath','sourceLocator','.rar','/home/','C:\\','Cybersécurité'])assert.ok(!publicData.includes(marker),'Private marker in public data: '+marker);
 const before=JSON.stringify(s),rows=project(s,'2026-11-14','2029-06-30',catalog);assert.equal(rows.length,960);assert.equal(JSON.stringify(s),before);
 for(const sem of s.semesters.filter(s=>s.id<6))assert.ok(rows.some(p=>p.semester===sem.id&&(p.task||p.unit)),'Missing scenario allocations in semester '+sem.id);

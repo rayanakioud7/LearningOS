@@ -1,5 +1,6 @@
+import {phases as learnerPhases,weeklyBlocks as learnerBlocks,roadmap,addRoadmapPractice} from './learner-roadmap.mjs';
 import {correctEditions} from './catalog-editions.mjs';
-import {ensamModules,extraResources,extraUnits,semesterOverrides,weeklyResources,weeklySecondary,weeklySlots,academicWindows,phases,weeklyBlocks} from './roadmap-overrides.mjs';
+import {ensamModules,extraResources,extraUnits,semesterOverrides,academicWindows} from './roadmap-overrides.mjs';
 import {readFileSync,writeFileSync} from 'node:fs';
 const read=name=>JSON.parse(readFileSync(new URL('../private/research/'+name,import.meta.url)));
 const catalog=read('curriculum_catalog.json'),inventory=read('archive_inventory.json'),rules=read('planning_rules.json');
@@ -16,16 +17,17 @@ const semesters=[
  ...rules.expectedSemesterWindows.map(s=>({id:s.semester,title:({3:'Classical ML',4:'Deep learning',5:'One capstone',6:'PFE'})[s.semester],start:s.startApprox+'-01',end:new Date(Date.UTC(Number(s.endApprox.slice(0,4)),Number(s.endApprox.slice(5)),0)).toISOString().slice(0,10),confidence:'planning_assumption'}))
 ].map(s=>({...s,...semesterOverrides[s.id]}));
 const bundle={version:catalog.version,resources:[...catalog.resources.map(({id,name,edition,url,provenance,semesters,priority})=>({id,name,edition,url,source:provenance,semesters,priority,enabled:true})),...extraResources],units,semesters,archiveRegistry:inventory.items.map(({id,semester,role,contentInspected})=>({id,semester,role,contentInspected,confidence:'historical_not_current',private:true})),legend:catalog.dataConfidenceLegend};
-const publicBundle=correctEditions(bundle);
+const publicBundle=addRoadmapPractice(correctEditions(bundle));
 writeFileSync(new URL('../dist/catalog.json',import.meta.url),JSON.stringify(publicBundle,null,2)+'\n');
 writeFileSync(new URL('../dist/planning.json',import.meta.url),JSON.stringify(rules,null,2)+'\n');
 console.log(`${publicBundle.units.length} public units; ${inventory.items.length} opaque private references; no private filenames`);
 // Machine-readable weekday roles from the approved research policy; UI reads this data.
-rules.policyVersion=2;
+rules.policyVersion=4;
+rules.roadmap=roadmap;
 rules.academicWindows=academicWindows;
-rules.weeklyResources=weeklyResources;
-rules.weeklySecondary=weeklySecondary;
-rules.weeklySlots=weeklySlots;
-rules.phases=phases;
-rules.weeklyBlocks=weeklyBlocks;
+rules.weeklyResources=Object.fromEntries(Object.entries(learnerBlocks).filter(([id])=>/^S[1-6]$/.test(id)).map(([id,week])=>[id,Object.fromEntries(Object.entries(week).map(([day,blocks])=>[day,[...new Set(blocks.filter(b=>b.track==='independent').flatMap(b=>b.resources))]]))]));
+rules.weeklySecondary={};
+rules.weeklySlots=Object.fromEntries(Object.entries(learnerBlocks).map(([id,week])=>[id,Object.fromEntries(Object.entries(week).map(([day,blocks])=>[['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][day],blocks.map(b=>b.title).join(' / ')]))]));
+rules.phases=learnerPhases;
+rules.weeklyBlocks=learnerBlocks;
 writeFileSync(new URL('../dist/planning.json',import.meta.url),JSON.stringify(rules,null,2)+'\n');

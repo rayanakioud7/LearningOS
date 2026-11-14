@@ -47,23 +47,23 @@ test('forecast keeps Sunday and recovery empty and never writes simulated comple
  for(const r of rows.filter(r=>new Date(r.day+'T12:00Z').getUTCDay()===0))assert.equal(r.minutes,0);
  assert.deepEqual(s,original);assert.equal(completed(s).size,0);
 });
-test('the Monday primary block hands off to Data Science only after it is finished',()=>{
+test('S2 Monday continues ILA after completion without adding a Data Science block',()=>{
  let s=seed(),dataName=catalog.resources.find(r=>r.id==='vanderplas-2e').name;
  s=addLocalTask(s,{...s.tasks[0],id:'ds-local',resource:dataName,section:'Ch 13',heading:'Pandas objects',title:dataName+' Ch 13 · Pandas objects',action:'Reproduce one pandas example.',evidence:'A checked notebook cell and a short explanation.',minutes:60,minimumMinutes:25,track:'independent',priority:'P2',semester:2,status:'active',prerequisites:[],order:0,preferredDays:[1],notBefore:'',deadline:''});
- const day='2027-02-01',first=dailyChoice(s,day).task;
+ const day='2027-03-01',first=dailyChoice(s,day).task;
  assert.equal(first.resourceId,'ila');
  s=recordOutcome(s,{id:'ila-finish',taskId:first.id,day,minutes:30,outcome:'completed'});
  const after=dailyChoice(s,day);
- assert.equal(after.task.id,'ds-local');
- assert.equal(after.task.resourceId,'vanderplas-2e');
- assert.equal(s.sameDayTrack.day,day);assert.equal(s.sameDayTrack.resourceId,'vanderplas-2e');
+ assert.notEqual(after.task.id,'ds-local');
+ assert.equal(after.task.resourceId,'ila');
+ assert.equal(s.sameDayTrack.day,day);assert.equal(s.sameDayTrack.resourceId,'ila');
 });
-test('substantial partials return to their home track; small rescue is opt-in and only uses slack',()=>{
+test('partials return to their home track and never add another resource to the strict weekday plan',()=>{
  let s=seed();s=recordOutcome(s,{id:'carry',taskId:'ila-311',day:'2026-11-16',minutes:25,outcome:'partial',remainingMinutes:45});
  assert.equal(dailyChoice(s,'2026-11-17').task.resourceId,'mit1802');assert.equal(dailyChoice(s,'2026-11-23').task.id,'ila-311');
  s.tasks.filter(t=>t.resourceId==='mit1802').forEach(t=>t.archived=true);s.tasks[0].remainingMinutes=10;
  assert.equal(dailyChoice(s,'2026-11-17').task,null);s.settings.crossDayRescue=true;
- assert.equal(dailyChoice(s,'2026-11-17').task.id,'ila-311');assert.equal(forecast(s,'2026-11-17',1)[0].minutes,10);
+ assert.equal(dailyChoice(s,'2026-11-17').task,null);assert.equal(forecast(s,'2026-11-17',1)[0].minutes,0);
  s.tasks[0].remainingMinutes=20;assert.equal(dailyChoice(s,'2026-11-17').task,null,'15 min slack cannot fit 20');
 });
 test('exact holidays and program bounds win over urgency and an ENSAM override',()=>{
@@ -103,18 +103,17 @@ test('weekly allocation shows past facts and agrees with Today on a current-day 
  const {allocateWeek,selectNext}=await import('../dist/planner.js');let s=seed();s.tasks[0].notBefore='';s.pinnedDay={day:'2026-11-17',taskId:'ila-311',userOverride:true};
  const rows=allocateWeek(s,'2026-11-17');assert.equal(rows[0].band,'actual');assert.equal(rows[0].minutes,0);assert.equal(rows[1].task.id,selectNext(s,'2026-11-17').task.id);
 });
-test('S2 Thursday splits into a Stat 110 primary block and a Data Science Handbook secondary block',()=>{
+test('S2 Thursday schedules only the VanderPlas block',()=>{
  let s=seed();
  s=addLocalTask(s,{...s.tasks[0],id:'stat-thu',title:'Conditional probability',resource:'Harvard Stat 110 — Probability',section:'Lecture 4',heading:'Conditional probability',action:'Work one worked example.',evidence:'Handwritten derivation and the solved example.',minutes:60,minimumMinutes:25,track:'independent',priority:'P1',semester:2,status:'active',reviewed:true,prerequisites:[],order:0,notBefore:'',deadline:''});
  s=addLocalTask(s,{...s.tasks[0],id:'ds-thu',title:'Pandas objects',resource:'VanderPlas — Python Data Science Handbook (2nd edition)',section:'Ch 4',heading:'Pandas objects',action:'Reproduce one pandas example.',evidence:'A checked notebook cell.',minutes:60,minimumMinutes:25,track:'independent',priority:'P1',semester:2,status:'active',reviewed:true,prerequisites:[],order:0,notBefore:'',deadline:''});
- const rows=project(s,'2027-02-04','2027-02-04');
+ const rows=project(s,'2027-03-04','2027-03-04');
  assert.equal(rows.length,1);
  const row=rows[0];
- assert.equal(row.day,'2027-02-04');
- assert.ok(Array.isArray(row.blocks)&&row.blocks.length===2,'expected a primary and a secondary block');
- assert.equal(row.blocks[0].kind,'primary');assert.equal(row.blocks[0].task.resourceId,'stat110');assert.equal(row.blocks[0].minutes,45);
- assert.equal(row.blocks[1].kind,'secondary');assert.equal(row.blocks[1].task.resourceId,'vanderplas-2e');assert.equal(row.blocks[1].minutes,30);
- assert.equal(row.task.resourceId,'stat110');assert.equal(row.minutes,75);
+ assert.equal(row.day,'2027-03-04');
+ assert.equal(row.blocks.length,1);
+ assert.equal(row.blocks[0].kind,'primary');assert.equal(row.blocks[0].task.resourceId,'vanderplas-2e');assert.equal(row.blocks[0].minutes,60);
+ assert.equal(row.task.resourceId,'vanderplas-2e');assert.equal(row.minutes,60);
 });
 test('Friday has no prescribed independent block in S2',()=>{
  const rows=project(seed(),'2027-02-05','2027-02-05');
@@ -129,28 +128,20 @@ test('the weekly independent ceiling is the lower of the roadmap phase budget an
 });
 test('phaseFor and blockPlan map dates to roadmap phases and templates',()=>{
  const s=seed();
- assert.equal(phaseFor(s,'2026-11-16').id,'S1A');
- assert.equal(phaseFor(s,'2027-01-20').id,'S1B');
+ assert.equal(phaseFor(s,'2026-11-16').id,'S1');
+ assert.equal(phaseFor(s,'2027-01-20').id,'Winter');
  assert.equal(phaseFor(s,'2027-07-20').id,'Summer1');
  assert.equal(phaseFor(s,'2028-10-03').id,'S5');
  assert.equal(phaseFor(s,'2029-03-01').id,'S6');
  assert.equal(phaseFor(s,'2026-01-05'),null);
  assert.equal(phaseFor(s,'2029-07-01'),null);
- const thu=blockPlan(s,'2027-02-04');
- assert.equal(thu.length,2);
- assert.equal(thu[0].kind,'primary');assert.deepEqual(thu[0].resources,['stat110']);assert.equal(thu[0].minutes,45);
- assert.equal(thu[1].kind,'secondary');assert.deepEqual(thu[1].resources,['vanderplas-2e','mml']);assert.equal(thu[1].minutes,30);
- assert.equal(blockPlan(s,'2027-02-05'),null);
- assert.equal(weeklyCeiling(s,'2027-07-20'),Math.min(780,s.settings.weeklyMinutes));
- s.settings.weeklyMinutes=300;
- assert.equal(weeklyCeiling(s,'2027-07-20'),300);
+ const thu=blockPlan(s,'2027-03-04');
+ assert.equal(thu.length,1);assert.deepEqual(thu[0].resources,['vanderplas-2e','vanderplas']);assert.equal(thu[0].minutes,60);
+ assert.equal(blockPlan(s,'2027-03-05')[0].track,'academic');
+ assert.equal(weeklyCeiling(s,'2027-07-20'),0);s.settings.roadmapChoices={summer1Enabled:true};assert.equal(weeklyCeiling(s,'2027-07-20'),780);
+ s.settings.weeklyMinutes=300;assert.equal(weeklyCeiling(s,'2027-07-20'),300);
 });
-test('phase daily caps: recovery 60, teaching slot-bound at 75, summer allows 120 with a matching slot',()=>{
- const s=seed();
- assert.equal(ruleV2(s,'2027-01-12').independentMinutes,60);   // S1B Tuesday: phase cap 60 below the 75 slot
- assert.equal(ruleV2(s,'2027-01-16').independentMinutes,60);   // S1B Saturday: phase cap 60
- assert.equal(ruleV2(s,'2027-02-02').independentMinutes,75);   // S2 Tuesday: phase 90, slot 75 binds
- s.calendarSlots.find(x=>x.day===2).minutes=120;               // lengthen the Tuesday slot
- assert.equal(ruleV2(s,'2027-07-13').independentMinutes,120);  // Summer Tuesday: phase 120, slot 120
- assert.equal(ruleV2(s,'2027-07-17').independentMinutes,150);  // Summer Saturday: slot 150 below phase 240
+test('January stays academic; S2 uses its targets and optional summer uses its own timeboxes',()=>{
+ const s=seed();assert.equal(ruleV2(s,'2027-01-12').independentMinutes,0);assert.equal(ruleV2(s,'2027-01-16').independentMinutes,0);assert.equal(ruleV2(s,'2027-03-02').independentMinutes,90);
+ s.settings.roadmapChoices={summer1Enabled:true};assert.equal(ruleV2(s,'2027-07-13').independentMinutes,120);assert.equal(ruleV2(s,'2027-07-17').independentMinutes,240);
 });

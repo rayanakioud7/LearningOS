@@ -1,5 +1,8 @@
 # LearningOS · 0.5.0
 
+The calendar now follows the complete **14 November learner roadmap**, including ISO odd/even Thursdays, S2 March–June study blocks, both summers, project/support gates and zero independent study during exam peaks. Existing study history is preserved. See [ROADMAP_2026_11_14.md](docs/ROADMAP_2026_11_14.md) for the exact mapping, date assumptions, verification and recovery. Reload online once to apply the planning update.
+
+
 A quiet, local-first study companion for ENSAM and the 2026–2029 ML systems roadmap. Today remains one precisely titled task, one timer and four explicit outcomes. No hosting, account, API key or runtime dependency installation is required.
 
 ## Run the existing app
@@ -35,7 +38,7 @@ Two tabs use revision checks to reject stale writes. User-confirmed completions 
 
 ## Sources and private research
 
-The shipped catalog contains **19 resources, 247 public source units and 286 opaque archive references**. The full private input has 321 units; 87 historical archive-file entries, archive filenames/paths and all document bytes are excluded from the public catalog. Old private note-derived drafts have also been removed from the distributed seed. Existing browser drafts remain local and are preserved by migration.
+The shipped catalog contains **26 resources, 359 public source units and 286 opaque archive references**. The full private input has 321 units; 87 historical archive-file entries, archive filenames/paths and all document bytes are excluded from the public catalog. Old private note-derived drafts have also been removed from the distributed seed. Existing browser drafts remain local and are preserved by migration.
 
 The Git-ignored `private/research/` folder contains the original research pack. `npm run build:catalog` rebuilds only allowlisted runtime metadata from it. A normal checkout already contains the sanitized outputs and does not need the private files to run. Historical PDFs never establish the current professor’s syllabus or exam dates. The builder actions are authored milestones, not official source headings. Géron uses the 2025 PyTorch notebook sequence; Huang keeps verified code-directory references while the owned edition remains unconfirmed.
 
@@ -49,10 +52,10 @@ npm test
 npm run validate
 ```
 
-**115 dependency-free core tests pass**, along with catalog/privacy/projection/offline validation. The supplied backup passed an isolated file/model roundtrip preserving 241 tasks, all 3 events and the 120/75/200 effort values. No live browser database was modified.
+**Current roadmap verification: 169 tests pass**, including the IndexedDB reliability/migration suites and 23 new roadmap checks. Three localhost server tests are blocked by `listen EPERM`. Catalog/privacy/projection/offline validation also passes. No live browser database was modified.
 
-The full suite is **not green in the restricted implementation environment**: fake-indexeddb installation fails with `EAI_AGAIN`, localhost tests fail with `EPERM`, and Playwright is unavailable. `npm run test:browser` contains the native IndexedDB, timer, restoration, date navigation, effort form, mobile and offline acceptance driver, but it must still execute successfully on an unrestricted host. Prior-release browser reports do not verify this build.
+`npm run test:browser` was attempted but Playwright is unavailable; localhost binding is independently denied. The driver includes calendar navigation, roadmap choices, shared time, optional summer, monthly GPU support and the existing timer/restore/mobile/offline checks. These browser checks still need to execute on a host that supports them. Prior-release browser reports do not verify this update.
 
 Use `LEARNINGOS_TEST_BACKUP=/absolute/private/path/backup.json npm run test:browser` for an optional real-backup test in a disposable browser context, never the live profile. Playwright may be supplied through `PLAYWRIGHT_MODULE` and its browser through `PLAYWRIGHT_CHROMIUM`.
 
-Read [SCHEDULING_V2_REPORT.md](docs/SCHEDULING_V2_REPORT.md) and [BROWSER_QA_0_5_0.md](docs/BROWSER_QA_0_5_0.md) before treating this as a verified release. Export a fresh backup before loading the changed build; do not clear site data as an update step.
+Read [the current roadmap report](docs/ROADMAP_2026_11_14.md) for current behavior, tests and remaining checks. The older scheduling reports retain historical evidence. Export a fresh backup before loading the changed build; do not clear site data as an update step.

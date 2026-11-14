@@ -55,12 +55,23 @@ try{
   });db.close();
  });
  await page.reload();await page.getByRole('button',{name:'Curriculum',exact:true}).click();
- await page.locator('.resource-group').filter({hasText:'Synthetic networks'}).locator('summary').click();
+ await page.locator('.resource-card').filter({hasText:'Synthetic networks'}).getByRole('button',{name:'View contents →',exact:true}).click();
  await page.locator('[data-edit="browser-networks"]').click();await page.locator('input[name=heading]').fill('Edited synthetic heading');await page.getByRole('button',{name:'Save task',exact:true}).click();
  assert.equal((await saved()).tasks.find(t=>t.id==='browser-networks').remainingMinutes,200);assert.equal((await saved()).events.filter(e=>e.taskId==='browser-networks').length,3);
  await page.getByRole('button',{name:'Study log',exact:true}).click();assert.match(await page.locator('body').textContent(),/3 retained attempts · 75 active min/);
  await page.locator('.log-group').filter({hasText:'Synthetic networks'}).locator('summary').click();assert.match(await page.locator('body').textContent(),/Synthetic attempt 2/);
  await page.getByRole('button',{name:'Calendar',exact:true}).click();await page.getByRole('button',{name:'Month',exact:true}).click();
+ // The learner's roadmap keeps its blocks even when no ready source task is staged.
+ const beforeRoadmapEvents=(await saved()).events;
+ const visitDay=async day=>{await page.getByRole('button',{name:'Day',exact:true}).click();await page.getByLabel('Calendar start',{exact:true}).fill(day);await page.getByRole('button',{name:'Go',exact:true}).click();};
+ const openChoices=async()=>{const details=page.locator('.roadmap-controls');if(!await details.evaluate(el=>el.open))await details.locator('summary').click();};
+ await visitDay('2026-11-26');assert.match(await page.locator('.roadmap-day').textContent(),/Even ISO weeks/);
+ await visitDay('2027-03-04');assert.match(await page.locator('.roadmap-block').textContent(),/VanderPlas/);assert.ok(!(await page.locator('.roadmap-block').textContent()).includes('Stat 110'));
+ await visitDay('2027-07-05');await openChoices();await page.locator('input[name=summer1Enabled]').check();await page.getByRole('button',{name:'Save roadmap choices',exact:true}).click();assert.equal((await saved()).settings.roadmapChoices.summer1Enabled,true);
+ await visitDay('2027-09-08');assert.match(await page.locator('.roadmap-day').textContent(),/Wasserman/);assert.match(await page.locator('.roadmap-day').textContent(),/60–90 min shared/);
+ await visitDay('2028-02-03');assert.match(await page.locator('.roadmap-block').textContent(),/Prince synthesis/);await openChoices();await page.locator('select[name=daySupport]').selectOption('gpu');await page.getByRole('button',{name:'Save roadmap choices',exact:true}).click();assert.match(await page.locator('.roadmap-block h3').textContent(),/GPU MODE/);
+ await visitDay('2028-02-10');await openChoices();assert.equal(await page.locator('select[name=daySupport] option[value=gpu]').isDisabled(),true);
+ await visitDay('2028-10-07');await openChoices();await page.locator('select[name=capstoneBranch]').selectOption('B');await page.getByRole('button',{name:'Save roadmap choices',exact:true}).click();assert.equal((await saved()).settings.roadmapChoices.capstoneBranch,'B');assert.deepEqual((await saved()).events,beforeRoadmapEvents);
  await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'No phone-width overflow');await page.keyboard.press('Tab');assert.ok(await page.evaluate(()=>getComputedStyle(document.activeElement).outlineStyle!=='none'),'Keyboard focus visible');
  // Native IndexedDB reopens and backup state remain intact while the app shell is offline.
  await page.evaluate(async()=>{await navigator.serviceWorker.ready;if(!navigator.serviceWorker.controller)await new Promise(resolve=>navigator.serviceWorker.addEventListener('controllerchange',resolve,{once:true}));});
