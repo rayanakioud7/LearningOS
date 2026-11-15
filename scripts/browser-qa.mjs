@@ -11,6 +11,7 @@ let browser;
 try{
  browser=await chromium.launch({headless:true,chromiumSandbox:true,...(process.env.PLAYWRIGHT_CHROMIUM?{executablePath:process.env.PLAYWRIGHT_CHROMIUM}:{})});
  const context=await browser.newContext({acceptDownloads:true,timezoneId:'Africa/Casablanca',viewport:{width:1280,height:900}}),page=await context.newPage(),errors=[];
+ await page.clock.install({time:new Date('2026-11-16T09:00:00Z')});
  page.on('pageerror',e=>errors.push(e.message));
  const origin=`http://127.0.0.1:${server.address().port}`;
  const legacy=JSON.parse(readFileSync(new URL('../test/fixtures/legacy-v1.json',import.meta.url)));

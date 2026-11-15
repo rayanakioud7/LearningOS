@@ -26,4 +26,4 @@ The scheduling policy, curriculum catalog and academic assumptions were retained
 
 Physical laptop-to-desktop transfer, Zen-specific rendering and native PWA installation were not performed. The app uses the existing explicit service-worker update control; it does not require clearing site data.
 
-Browser CI follow-up: the moving ubuntu-latest image selected Ubuntu 26.04, which the existing pinned Playwright 1.56.1 could not install on. The browser job now pins ubuntu-24.04; the engine matrix still tests the latest Linux image. Ubuntu 24.04 browser support is documented in [Playwright release notes](https://playwright.dev/docs/release-notes).
+Browser CI follow-up: the browser acceptance job now uses windows-2022 with Chromium sandboxing enabled. The moving latest Linux image did not support the pinned browser package, and the Ubuntu 24 runner denied its sandbox initialization. The engine matrix continues to cover Windows and latest Linux. Browser scenarios use a controlled Monday clock so their scheduling assertions do not depend on the date the workflow runs. See the [Playwright clock API](https://playwright.dev/docs/api/class-clock).
