@@ -1,13 +1,13 @@
 {
-  "version": "0.11.0",
+  "version": "0.12.0",
   "date": "2026-11-15",
   "policyVersion": 4,
   "schema": 2,
   "curriculumRelease": "2026-11-15.3",
-  "releaseStatus": "223 local tests passed; see release commit Actions for browser acceptance.",
+  "releaseStatus": "237 local tests passed; see release commit Actions for final browser acceptance.",
   "current": {
-    "automatedTests": 223,
-    "passed": 223,
+    "automatedTests": 237,
+    "passed": 237,
     "failed": 0,
     "skipped": 0,
     "catalogUnits": 383,
@@ -21,11 +21,11 @@
       "Native PWA installation"
     ]
   },
-  "report": "docs/RELEASE_0_11_0.md",
+  "report": "docs/RELEASE_0_12_0.md",
   "previousVerification": {
-    "version": "0.10.0",
-    "report": "docs/RELEASE_0_10_0.md",
-    "automatedTests": 214,
-    "ci": "https://github.com/rayanakioud7/LearningOS/actions/runs/43713699723"
+    "version": "0.11.0",
+    "report": "docs/RELEASE_0_11_0.md",
+    "automatedTests": 223,
+    "ci": "https://github.com/rayanakioud7/LearningOS/actions/runs/43715334564"
   }
 }

@@ -1,3 +1,7 @@
+# 0.12.0 — a short refresher before focus
+
+Added optional source-scoped recall prompts, reveal/skip/start, copyable LLM context, a disable preference and bounded local visit history. Resume stays immediate and no completion is inferred. 237 local tests pass. See RELEASE_0_12_0.md.
+
 # 0.11.0 — reliable saved chapter order
 
 Repaired earlier imported prerequisite graphs, improved chapter/section search, removed duplicate legacy search results, preserved explicit overrides and guarded stale recovery dialogs. 223 local tests pass. See RELEASE_0_11_0.md.

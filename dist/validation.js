@@ -40,6 +40,8 @@ export function validateBackup(x){
   for(const o of x.overrides)if(!o||!isCivilDate(o.day)||!['rest','ensam'].includes(o.kind))throw Error('Invalid availability override.');
   if(x.timer){const t=x.timer;if(!text(t.id,true)||!tasks.has(t.taskId)||typeof t.running!=='boolean'||!Number.isFinite(t.startedAt)||!Number.isFinite(t.accumulatedMs)||t.accumulatedMs<0||!Number.isFinite(t.targetMinutes)||t.targetMinutes<1||t.targetMinutes>120)throw Error('Invalid saved focus timer.');}
   if(x.breakUntil!=null&&!Number.isFinite(x.breakUntil))throw Error('Invalid break timer.');
+  if(s.preSessionRefreshers!=null&&typeof s.preSessionRefreshers!=='boolean')throw Error('Invalid refresher preference.');
+  if(x.refresherVisits!=null&&(!Array.isArray(x.refresherVisits)||x.refresherVisits.length>200||x.refresherVisits.some(v=>!v||!isCivilDate(v.day)||!tasks.has(v.taskId)||typeof v.questionId!=='string'||!v.questionId||v.questionId.length>200)))throw Error('Invalid refresher history.');
   if(x.schema===2)validateV2(x);
   return x;
 }
