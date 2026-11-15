@@ -9,6 +9,8 @@ export function renderTodayView(state,day){
   const task=timerTask||choice.task||upcoming?.task;
   const explanation=task&&state.schema===2?explainTask(state,task,day):null;
   const future=Boolean(!timerTask&&!choice.task&&upcoming?.task),scheduled=future?upcoming.day:day;
+  const focusMinutes=state.timer?.targetMinutes||Math.min(state.settings.focusMinutes,!future&&choice.allocationMinutes>=1?choice.allocationMinutes:state.settings.focusMinutes);
+  const focusSeconds=Math.ceil(focusMinutes*60),focusClock=String(Math.floor(focusSeconds/60)).padStart(2,'0')+':'+String(focusSeconds%60).padStart(2,'0');
   const canEarly=Boolean(future&&task?.notBefore>day&&rule.kind==='normal');
   const breaking=state.breakUntil>Date.now(),source=sourceURL(task?.url);
   const warning=deadlineRisks(state,day).length>0;
@@ -24,7 +26,7 @@ export function renderTodayView(state,day){
       <p class="focus-action">${escape(task.action)}</p>
       ${future?`<p class="planned-date">Planned for ${escape(dateLabel(scheduled,{weekday:'long',day:'numeric',month:'short'}))}</p>`:''}
     </div>
-    <div class="quiet-clock" role="timer" aria-label="Focus time remaining"><span id="timer-value">${String(state.settings.focusMinutes).padStart(2,'0')}:00</span><span id="timer-label">${state.settings.focusMinutes} MIN FOCUS</span></div>
+    <div class="quiet-clock" role="timer" aria-label="Focus time remaining" data-focus-minutes="${focusMinutes}"><span id="timer-value">${focusClock}</span><span id="timer-label">${Math.round(focusMinutes*10)/10} MIN FOCUS</span></div>
     <div class="timer-controls"><button class="primary focus-start" data-action="${future?'early':'timer'}" ${breaking||(future&&!canEarly)?'disabled':''}>${future?(canEarly?'Begin early':'Planned session'):state.timer?.running?'Pause':state.timer?'Resume':'Start focus'}</button></div>
     <div class="quiet-outcomes"><p>How did it go?</p><div class="outcome-shortcuts" aria-label="Session outcome">${[['completed','Completed'],['partial','Partial'],['ensam','ENSAM priority'],['skipped','Skipped']].map(([value,label])=>`<button data-outcome="${value}" ${future?'disabled':''}>${label}</button>`).join('')}</div></div>
     <div class="quiet-links">${source?`<a href="${escape(source)}" target="_blank" rel="noopener noreferrer">Open source ↗</a>`:''}<button class="text-button" data-edit="${escape(task.id)}">Edit task</button><button class="text-button" data-action="availability">Change today</button></div>

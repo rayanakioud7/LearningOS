@@ -1,44 +1,16 @@
-# Current build: 0.5.0
+# Local release 0.8.0
 
-See [SCHEDULING_V2_REPORT.md](SCHEDULING_V2_REPORT.md) and [BROWSER_QA_0_5_0.md](BROWSER_QA_0_5_0.md) for the current, incomplete release gate. The checklist below is historical evidence for 0.4.0, not verification of 0.5.0.
+- [x] Latest desktop main fetched and fast-forwarded in the requested project (19cf8b9).
+- [x] Existing scheduling and curriculum policy retained.
+- [x] 196 automated tests passed; no failed or skipped tests.
+- [x] Catalog, privacy, schema, graph, offline-asset and 960-day validation passed.
+- [x] JavaScript syntax and whitespace checks passed.
+- [x] Browser search, resource filtering, return navigation and calendar Back checked.
+- [x] Stable preference clicks and settings disclosures checked after the root navigation fix.
+- [x] Task creation, focus return, paused export, restore and recovery checked on disposable data.
+- [x] Offline search and five retained attempt rows verified with the server stopped.
+- [x] 1280px desktop / 390px phone layouts inspected; viewport overrides reset.
+- [x] Real study data was not modified by synthetic QA; test tabs closed.
+- [x] Local server restarted at version 0.8.0.
 
-# Curriculum + Forecast v2 — 0.4.0 release gate
-
-## Completed implementation and executed checks
-
-- [x] Existing Today design, timer and explicit four outcomes preserved.
-- [x] Full private research pack read before code edits; actual JSON counts reconciled.
-- [x] 234-unit sanitized public catalog; 286 opaque archive references; private research ignored by Git.
-- [x] Reviewable import, duplicate/rename/conflict diagnostics and explicit activation.
-- [x] Logical normalized schema, immutable attempts, source snapshots and completed-task followups.
-- [x] Atomic migration implementation with a separate pre-upgrade snapshot; older recovery copy retained.
-- [x] 14-day activated, 42-day tentative and through-June-2029 scenario projection implemented.
-- [x] Semester-specific slots, Wednesday academic protection, Sunday rest, independent ceilings and slack.
-- [x] Source/estimate/academic uncertainty separated; Géron sequence checked; Huang edition not inferred.
-- [x] All 25 research QA scenarios have deterministic executable assertions.
-- [x] 88 core assertions/tests pass, including the 25 scenarios, 100 randomized planning cases and 30 completed-event preservation cases.
-- [x] Schema/seed, catalog graph/privacy, six semester scenarios, 960 dates and offline assets validate.
-- [x] Real HTTP handler behavior tested without binding a socket.
-- [x] JavaScript syntax and whitespace checks pass.
-
-## Required before verified release
-
-- [ ] `npm ci` and the full `npm test` suite on a host with network and localhost permissions.
-- [ ] Execute existing fake-indexeddb reliability checks and the six new transactional migration/rollback/concurrent-migration tests.
-- [ ] Execute the actual socket tests.
-- [ ] Execute `npm run test:browser` with Playwright and a functioning browser sandbox.
-- [ ] Complete the current browser checklist, including visual contrast, narrow layout, local attachment and stale-editor flows.
-
-These are unverified gates, not product test failures that have been waived. In this environment, npm failed with EAI_AGAIN; socket binding failed with EPERM; Chromium failed at sandbox initialization. The full suite was attempted and is not green here. Previous 0.3.1 browser evidence is archived and does not validate 0.4.0.
-
-## Source and progress truth
-
-- Actual progress: browser IndexedDB attempts and user-confirmed checkpoints, plus immutable backup copies.
-- Runtime catalog: staging input in `dist/catalog.json`, not a progress database.
-- Dates: editable current Calendar; supplied 2026–27 windows retain source confidence. Semester envelopes and later annual calendars remain planning assumptions.
-- Forecast rows: transient simulation, never learning evidence.
-- Private archive bytes, note bodies and locators: not in the public bundle. Existing local browser drafts and selected personal attachments remain private to browser/backup.
-
-## Still speculative / manual
-
-Current teacher slide sequences, unsolved assignments and actual personal exam times; 2027–29 annual calendars; S5 option choice; owned Huang edition. Physical two-device transfer, native PWA installation and Zen rendering remain untested. Manual compatible-attempt reconciliation is available; no automatic curriculum merge or cloud sync is provided.
+Commit-specific GitHub Actions results are available in the repository. Physical two-device transfer, Zen-specific rendering and native installation remain user acceptance checks. See RELEASE_0_8_0.md and BROWSER_QA.md for exact scope.

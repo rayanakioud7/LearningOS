@@ -1,6 +1,6 @@
-# LearningOS · 0.7.0
+# LearningOS · 0.8.0
 
-**0.7.0:** safer task timers and offline updates, bookmarkable Calendar/Curriculum views, calendar keyboard navigation, searchable paginated Study Log, and faster cached calendar browsing. [Release details and verification](docs/RELEASE_0_7_0.md).
+**0.8.0:** quieter navigation, Ctrl/Cmd+K chapter search, an active-first resource list, working chapter filters, shorter task/settings forms, labeled mobile navigation and a fix for page-wide clicks resetting the UI. [Release details](docs/RELEASE_0_8_0.md).
 
 
 The calendar now follows the complete **14 November learner roadmap**, including ISO odd/even Thursdays, S2 March–June study blocks, both summers, project/support gates and zero independent study during exam peaks. Existing study history is preserved. See [ROADMAP_2026_11_14.md](docs/ROADMAP_2026_11_14.md) for the exact mapping, date assumptions, verification and recovery. Reload online once to apply the planning update.
@@ -55,9 +55,9 @@ npm test
 npm run validate
 ```
 
-**Current verification: 187 tests pass**, including IndexedDB reliability/migration, roadmap, usability and offline-cache checks. Three localhost server tests are blocked by `listen EPERM`. Catalog/privacy/projection/offline validation also passes. No live browser database was modified.
+**Current verification: 196 tests pass**, with no failures or skipped tests. Catalog/privacy/schema/projection/offline validation and JavaScript syntax checks pass. Real-browser checks covered quick search, resource filters, calendar Back, stable settings, task creation, timer return, paused backups, restore/recovery, phone navigation and offline search/history retention. [Observed browser checks and limits](docs/BROWSER_QA.md).
 
-`npm run test:browser` was attempted but Playwright is unavailable; localhost binding is independently denied. The driver includes calendar navigation, roadmap choices, shared time, optional summer, monthly GPU support and the existing timer/restore/mobile/offline checks. These browser checks still need to execute on a host that supports them. Prior-release browser reports do not verify this update.
+`npm run test:browser` is the optional Playwright acceptance driver used in GitHub Actions. It requires a separately installed test-only browser runner; it is not an app runtime dependency. The local interactive checks used the in-app browser and disposable localhost data. Physical device transfer, Zen-specific behavior and native installation were not exercised.
 
 Use `LEARNINGOS_TEST_BACKUP=/absolute/private/path/backup.json npm run test:browser` for an optional real-backup test in a disposable browser context, never the live profile. Playwright may be supplied through `PLAYWRIGHT_MODULE` and its browser through `PLAYWRIGHT_CHROMIUM`.
 

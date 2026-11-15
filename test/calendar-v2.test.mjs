@@ -36,7 +36,7 @@ test('legacy seed tasks inherit catalog semester placement',()=>{const s=seed();
 test('semester tabs open a resource contents view without a hidden task list',()=>{
  let s=seed();s=addLocalTask(s,{...s.tasks[0],id:'future',resource:'S3 synthetic module',heading:'Future module',semester:3,prerequisites:[]});
  const html=renderCurriculumView(s,{catalog,semester:'3'});assert.match(html,/data-semester-select="3" aria-selected="true"/);assert.match(html,/data-resource-view="local:s3-synthetic-module"/);assert.ok(!html.includes('Matrices as Functions'));assert.ok(!html.includes('resource-group'));
- const detail=renderCurriculumView(s,{catalog,semester:'3',resourceDetail:'local:s3-synthetic-module'});assert.match(detail,/Future module/);assert.match(detail,/Source units and staged tasks/);
+ const detail=renderCurriculumView(s,{catalog,semester:'3',resourceDetail:'local:s3-synthetic-module'});assert.match(detail,/Future module/);assert.match(detail,/Chapters & tasks/);
 });
 test('study log groups three partials into 75 minutes, retains notes and appended corrections',()=>{
  let s=seed();for(let i=0;i<3;i++)s=recordOutcome(s,{id:'part-'+i,taskId:'ila-311',day:'2026-11-16',minutes:25,outcome:'partial',note:'Note '+i,remainingMinutes:i===2?200:120});

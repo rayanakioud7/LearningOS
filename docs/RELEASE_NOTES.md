@@ -1,3 +1,7 @@
+# 0.8.0 — quieter navigation
+
+Fixed page-wide clicks resetting the interface; added chapter search, simpler resource browsing, focused forms and labeled mobile navigation. All 196 local tests and the listed real-browser flows passed. See RELEASE_0_8_0.md and BROWSER_QA.md.
+
 # 0.7.0 — browsing and reliability
 
 Fixes task-specific timer allocation, fractional estimate editing, optional-summer academic priority, catalog-only resource controls, semester filtering and saved task labels. Adds URL/back navigation, keyboard calendar controls, searchable/paginated history, projection caching and coherent offline updates. Cuts ineffective legacy settings controls from the strict-roadmap UI.
