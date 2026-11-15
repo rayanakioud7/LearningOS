@@ -22,7 +22,8 @@ jobs:
       - run: node --check dist/app.js
       - run: node --check dist/sw.js
   browser:
-    runs-on: ubuntu-latest
+    # Match the pinned browser runner's supported OS instead of a moving latest image.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4

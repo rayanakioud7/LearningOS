@@ -25,3 +25,5 @@ Built on desktop main commit 19cf8b9, fetched into C:\Projects\LearningOS. Verif
 The scheduling policy, curriculum catalog and academic assumptions were retained. No completion or activation is inferred by the UX update. Future semesters stay provisional. Browser data remains separate from Git source; use backup export/restore to move study progress between computers.
 
 Physical laptop-to-desktop transfer, Zen-specific rendering and native PWA installation were not performed. The app uses the existing explicit service-worker update control; it does not require clearing site data.
+
+Browser CI follow-up: the moving ubuntu-latest image selected Ubuntu 26.04, which the existing pinned Playwright 1.56.1 could not install on. The browser job now pins ubuntu-24.04; the engine matrix still tests the latest Linux image. Ubuntu 24.04 browser support is documented in [Playwright release notes](https://playwright.dev/docs/release-notes).
