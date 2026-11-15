@@ -1,3 +1,4 @@
+import {needsCurriculumUpdate,synchronizeCurriculum} from './automatic-curriculum.js';
 import {validateBackup} from './validation.js';
 import {applyPlanningUpdate} from './roadmap.js';
 import {migrateState} from './curriculum.js';
@@ -7,7 +8,7 @@ export function openDatabase(factory=globalThis.indexedDB){
 export function readSaved(db,key='main'){
   return new Promise((resolve,reject)=>{const tx=db.transaction('state','readonly'),r=tx.objectStore('state').get(key);tx.oncomplete=()=>resolve(r.result);tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||Error('Could not read saved data.'));});
 }
-export function saveChange(db,expectedRevision,change,fallback,{preservePrevious=false,preservePlanning=false}={}){
+export function saveChange(db,expectedRevision,change,fallback,{preservePrevious=false,preservePlanning=false,preserveCurriculum=false}={}){
   return new Promise((resolve,reject)=>{
     const tx=db.transaction('state','readwrite'),store=tx.objectStore('state'),read=store.get('main');let next,failure;
     read.onsuccess=()=>{try{
@@ -19,6 +20,7 @@ export function saveChange(db,expectedRevision,change,fallback,{preservePrevious
       if(!preservePrevious&&current.events.some(e=>!nextEvents.has(e.id)||JSON.stringify(nextEvents.get(e.id))!==JSON.stringify(e)))throw Error('Saved session attempts are immutable. Use an explicit backup restore or correction.');
       if(current.schema===1&&next.schema===2)store.put({state:current,savedAt:next.updatedAt},'migration-v1');
       if(preservePlanning&&read.result){const key='planning-before-'+next.planning.policyVersion,point=store.get(key);point.onsuccess=()=>{if(!point.result)store.put({state:current,savedAt:next.updatedAt},key);};}
+      if(preserveCurriculum&&read.result){const key='curriculum-before-'+next.curriculumRelease,point=store.get(key);point.onsuccess=()=>{if(!point.result)store.put({state:current,savedAt:next.updatedAt},key);};}
       if(preservePrevious&&read.result)store.put({state:current,savedAt:next.updatedAt},'restore-point');
       store.put(next,'main');
     }catch(error){failure=error;tx.abort();}};
@@ -36,4 +38,10 @@ export async function refreshPlanningDatabase(db,planning){
  const current=await readSaved(db);if(!current||current.schema!==2||Number(current.planning?.policyVersion||0)>=planning.policyVersion)return current;
  try{return await saveChange(db,current.revision,s=>applyPlanningUpdate(s,planning),null,{preservePlanning:true});}
  catch(error){const latest=await readSaved(db);if(latest?.planning?.policyVersion===planning.policyVersion)return latest;throw error;}
+}
+
+export async function refreshCurriculumDatabase(db,catalog){
+ const current=await readSaved(db);if(!current||!needsCurriculumUpdate(current,catalog))return current;
+ try{return await saveChange(db,current.revision,s=>synchronizeCurriculum(s,catalog),null,{preserveCurriculum:true});}
+ catch(error){const latest=await readSaved(db);if(latest&&!needsCurriculumUpdate(latest,catalog))return latest;throw error;}
 }

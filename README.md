@@ -1,6 +1,6 @@
-# LearningOS · 0.9.0
+# LearningOS · 0.10.0
 
-**0.9.0:** proper rest-day screens, relevant session-review fields, contextual plan links, and a backup comparison that shows recent work and refreshes after another tab changes the plan. Includes the quieter navigation and Ctrl/Cmd+K search from 0.8.0. [Release details](docs/RELEASE_0_9_0.md).
+**0.10.0:** active curriculum by default, precise individual chapter titles, automatic contextual references and a quieter calendar. Includes 383 public units across 26 resources. [Release details and sources](docs/RELEASE_0_10_0.md).
 
 
 The calendar now follows the complete **14 November learner roadmap**, including ISO odd/even Thursdays, S2 March–June study blocks, both summers, project/support gates and zero independent study during exam peaks. Existing study history is preserved. See [ROADMAP_2026_11_14.md](docs/ROADMAP_2026_11_14.md) for the exact mapping, date assumptions, verification and recovery. Reload online once to apply the planning update.
@@ -24,7 +24,7 @@ Open **http://127.0.0.1:4173/**. Keep that terminal open. Windows can use **Star
 - **Scheduling Engine v2** distinguishes a confirmed teacher deadline from a soft P0 academic target. Academic and independent work share the same actual discretionary time. Defaults remain Monday 75, Tuesday 75, Thursday 75 and Saturday 150 independent minutes, Wednesday ENSAM-only, Friday ENSAM overflow and Sunday rest. Small partial rescue into unused slack is optional.
 - **Effort** keeps the initial estimate, recorded time and revised remaining estimate separate. Editing a title no longer erases remaining effort. Study Log groups task/day attempts while retaining expandable notes and corrections.
 - **Calendar** has real Monday-first month grids, Day/Week/Month/Year/3-Year views, previous/next/today, and date input committed with **Go or Enter**. Select a day for details. Past dates show recorded attempts. Days 0–13 are actionable, 14–41 tentative, and later projections through June 2029 provisional. Unknown teacher work is not scheduled as homework.
-- **Curriculum** has S1–S6 tabs, collapsed resources, filters, source metadata and editable ordering. Import/review and activation remain separate. Second-edition pandas chapters and a selective Wasserman reference are staged with distinct source IDs; existing completed units are not remapped.
+- **Curriculum** has S1–S6 tabs, collapsed resources, filters, source metadata and editable ordering. All bundled chapters are active automatically. Source overviews remain references; prerequisites and timeboxes select the next learning task. External catalog imports still offer explicit review. Existing completed units retain their IDs.
 - **Privacy**: attachments and personal notes remain only in browser state/backups. Public catalog data contains no private archive filenames or document bytes. The app has no cloud sync or AI dependency.
 
 See [the precise implementation and verification report](docs/SCHEDULING_V2_REPORT.md) for changed files, policy details, limitations and recovery instructions. The complete handoff ZIP could not be downloaded in the implementation environment; its ZIP-only specifications and scenario matrix remain an explicit acceptance gate.
@@ -41,9 +41,9 @@ Two tabs use revision checks to reject stale writes. User-confirmed completions 
 
 ## Sources and private research
 
-The shipped catalog contains **26 resources, 359 public source units and 286 opaque archive references**. The full private input has 321 units; 87 historical archive-file entries, archive filenames/paths and all document bytes are excluded from the public catalog. Old private note-derived drafts have also been removed from the distributed seed. Existing browser drafts remain local and are preserved by migration.
+The shipped catalog contains **26 resources, 383 public source units and 286 opaque archive references**. The full private input has 321 units; 87 historical archive-file entries, archive filenames/paths and all document bytes are excluded from the public catalog. Old private note-derived drafts have also been removed from the distributed seed. Existing browser drafts remain local and become active in this requested upgrade; recorded progress is preserved.
 
-The Git-ignored `private/research/` folder contains the original research pack. `npm run build:catalog` rebuilds only allowlisted runtime metadata from it. A normal checkout already contains the sanitized outputs and does not need the private files to run. Historical PDFs never establish the current professor’s syllabus or exam dates. The builder actions are authored milestones, not official source headings. Géron uses the 2025 PyTorch notebook sequence; Huang keeps verified code-directory references while the owned edition remains unconfirmed.
+The sanitized `curriculum/` inputs and `scripts/refine-catalog.mjs` rebuild the catalog with `npm run build:catalog`; no private files are required. Historical PDFs do not establish the current professor’s syllabus or personal exam times. Builder actions are authored milestones. Géron uses the 2025 PyTorch notebook sequence; Huang uses publisher-verified second-edition chapter titles. The learner’s owned PDF edition has not been inspected.
 
 `dist/planning.json` supplies weekly roles and planning assumptions. Actual 2026–27 academic windows are in the browser’s editable Calendar, initially based on the supplied ENSAM calendar. Semester envelopes organize the projection; later-year dates remain provisional until the annual calendar is imported. A semester-wide exam window never specifies your personal exam time. Resits are disabled until needed.
 
@@ -55,7 +55,7 @@ npm test
 npm run validate
 ```
 
-**Current verification: 204 tests pass**, with no failures or skipped tests. Catalog/privacy/schema/projection/offline validation and JavaScript syntax checks pass. Real-browser checks covered quick search, resource filters, calendar Back, stable settings, task creation, timer return, paused backups, restore/recovery, phone navigation and offline search/history retention. [Observed browser checks and limits](docs/BROWSER_QA.md).
+**Current verification: 214 tests pass**, with no failures or skipped tests. Catalog/privacy/schema/projection/offline validation and JavaScript syntax checks pass. Real-browser checks covered quick search, resource filters, calendar Back, stable settings, task creation, timer return, paused backups, restore/recovery, phone navigation and offline search/history retention. [Observed browser checks and limits](docs/BROWSER_QA.md).
 
 `npm run test:browser` is the optional Playwright acceptance driver used in GitHub Actions. It requires a separately installed test-only browser runner; it is not an app runtime dependency. The local interactive checks used the in-app browser and disposable localhost data. Physical device transfer, Zen-specific behavior and native installation were not exercised.
 

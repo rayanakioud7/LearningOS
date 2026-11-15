@@ -1,12 +1,11 @@
-# Local release 0.9.0
+# Local release 0.10.0
 
-- [x] Navigation/search baseline passed Windows/Linux Node 22/24 and sandboxed Chromium acceptance.
-- [x] All 204 current local tests passed, no failed/skipped tests.
-- [x] Catalog, privacy, schema, offline assets and 960-date validation passed.
-- [x] Rest-day state and civil-date contextual navigation checked interactively.
-- [x] Incoming/current backup comparison and retained history checked interactively.
-- [x] Conditional session-review controls and cancellation without completion checked interactively.
-- [x] No curriculum policy, source catalog or logical data-schema change.
-- [x] Synthetic writes isolated from real study data.
+- [x] 214 local tests passed without failures or skips.
+- [x] Active curriculum and exact future chapter allocations preserve actual progress.
+- [x] Public catalog rebuild requires no private input files.
+- [x] Catalog/privacy/schema/960-date/offline manifest validation passed.
+- [x] Interactive upgrade, active Chapter 13, source-specific calendar, retained log and responsive layout checked on disposable localhost.
+- [x] Real study profile was not used for synthetic testing.
+- [ ] See release commit Actions for final Windows/Linux and sandboxed Chromium results.
 
-Final commit-specific browser, mobile/offline and cross-tab checks are recorded in GitHub Actions. Physical device transfer, Zen-specific rendering and native installation remain separate acceptance checks.
+Physical two-device transfer, Zen-specific rendering and native installation remain unverified.

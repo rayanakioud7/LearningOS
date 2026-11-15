@@ -1,3 +1,4 @@
+import {derivedGate,automaticClinicUnit,automaticSupport} from './automatic-roadmap.js';
 // Civil dates, phase templates and explicit learner choices. No forecast writes.
 export function weekdayOf(day){return new Date(day+'T12:00:00Z').getUTCDay();}
 export function isoWeek(day){
@@ -8,7 +9,7 @@ export function isoWeek(day){
 export const hasLearnerRoadmap=s=>s.planning?.roadmap?.version>=4;
 export function phaseFor(s,day){return s.planning?.phases?.find(p=>p.start<=day&&day<=p.end)||null;}
 export const choicesFor=s=>s.settings?.roadmapChoices||{};
-export const gateMet=(s,id)=>choicesFor(s).gates?.[id]===true;
+export const gateMet=(s,id)=>choicesFor(s).gates?.[id]===true||derivedGate(s,id);
 export function weeklyCeiling(s,day){
  const p=phaseFor(s,day),cap=p?.weeklyIndependentMinutes??Infinity;
  if(hasLearnerRoadmap(s)&&p?.mode==='summer')return p.optional&&!choicesFor(s).summer1Enabled?0:Math.min(cap,s.settings.summerWeeklyMinutes??(s.settings.weeklyMinutes<480?s.settings.weeklyMinutes:780));
@@ -33,14 +34,14 @@ export function roadmapDay(s,day){
  let blocks=base.map(b=>({...b,resources:[...b.resources],kind:b.track==='academic'?'academic':'primary',available:true}));
  if(phase.optional&&!options.summer1Enabled)for(const b of blocks)if(b.track!=='rest'){b.available=false;b.unavailableReason='Optional Summer 1 is not enabled; shown as a scenario only.';}
  for(const b of blocks){
-  if(b.trialReviewDate&&day>=b.trialReviewDate&&!options.mitTrialContinues){b.available=false;b.unavailableReason='Two-week MIT trial ended. Compare against Stewart Chapter 15 before choosing to continue.';}
-  if(b.requiresTopic&&(!options.geronTopic?.trim()||!options.mathClinicUnitId)){b.available=false;b.unavailableReason='Choose the current question raised by Géron and one matching CS229/MML reference; no parallel lecture course is scheduled.';}
-  if(b.requiresBranch&&!options.capstoneBranch){b.available=false;b.unavailableReason='Choose ONE capstone branch A, B or C before scheduling capstone work.';}
+  if(b.trialReviewDate&&day>=b.trialReviewDate&&!options.mitTrialContinues&&!s.settings.automaticCurriculum){b.available=false;b.unavailableReason='Two-week MIT trial ended. Compare against Stewart Chapter 15 before choosing to continue.';}
+  if(b.requiresTopic&&!s.settings.automaticCurriculum&&(!options.geronTopic?.trim()||!options.mathClinicUnitId)){b.available=false;b.unavailableReason='Choose the current question raised by Géron and one matching CS229/MML reference; no parallel lecture course is scheduled.';}
+  if(b.requiresBranch&&!options.capstoneBranch&&!s.settings.automaticCurriculum){b.available=false;b.unavailableReason='Choose ONE capstone branch A, B or C before scheduling capstone work.';}
   if(b.practiceAlternation)b.description+=' This '+parity+' ISO week: '+(parity==='odd'?'probability simulation.':'arrays, broadcasting and plots.');
  }
  // A fallback requires both the explicit no-work declaration and no ready ENSAM work (checked by planner).
  if(phase.id==='S1'&&weekdayOf(day)===3&&options.noEnsamDays?.includes(day))blocks=[{id:'dsa-fallback',title:'Goodrich / NeetCode · only because no ENSAM work is available',resources:['dsa'],minutes:60,minMinutes:60,maxMinutes:90,track:'independent',kind:'primary',description:'Bounded fallback practice; any current ENSAM work or exam protection wins.',doneWhen:'One tested function.',available:true,fallback:true}];
- const selected=options.daySupports?.[day];
+ const selected=options.daySupports?.[day]||blocks.map(b=>automaticSupport(s,phase.id,b)).find(Boolean);
  if(selected){
   const host=blocks.find(b=>b.supports?.some(x=>x.id===selected));
   const support=host?.supports.find(x=>x.id===selected);
@@ -72,12 +73,12 @@ export function taskFitsBlock(s,t,b,day){
  if(scope==='summer2-release')return id==='builder:summer2-release';
  if(scope==='capstone-builder')return t.semester===5;
  if(scope==='mml-part1')return n!=null&&n<=7;
- if(scope==='math-clinic')return (t.unitId===choicesFor(s).mathClinicUnitId||t.id===choicesFor(s).mathClinicUnitId)&&(t.resourceId==='mml'?n>=8:t.resourceId==='cs229'&&(n>=1&&n<=9||n>=12&&n<=15||n===16&&/first half/i.test(t.section+' '+t.heading+' '+t.action)));
+ if(scope==='math-clinic')return (t.unitId===(choicesFor(s).mathClinicUnitId||s.settings.automaticCurriculum&&automaticClinicUnit(s))||t.id===choicesFor(s).mathClinicUnitId)&&(t.resourceId==='mml'?n>=8:t.resourceId==='cs229'&&(n>=1&&n<=9||n>=12&&n<=15||n===16&&/first half/i.test(t.section+' '+t.heading+' '+t.action)));
  if(scope==='geron-s3')return n!=null&&n>=1&&n<=11;
  if(scope==='geron-part1')return n!=null&&n>=1&&n<=8;
  if(scope==='wasserman-6-10')return n!=null&&n>=6&&n<=10;
  if(scope==='udl-foundations')return n!=null&&n<=11;
- if(scope==='udl-transformers')return n!=null&&n>=12&&(n===12||choicesFor(s).capstoneTheoryNeeded===true);
+ if(scope==='udl-transformers')return n!=null&&n>=12&&(s.settings.automaticCurriculum||n===12||choicesFor(s).capstoneTheoryNeeded===true);
  if(scope==='raschka-2-5')return n!=null&&n>=2&&n<=5;
  if(scope==='micrograd')return gateMet(s,'ml-evaluation')&&/micrograd|lecture.1/i.test(t.heading+' '+t.section+' '+id);
  if(scope==='gpt-onramp')return /gpt|tokeniz/i.test(t.heading+' '+t.action);

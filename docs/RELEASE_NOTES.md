@@ -1,3 +1,7 @@
+# 0.10.0 — active curriculum and precise calendar
+
+383 public units active by default, exact chapter sequences, automatic contextual references and prerequisite checks, source-backed labels across resources, and a quieter calendar. 214 local tests pass. See RELEASE_0_10_0.md and BROWSER_QA.md.
+
 # 0.9.0 — clearer daily decisions
 
 Added calm recovery-day screens, contextual calendar links, relevant session-review fields, and incoming/current backup comparison with stale-preview refresh. All 204 local tests pass. See RELEASE_0_9_0.md and BROWSER_QA.md.

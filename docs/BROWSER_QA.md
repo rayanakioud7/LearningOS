@@ -1,19 +1,11 @@
-# Browser verification — 0.9.0
+# Browser verification — 0.10.0
 
-Observed on 15 November 2026 in the in-app browser, using the existing disposable localhost:4173 test data. Real 127.0.0.1 study data was not used for synthetic writes. See BROWSER_QA_0_8_0.md for the earlier navigation, desktop/mobile, timer and offline observations.
+Interactive IAB checks on 15 November 2026 used the disposable localhost:4173 profile with existing synthetic test history. The real 127.0.0.1 study origin received no synthetic writes.
 
-## New observed checks
+- The installed 0.9 worker offered an explicit update; applying it retained the profile and displayed active resources instead of draft/review counts.
+- Prince Chapter 13 Graph neural networks was present and Active in both the library and task editor. Cancelling the editor added no study outcome.
+- The September/October 2028 calendar allocated specific Prince, Raschka and NLP chapters. The selected graph-neural-network day showed its concrete action, estimate and source details, with weekly rhythm collapsed.
+- The Study log retained its original four groups, including the corrected attempt, completed ILA task, partial and skipped entries. No forecast completions appeared.
+- A 390×844 phone viewport measured 375px document width within 390px viewport; calendar controls and bottom navigation remained usable. The temporary viewport was reset and the test tab closed.
 
-- Sunday 15 November displayed Room to recharge, with no timer or outcome buttons. The next Monday session remained under a disclosure.
-- From a previously browsed February 2028 date, View today’s plan opened 2026-11-15.
-- The restore dialog compared an incoming four-attempt backup against the current five-attempt plan, showed their different latest work and timestamps, preserved a corrected-attempt label, and identified the older export.
-- Restore retained the old backup’s paused focus session. Partial review showed the remaining-effort field. Switching to Completed disabled that field despite a deliberately invalid estimate and revealed the exact completion evidence.
-- Cancelling that review left four attempt rows, without granting completion. Skipped hid/disabled both irrelevant estimate and completion evidence controls.
-- Recover previous plan showed the saved five-attempt plan and restored it afterward.
-- A once-per-month GPU choice was verified through the actual native disabled option after selecting a previous Thursday. The acceptance test now checks that DOM state directly; its former isDisabled helper did not represent the option correctly.
-
-The acceptance driver also exercises cross-tab preview refresh and the final mobile/offline flow. Refer to its commit-specific GitHub run for those automated results. Screenshots and final manual viewport/offline observations are recorded with this chat’s release evidence.
-
-## Limits
-
-This is not an exhaustive accessibility audit. Physical two-device transfer, Zen-specific rendering and native PWA installation were not performed. The curriculum policy and future semester assumptions were not changed. Browser progress is not synchronized through Git.
+214 local tests passed. The GitHub acceptance driver separately covers migration, timer reload, paused export/restore/recovery, revision conflicts, calendar navigation, active catalog initialization, optional GPU limits, mobile layout and offline retention. Refer to the release commit’s Actions run. No physical two-device transfer, Zen-specific rendering or native installation was performed. Screenshots are delivered in the chat, not committed with private profile data.

@@ -1,3 +1,4 @@
+import {setProjectionProgress,effectiveProgress} from './automatic-roadmap.js';
 import {isCivilDate} from './validation.js';
 import {activeAttempts,isHardDeadline} from './effort.js';
 import {previewImport,applyImport} from './curriculum.js';
@@ -39,7 +40,7 @@ function learnerRule(s,day){
  if(phase.optional&&!choicesFor(s).summer1Enabled)return rule('academic',0,'Optional Summer 1 is off. Actual university requirements can still take priority; otherwise recover.');
  if(wd===5)minutes=Math.min(minutes,blocks.reduce((n,b)=>n+b.maxMinutes,0));
  const fallback=blocks.some(b=>b.fallback),done=completed(s);
- if(fallback&&s.tasks.some(t=>t.track==='academic'&&t.status==='active'&&t.reviewed&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day)&&(!t.snoozedUntil||t.snoozedUntil<=day)&&s.resources.find(r=>r.id===t.resourceId)?.enabled!==false&&(t.prerequisites||[]).every(id=>done.has(id))))return rule('academic',0,'Current ENSAM work is ready; Goodrich/NeetCode fallback is unavailable.');
+ if(fallback&&s.tasks.some(t=>t.track==='academic'&&t.status==='active'&&t.reviewed&&!t.referenceOnly&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day)&&(!t.snoozedUntil||t.snoozedUntil<=day)&&s.resources.find(r=>r.id===t.resourceId)?.enabled!==false&&(t.prerequisites||[]).every(id=>done.has(id))))return rule('academic',0,'Current ENSAM work is ready; Goodrich/NeetCode fallback is unavailable.');
  const total=blocks.filter(b=>b.available&&b.track==='independent').reduce((n,b)=>n+b.minutes,0);
  const defaultMinutes=[0,75,75,0,75,0,150],slot=s.calendarSlots.find(x=>x.day===wd);
  const editedLimit=slot&&slot.minutes!==defaultMinutes[wd]?slot.minutes:Infinity;
@@ -83,11 +84,11 @@ function urgentWork(s,day,done){
  return result;
 }
 export function readyV2(s,day,done=completed(s),{relaxRole=false}={}){
- const rule=ruleV2(s,day),sem=(hasLearnerRoadmap(s)?phaseFor(s,day)&&{id:phaseFor(s,day).semester}:null)||semesterFor(s,day)||[...s.semesters].reverse().find(x=>x.start<=day);if(!rule.minutes&& !rule.independentMinutes)return [];
+ done=effectiveProgress(s,done);const rule=ruleV2(s,day),sem=(hasLearnerRoadmap(s)?phaseFor(s,day)&&{id:phaseFor(s,day).semester}:null)||semesterFor(s,day)||[...s.semesters].reverse().find(x=>x.start<=day);if(!rule.minutes&& !rule.independentMinutes)return [];
  const urgency=urgentWork(s,day,done),attempts=activeAttempts(s);
  const lastResource=[...attempts].reverse().find(e=>e.type==='session'&&e.minutes>0)?.taskSnapshot?.resourceId;
  const recent=[...attempts].reverse().find(e=>e.type==='session'&&e.outcome==='partial'&&!done.has(e.taskId));
- return s.tasks.filter(t=>(!s.sameDayTrack||s.sameDayTrack.day!==day||t.track==='academic'||urgency.has(t.id)||(t.primaryTrack||t.resourceId)===s.sameDayTrack.resourceId)&&(!t.hypothetical||t.semester===(sem?.id||1)||hasLearnerRoadmap(s)&&matchesRoadmap(s,t,day,rule.roadmap?.blocks))&&(t.semester<=(sem?.id||1)||hasLearnerRoadmap(s)&&futureScopeAllowed(s,t,day,rule.roadmap?.blocks)||isHardDeadline(t)&&t.deadline<=addDays(day,14))&&(!t.hypothetical||t.track!=='academic')&&t.status==='active'&&t.reviewed&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day)&&(!t.snoozedUntil||t.snoozedUntil<=day)&&s.resources.find(r=>r.id===t.resourceId)?.enabled!==false&&!s.units.find(u=>u.id===t.unitId)?.suspended&&(t.prerequisites||[]).every(id=>done.has(id))&&(urgency.has(t.id)&&(t.track==='academic'||rule.kind==='normal')||relaxRole&&t.track==='independent'&&rule.kind==='normal'||resourceAllowed(s,t,day,rule))).sort((a,b)=>{
+ return s.tasks.filter(t=>(!s.sameDayTrack||s.sameDayTrack.day!==day||t.track==='academic'||urgency.has(t.id)||(t.primaryTrack||t.resourceId)===s.sameDayTrack.resourceId)&&(!t.hypothetical||t.semester===(sem?.id||1)||hasLearnerRoadmap(s)&&matchesRoadmap(s,t,day,rule.roadmap?.blocks))&&(t.semester<=(sem?.id||1)||hasLearnerRoadmap(s)&&futureScopeAllowed(s,t,day,rule.roadmap?.blocks)||isHardDeadline(t)&&t.deadline<=addDays(day,14))&&(!s.settings.automaticCurriculum||t.track!=='academic'||t.semester===(sem?.id||1)||urgency.has(t.id))&&(!t.hypothetical||t.track!=='academic')&&t.status==='active'&&t.reviewed&&!t.referenceOnly&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day)&&(!t.snoozedUntil||t.snoozedUntil<=day)&&s.resources.find(r=>r.id===t.resourceId)?.enabled!==false&&!s.units.find(u=>u.id===t.unitId)?.suspended&&(t.prerequisites||[]).every(id=>done.has(id))&&(urgency.has(t.id)&&(t.track==='academic'||rule.kind==='normal')||relaxRole&&t.track==='independent'&&rule.kind==='normal'||resourceAllowed(s,t,day,rule))).sort((a,b)=>{
  const academic=t=>urgency.has(t.id)?0:1,deadline=t=>urgency.get(t.id)||(isHardDeadline(t)?t.deadline:'9999'),priority=t=>Number((t.priority||'P1')[1]),relevance=t=>t.semester===(sem?.id||1)?0:1,partial=t=>t.id===recent?.taskId?0:1,preferred=t=>s.settings.preferredResources.includes(t.resourceId)?0:1,resourcePriority=t=>s.resources.find(r=>r.id===t.resourceId)?.priority??9,continuity=t=>t.resourceId===lastResource?0:1,dayPreference=t=>!t.preferredDays?.length||t.preferredDays.includes(weekday(day))?0:1;
  const role=t=>hasLearnerRoadmap(s)?Math.max(0,rule.roadmap.blocks.findIndex(b=>taskFitsBlock(s,t,b,day))):0;
  return academic(a)-academic(b)||deadline(a).localeCompare(deadline(b))||role(a)-role(b)||priority(a)-priority(b)||relevance(a)-relevance(b)||partial(a)-partial(b)||resourcePriority(a)-resourcePriority(b)||continuity(a)-continuity(b)||preferred(a)-preferred(b)||dayPreference(a)-dayPreference(b)||(a.order??999)-(b.order??999)||remaining(s,a)-remaining(s,b)||a.id.localeCompare(b.id);
@@ -108,7 +109,7 @@ export function choiceV2(s,day,done=completed(s),weeklyUsed=weeklyActual(s,day),
  const urgency=urgentWork(s,day,done),hard=ready.find(t=>urgency.has(t.id)&&available(t));
  let task,why;
  if(hard&&hard.id!==pin?.id){task=hard;why=isHardDeadline(hard)?'A confirmed hard academic deadline takes priority over the pinned task.':'Prerequisite for a confirmed hard academic deadline takes priority.';}
- else if(pin&&(pin.semester<=(semesterFor(s,day)?.id||[...s.semesters].reverse().find(x=>x.start<=day)?.id||1)||hasLearnerRoadmap(s)&&futureScopeAllowed(s,pin,day,rule.roadmap?.blocks))&&(!pin.notBefore||pin.notBefore<=day)&&(!pin.snoozedUntil||pin.snoozedUntil<=day)&&(!s.sameDayTrack||s.sameDayTrack.day!==day||pin.track==='academic'||(pin.primaryTrack||pin.resourceId)===s.sameDayTrack.resourceId)&&(resourceAllowed(s,pin,day,rule)||s.pinnedDay?.userOverride&&rule.kind==='normal')&&!pin.archived&&pin.status==='active'&&pin.reviewed&&s.resources.find(r=>r.id===pin.resourceId)?.enabled!==false&&!s.units.find(u=>u.id===pin.unitId)?.suspended&&pin.prerequisites.every(id=>done.has(id))&&available(pin)){task=pin;why='Pinned for today; curriculum changes apply to later days.';}
+ else if(pin&&(pin.semester<=(semesterFor(s,day)?.id||[...s.semesters].reverse().find(x=>x.start<=day)?.id||1)||hasLearnerRoadmap(s)&&futureScopeAllowed(s,pin,day,rule.roadmap?.blocks))&&(!pin.notBefore||pin.notBefore<=day)&&(!pin.snoozedUntil||pin.snoozedUntil<=day)&&(!s.sameDayTrack||s.sameDayTrack.day!==day||pin.track==='academic'||(pin.primaryTrack||pin.resourceId)===s.sameDayTrack.resourceId)&&(resourceAllowed(s,pin,day,rule)||s.pinnedDay?.userOverride&&rule.kind==='normal')&&!pin.archived&&!pin.referenceOnly&&pin.status==='active'&&pin.reviewed&&s.resources.find(r=>r.id===pin.resourceId)?.enabled!==false&&!s.units.find(u=>u.id===pin.unitId)?.suspended&&pin.prerequisites.every(id=>done.has(id))&&available(pin)){task=pin;why='Pinned for today; curriculum changes apply to later days.';}
  else {task=ready.find(available);why=task?.remainingMinutes<task?.minutes?'Continue partially finished work within today’s '+rule.reason:task&&isHardDeadline(task)?'Confirmed academic deadline '+task.deadline+' takes priority; prerequisites are ready.':rule.reason;}
  let rescueMinutes=0;
  if(!task&&!hasLearnerRoadmap(s)&&s.settings.crossDayRescue&&rule.kind==='normal'){
@@ -234,7 +235,7 @@ export {phaseFor,weeklyCeiling,blockPlan};
 export function backlogWarnings(s,day){
  const done=completed(s),attempts=activeAttempts(s),warnings=[];
  for(const resource of s.resources.filter(r=>r.enabled)){
-  const tasks=s.tasks.filter(t=>t.resourceId===resource.id&&t.track==='independent'&&t.status==='active'&&t.reviewed&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day));
+  const tasks=s.tasks.filter(t=>t.resourceId===resource.id&&t.track==='independent'&&t.status==='active'&&t.reviewed&&!t.referenceOnly&&!t.archived&&!done.has(t.id)&&(!t.notBefore||t.notBefore<=day));
   if(!tasks.length)continue;
   const last=attempts.filter(e=>e.day<=day&&(e.taskSnapshot?.resourceId||s.tasks.find(t=>t.id===e.taskId)?.resourceId)===resource.id).map(e=>e.day).sort().at(-1);
   // Count protected/missed home opportunities, rather than borrowing another subject's weekday.
@@ -246,7 +247,7 @@ export function backlogWarnings(s,day){
 }
 
 function projectLearner(original,sim,start,days,anchor){
- const done=completed(sim),rows=[];let week='',used=0;
+ const done=completed(sim),rows=[];let week='',used=0;setProjectionProgress(sim,done);
  const voided=new Set(original.events.filter(e=>e.type==='void').map(e=>e.target));
  const actual=original.events.filter(e=>e.type==='session'&&!voided.has(e.id));
  for(let i=0;i<days;i++){

@@ -1,5 +1,5 @@
 {
-  "version": "research-v2-edition-corrections",
+  "version": "2026-11-15.1",
   "resources": [
     {
       "id": "ila",
@@ -93,7 +93,7 @@
     {
       "id": "huang",
       "name": "Huang et al. — Deep Learning with PyTorch",
-      "edition": "2nd edition code reference; personal PDF edition NOT checked",
+      "edition": "Second edition (2026); publisher chapter sequence",
       "url": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e",
       "source": "official_code_directory",
       "semesters": [
@@ -1097,20 +1097,20 @@
       "resourceId": "velleman",
       "semester": 1,
       "unitRef": "§3.4",
-      "heading": "Current proof bookmark",
-      "activity": "Write one or two complete proofs; check every quantified claim and justification.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Proofs Involving Conjunctions and Biconditionals",
+      "activity": "Explain Proofs Involving Conjunctions and Biconditionals in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P2",
       "track": "independent",
       "kind": "reading",
-      "link": "",
+      "link": "https://assets.cambridge.org/97811084/39534/frontmatter/9781108439534_frontmatter.pdf",
       "dependencies": [],
       "preferredDays": [
         4
       ],
       "sourceProvenance": "personal_checkpoint_or_topic_outline",
-      "headingConfidence": "topic_not_exact_section_TOC",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -1119,19 +1119,19 @@
       "semester": 2,
       "unitRef": "Ch 4",
       "heading": "Relations",
-      "activity": "Write one or two complete proofs; check every quantified claim and justification.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "activity": "Explain Relations in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P2",
       "track": "independent",
       "kind": "reading",
-      "link": "",
+      "link": "https://assets.cambridge.org/97811084/39534/frontmatter/9781108439534_frontmatter.pdf",
       "dependencies": [],
       "preferredDays": [
         4
       ],
       "sourceProvenance": "personal_checkpoint_or_topic_outline",
-      "headingConfidence": "topic_not_exact_section_TOC",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -1140,19 +1140,19 @@
       "semester": 2,
       "unitRef": "Ch 5",
       "heading": "Functions",
-      "activity": "Write one or two complete proofs; check every quantified claim and justification.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "activity": "Explain Functions in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P2",
       "track": "independent",
       "kind": "reading",
-      "link": "",
+      "link": "https://assets.cambridge.org/97811084/39534/frontmatter/9781108439534_frontmatter.pdf",
       "dependencies": [],
       "preferredDays": [
         4
       ],
       "sourceProvenance": "personal_checkpoint_or_topic_outline",
-      "headingConfidence": "topic_not_exact_section_TOC",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -1161,19 +1161,19 @@
       "semester": 2,
       "unitRef": "Ch 6",
       "heading": "Mathematical Induction",
-      "activity": "Write one or two complete proofs; check every quantified claim and justification.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "activity": "Explain Mathematical Induction in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P2",
       "track": "independent",
       "kind": "reading",
-      "link": "",
+      "link": "https://assets.cambridge.org/97811084/39534/frontmatter/9781108439534_frontmatter.pdf",
       "dependencies": [],
       "preferredDays": [
         4
       ],
       "sourceProvenance": "personal_checkpoint_or_topic_outline",
-      "headingConfidence": "topic_not_exact_section_TOC",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -2802,7 +2802,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-12"
+      ],
       "preferredDays": [
         1
       ],
@@ -2823,7 +2825,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-13"
+      ],
       "preferredDays": [
         1
       ],
@@ -2844,7 +2848,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-14"
+      ],
       "preferredDays": [
         1
       ],
@@ -2865,7 +2871,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-15"
+      ],
       "preferredDays": [
         1
       ],
@@ -2886,7 +2894,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-16"
+      ],
       "preferredDays": [
         1
       ],
@@ -2907,7 +2917,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-17"
+      ],
       "preferredDays": [
         1
       ],
@@ -2928,7 +2940,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-18"
+      ],
       "preferredDays": [
         1
       ],
@@ -2949,7 +2963,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-19"
+      ],
       "preferredDays": [
         1
       ],
@@ -2970,7 +2986,9 @@
       "track": "independent",
       "kind": "book_notebook",
       "link": "https://udlbook.github.io/udlbook/",
-      "dependencies": [],
+      "dependencies": [
+        "udl:ch-20"
+      ],
       "preferredDays": [
         1
       ],
@@ -2983,20 +3001,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 1 / Ch 2",
-      "heading": "Code and exercises for p1ch2",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Pretrained networks",
+      "activity": "Run a small example from Pretrained networks and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p1ch2",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3004,20 +3022,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 1 / Ch 3",
-      "heading": "Code and exercises for p1ch3",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "It starts with a tensor",
+      "activity": "Run a small example from It starts with a tensor and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p1ch3",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3025,20 +3043,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 1 / Ch 4",
-      "heading": "Code and exercises for p1ch4",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Real-world data representation using tensors",
+      "activity": "Run a small example from Real-world data representation using tensors and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p1ch4",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3046,20 +3064,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 1 / Ch 5",
-      "heading": "Code and exercises for p1ch5",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "The mechanics of learning",
+      "activity": "Run a small example from The mechanics of learning and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p1ch5",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3067,20 +3085,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 1 / Ch 6",
-      "heading": "Code and exercises for p1ch6",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Using a neural network to fit the data",
+      "activity": "Run a small example from Using a neural network to fit the data and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p1ch6",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3088,20 +3106,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 1 / Ch 7",
-      "heading": "Code and exercises for p1ch7",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Telling birds from airplanes: Learning from images",
+      "activity": "Run a small example from Telling birds from airplanes: Learning from images and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p1ch7",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3109,20 +3127,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 1 / Ch 8",
-      "heading": "Code and exercises for p1ch8",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Using convolutions to generalize",
+      "activity": "Run a small example from Using convolutions to generalize and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p1ch8",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3130,20 +3148,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 9",
-      "heading": "Code and exercises for p2ch9",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "How transformers work",
+      "activity": "Run a small example from How transformers work and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch9",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3151,20 +3169,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 10",
-      "heading": "Code and exercises for p2ch10",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Diffusion models for images",
+      "activity": "Run a small example from Diffusion models for images and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch10",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3172,20 +3190,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 11",
-      "heading": "Code and exercises for p2ch11",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Using PyTorch to fight cancer",
+      "activity": "Run a small example from Using PyTorch to fight cancer and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch11",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3193,20 +3211,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 12",
-      "heading": "Code and exercises for p2ch12",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Combining data sources into a unified dataset",
+      "activity": "Run a small example from Combining data sources into a unified dataset and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch12",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3214,20 +3232,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 13",
-      "heading": "Code and exercises for p2ch13",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Training a classification model to detect suspected tumors",
+      "activity": "Run a small example from Training a classification model to detect suspected tumors and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch13",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3235,20 +3253,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 14",
-      "heading": "Code and exercises for p2ch14",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Improving training with metrics and augmentation",
+      "activity": "Run a small example from Improving training with metrics and augmentation and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch14",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3256,20 +3274,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 15",
-      "heading": "Code and exercises for p2ch15",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Using segmentation to find suspected nodules",
+      "activity": "Run a small example from Using segmentation to find suspected nodules and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch15",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3277,20 +3295,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 16",
-      "heading": "Code and exercises for p2ch16",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Training models on multiple GPUs",
+      "activity": "Run a small example from Training models on multiple GPUs and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch16",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3298,20 +3316,20 @@
       "resourceId": "huang",
       "semester": 4,
       "unitRef": "Part 2 / Ch 17",
-      "heading": "Code and exercises for p2ch17",
-      "activity": "Run one relevant PyTorch code example; translate it to a tested project component. Confirm owned edition before assigning chapter title.",
-      "completionEvidence": "Worked solution, reproducible code, or concise explanation; completion requires user confirmation.",
+      "heading": "Deploying to production",
+      "activity": "Run a small example from Deploying to production and complete one exercise, checking tensor shapes, outputs and reproducibility.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 90,
       "priority": "P2",
       "track": "independent",
       "kind": "book_code",
-      "link": "https://github.com/deep-learning-with-pytorch/dlwpt-code-2e/tree/main/p2ch17",
+      "link": "https://www.oreilly.com/library/view/deep-learning-with/9781633438859/",
       "dependencies": [],
       "preferredDays": [
         2
       ],
       "sourceProvenance": "official_Huang_2e_code_directory",
-      "headingConfidence": "verified_directory_not_chapter_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -3881,7 +3899,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s1-module-2",
@@ -3903,7 +3923,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s1-module-3",
@@ -3925,7 +3947,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s1-module-4",
@@ -3947,7 +3971,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s1-module-5",
@@ -3969,7 +3995,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s1-module-6",
@@ -3991,7 +4019,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s1-module-7",
@@ -4013,7 +4043,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s2-module-1",
@@ -4035,7 +4067,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s2-module-2",
@@ -4057,7 +4091,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s2-module-3",
@@ -4079,7 +4115,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s2-module-4",
@@ -4101,7 +4139,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s2-module-5",
@@ -4123,7 +4163,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s2-module-6",
@@ -4145,7 +4187,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s2-module-7",
@@ -4167,7 +4211,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s3-module-1",
@@ -4189,7 +4235,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s3-module-2",
@@ -4211,7 +4259,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s3-module-3",
@@ -4233,7 +4283,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s3-module-4",
@@ -4255,7 +4307,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s3-module-5",
@@ -4277,7 +4331,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s3-module-6",
@@ -4299,7 +4355,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s4-module-1",
@@ -4321,7 +4379,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s4-module-2",
@@ -4343,7 +4403,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s4-module-3",
@@ -4365,7 +4427,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s4-module-4",
@@ -4387,7 +4451,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s4-module-5",
@@ -4409,7 +4475,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s4-module-6",
@@ -4431,7 +4499,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s4-module-7",
@@ -4453,7 +4523,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s5-module-1",
@@ -4475,7 +4547,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s5-module-2",
@@ -4497,7 +4571,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s5-module-3",
@@ -4519,7 +4595,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s5-module-4",
@@ -4541,7 +4619,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s5-module-5",
@@ -4563,7 +4643,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s6-module-1",
@@ -4585,7 +4667,9 @@
       ],
       "sourceProvenance": "ENSAM_official_program",
       "headingConfidence": "verified_module_not_chapter",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:s4-extra-rl",
@@ -5368,9 +5452,9 @@
       "resourceId": "mml",
       "semester": 3,
       "unitRef": "Ch 10",
-      "heading": "Dimensionality Reduction with PCA",
-      "activity": "Consult a specific chapter only for an active model or mathematics problem, then write the derivation or comparison.",
-      "completionEvidence": "User confirms a worked example, a tested program or a note demonstrating the stated objective.",
+      "heading": "Dimensionality Reduction with Principal Component Analysis",
+      "activity": "Explain Dimensionality Reduction with Principal Component Analysis in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 75,
       "priority": "P3",
       "track": "independent",
@@ -5509,7 +5593,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:statistiques-inferentielles",
@@ -5531,7 +5617,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:reseaux-informatiques",
@@ -5553,7 +5641,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:cybersecurity",
@@ -5575,7 +5665,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:systeme-exploitation-linux",
@@ -5597,7 +5689,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:python-avance",
@@ -5619,7 +5713,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:systemes-information",
@@ -5641,7 +5737,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:bases-de-donnees",
@@ -5663,7 +5761,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:algorithmique-avancee",
@@ -5685,7 +5785,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:structures-de-donnees",
@@ -5707,7 +5809,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:algorithmique",
@@ -5729,7 +5833,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:programmation-python",
@@ -5751,7 +5857,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:francais-s1",
@@ -5773,7 +5881,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:anglais-s1",
@@ -5795,7 +5905,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:mathematiques-informatique",
@@ -5817,7 +5929,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:modelisation-uml",
@@ -5839,7 +5953,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:poo-java",
@@ -5861,7 +5977,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:web-statique",
@@ -5883,7 +6001,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:web-dynamique",
@@ -5905,7 +6025,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:front-end",
@@ -5927,7 +6049,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:back-end",
@@ -5949,7 +6073,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:acquisition-information",
@@ -5971,7 +6097,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:automatismes-industriels",
@@ -5993,7 +6121,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:art-patrimoine",
@@ -6015,7 +6145,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:histoire-maroc",
@@ -6037,7 +6169,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:environnement-economique",
@@ -6059,7 +6193,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:francais-s2",
@@ -6081,7 +6217,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:anglais-s2",
@@ -6103,7 +6241,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:jee",
@@ -6125,7 +6265,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:design-patterns",
@@ -6147,7 +6289,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:cloud-computing",
@@ -6169,7 +6313,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:virtualisation",
@@ -6191,7 +6337,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:bases-nosql",
@@ -6213,7 +6361,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:administration-bdd",
@@ -6235,7 +6385,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:analyse-fouille-donnees",
@@ -6257,7 +6409,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:webgl",
@@ -6279,7 +6433,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:realite-augmentee",
@@ -6301,7 +6457,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:intelligence-artificielle",
@@ -6323,7 +6481,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:francais-s3",
@@ -6345,7 +6505,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:anglais-s3",
@@ -6367,7 +6529,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:deep-reinforcement-learning",
@@ -6389,7 +6553,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:processus-stochastiques",
@@ -6411,7 +6577,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:business-intelligence",
@@ -6433,7 +6601,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:deep-learning",
@@ -6455,7 +6625,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:dev-mobile-iot",
@@ -6477,7 +6649,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:text-mining",
@@ -6499,7 +6673,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:machine-learning",
@@ -6521,7 +6697,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:marketing-industriel",
@@ -6543,7 +6721,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:management-projet",
@@ -6565,7 +6745,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:gestion-rh-s4",
@@ -6587,7 +6769,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:entrepreneuriat-innovation",
@@ -6609,7 +6793,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:projets-metiers",
@@ -6631,7 +6817,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:francais-s4",
@@ -6653,7 +6841,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:anglais-s4",
@@ -6675,7 +6865,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:vision-ordinateur",
@@ -6697,7 +6889,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:ia-generative",
@@ -6719,7 +6913,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:architecture-microservices",
@@ -6741,7 +6937,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:system-design",
@@ -6763,7 +6961,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:devops",
@@ -6785,7 +6985,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:mlops",
@@ -6807,7 +7009,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:big-data",
@@ -6829,7 +7033,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:qualite-logicielle",
@@ -6851,7 +7057,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:methodes-agiles",
@@ -6873,7 +7081,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:erp",
@@ -6895,7 +7105,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:employment-skills",
@@ -6917,7 +7129,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:finance-entreprise",
@@ -6939,7 +7153,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:droit-affaires",
@@ -6961,7 +7177,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:gestion-rh-s5",
@@ -6983,7 +7201,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:francais-s5",
@@ -7005,7 +7225,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:anglais-s5",
@@ -7027,7 +7249,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "ensam:pfe",
@@ -7049,7 +7273,9 @@
       ],
       "sourceProvenance": "ENSAM module list supplied by the learner on 14 Nov 2026. Official sequence and current assignment still require teacher confirmation.",
       "headingConfidence": "learner_supplied_module_name",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Curriculum reference; current teacher assignments and deadlines are not inferred."
     },
     {
       "id": "dsa:ch-1",
@@ -7415,7 +7641,9 @@
       ],
       "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
       "headingConfidence": "verified_heading",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Overview of chapters 4–12; the individual chapters are scheduled."
     },
     {
       "id": "vanderplas-2e:ch-13",
@@ -7430,7 +7658,9 @@
       "track": "independent",
       "kind": "reading",
       "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
-      "dependencies": [],
+      "dependencies": [
+        "vanderplas-2e:ch-12"
+      ],
       "preferredDays": [
         4
       ],
@@ -7710,7 +7940,9 @@
       ],
       "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
       "headingConfidence": "verified_heading",
-      "branch": null
+      "branch": null,
+      "referenceOnly": true,
+      "referenceReason": "Overview of chapters 25–36; the individual chapters are scheduled."
     },
     {
       "id": "wasserman:selective-reference",
@@ -7731,16 +7963,18 @@
       ],
       "sourceProvenance": "Author book page and Springer book overview; no fine-grained section claimed.",
       "headingConfidence": "authored_scope_not_section_heading",
-      "branch": "selective_reference"
+      "branch": "selective_reference",
+      "referenceOnly": true,
+      "referenceReason": "Overview; chapters 6–10 supply the scheduled inference practice."
     },
     {
       "id": "svd:lecture-29",
       "resourceId": "svd",
       "semester": 2,
       "unitRef": "lecture-29",
-      "heading": "Strang Lecture 29 · targeted SVD practice",
-      "activity": "After the foundations gate, work one SVD example and validate with NumPy.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Singular Value Decomposition",
+      "activity": "Explain Singular Value Decomposition in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
@@ -7749,7 +7983,7 @@
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -7815,57 +8049,57 @@
       "id": "gpu-mode:profile",
       "resourceId": "gpu-mode",
       "semester": 4,
-      "unitRef": "profile",
-      "heading": "Selected profiling or memory-hierarchy practice",
-      "activity": "Use one relevant lesson to produce a profiler result; no CUDA benchmark claim on AMD hardware.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "unitRef": "Lecture 1 · pt_profiler.py",
+      "heading": "PyTorch profiler example",
+      "activity": "Run the PyTorch profiler example on a tiny tensor operation. Record the slowest operation and compare CPU and available GPU measurements.",
+      "completionEvidence": "A saved profiler table with device, tensor size and one explained bottleneck; no hardware purchase is required.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
       "kind": "authored_practice",
-      "link": "https://github.com/gpu-mode/lectures",
+      "link": "https://github.com/gpu-mode/lectures/blob/main/lecture_001/pt_profiler.py",
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_source_filename_authored_label",
       "branch": null
     },
     {
       "id": "cs336:reference",
       "resourceId": "cs336",
       "semester": 5,
-      "unitRef": "reference",
-      "heading": "Branch-specific systems reference",
-      "activity": "Use one relevant CS336 topic only when the capstone branch requires it.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "unitRef": "Assignment 2 · Systems",
+      "heading": "Systems",
+      "activity": "Use the profiling and benchmarking section of the Systems assignment to measure one layer of the capstone. Keep the exercise bounded to this bottleneck.",
+      "completionEvidence": "A reproducible layer benchmark with a correctness check and documented hardware; this task covers a selected exercise, not the full assignment.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
       "kind": "authored_practice",
-      "link": "https://cs336.stanford.edu/",
+      "link": "https://cs336.stanford.edu/spring2025/",
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
       "id": "huggingface:baseline",
       "resourceId": "huggingface",
       "semester": 5,
-      "unitRef": "baseline",
-      "heading": "Maintained Hugging Face baseline practice",
-      "activity": "Fine-tune and evaluate a pretrained baseline using the current course/docs.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "unitRef": "Chapter 2",
+      "heading": "Using Transformers",
+      "activity": "Run a small pretrained model through a tokenizer and model, freeze a small evaluation split, and record a reproducible CPU baseline.",
+      "completionEvidence": "Pinned model/tokenizer versions, a saved evaluation split and baseline metrics with inference time.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
       "kind": "authored_practice",
-      "link": "https://huggingface.co/learn/llm-course/chapter1/1",
+      "link": "https://huggingface.co/learn/llm-course/chapter2/1",
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -7873,9 +8107,9 @@
       "resourceId": "cs229",
       "semester": 3,
       "unitRef": "Lecture 1",
-      "heading": "CS229 Autumn 2018 · Lecture 1 selected reference",
-      "activity": "Use only the part that answers the current question raised by Géron; not an extra lecture sequence.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Introduction and Basic Concepts",
+      "activity": "Explain Introduction and Basic Concepts in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
@@ -7884,7 +8118,7 @@
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -7892,9 +8126,9 @@
       "resourceId": "cs229",
       "semester": 3,
       "unitRef": "Lecture 4",
-      "heading": "CS229 Autumn 2018 · Lecture 4 selected reference",
-      "activity": "Use only the part that answers the current question raised by Géron; not an extra lecture sequence.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Perceptron; Exponential Family; Generalized Linear Models",
+      "activity": "Use the supervised-learning notes on perceptrons and generalized linear models to resolve the current Géron question.",
+      "completionEvidence": "One derivation or worked example linked to the current model; the syllabus groups these topics across lectures 3–4.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
@@ -7903,7 +8137,7 @@
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_topic_group_lecture_split_unspecified",
       "branch": null
     },
     {
@@ -7911,9 +8145,9 @@
       "resourceId": "cs229",
       "semester": 3,
       "unitRef": "Lecture 12",
-      "heading": "CS229 Autumn 2018 · Lecture 12 selected reference",
-      "activity": "Use only the part that answers the current question raised by Géron; not an extra lecture sequence.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Practical Advice for ML projects",
+      "activity": "Explain Practical Advice for ML projects in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
@@ -7922,7 +8156,7 @@
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -7930,9 +8164,9 @@
       "resourceId": "cs229",
       "semester": 3,
       "unitRef": "Lecture 16 · first half",
-      "heading": "CS229 Lecture 16 · first half reference",
-      "activity": "Use only the first half, when it answers the current Géron question.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "MDPs. Bellman Equations.",
+      "activity": "Explain MDPs. Bellman Equations. in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
@@ -7941,7 +8175,7 @@
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -7949,18 +8183,18 @@
       "resourceId": "wasserman",
       "semester": 3,
       "unitRef": "Chapter 6",
-      "heading": "Wasserman · Chapter 6 selected practice",
-      "activity": "Work a relevant MLE, convergence or testing exercise from this chapter; this label is a selected scope, not the printed chapter heading.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Models, Statistical Inference and Learning",
+      "activity": "Explain Models, Statistical Inference and Learning in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P1",
       "track": "independent",
       "kind": "authored_practice",
-      "link": "https://stat.cmu.edu/~larry/all-of-statistics/index.html",
+      "link": "https://link.springer.com/book/10.1007/978-0-387-21736-9",
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -7968,20 +8202,20 @@
       "resourceId": "wasserman",
       "semester": 3,
       "unitRef": "Chapter 7",
-      "heading": "Wasserman · Chapter 7 selected practice",
-      "activity": "Work a relevant MLE, convergence or testing exercise from this chapter; this label is a selected scope, not the printed chapter heading.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Estimating the CDF and Statistical Functionals",
+      "activity": "Explain Estimating the CDF and Statistical Functionals in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P1",
       "track": "independent",
       "kind": "authored_practice",
-      "link": "https://stat.cmu.edu/~larry/all-of-statistics/index.html",
+      "link": "https://link.springer.com/book/10.1007/978-0-387-21736-9",
       "dependencies": [
         "wasserman:ch-6"
       ],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -7989,20 +8223,20 @@
       "resourceId": "wasserman",
       "semester": 3,
       "unitRef": "Chapter 8",
-      "heading": "Wasserman · Chapter 8 selected practice",
-      "activity": "Work a relevant MLE, convergence or testing exercise from this chapter; this label is a selected scope, not the printed chapter heading.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "The Bootstrap",
+      "activity": "Explain The Bootstrap in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P1",
       "track": "independent",
       "kind": "authored_practice",
-      "link": "https://stat.cmu.edu/~larry/all-of-statistics/index.html",
+      "link": "https://link.springer.com/book/10.1007/978-0-387-21736-9",
       "dependencies": [
         "wasserman:ch-7"
       ],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -8010,20 +8244,20 @@
       "resourceId": "wasserman",
       "semester": 3,
       "unitRef": "Chapter 9",
-      "heading": "Wasserman · Chapter 9 selected practice",
-      "activity": "Work a relevant MLE, convergence or testing exercise from this chapter; this label is a selected scope, not the printed chapter heading.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Parametric Inference",
+      "activity": "Explain Parametric Inference in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P1",
       "track": "independent",
       "kind": "authored_practice",
-      "link": "https://stat.cmu.edu/~larry/all-of-statistics/index.html",
+      "link": "https://link.springer.com/book/10.1007/978-0-387-21736-9",
       "dependencies": [
         "wasserman:ch-8"
       ],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -8031,20 +8265,20 @@
       "resourceId": "wasserman",
       "semester": 3,
       "unitRef": "Chapter 10",
-      "heading": "Wasserman · Chapter 10 selected practice",
-      "activity": "Work a relevant MLE, convergence or testing exercise from this chapter; this label is a selected scope, not the printed chapter heading.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Hypothesis Testing and p-values",
+      "activity": "Explain Hypothesis Testing and p-values in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 45,
       "priority": "P1",
       "track": "independent",
       "kind": "authored_practice",
-      "link": "https://stat.cmu.edu/~larry/all-of-statistics/index.html",
+      "link": "https://link.springer.com/book/10.1007/978-0-387-21736-9",
       "dependencies": [
         "wasserman:ch-9"
       ],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -8052,9 +8286,9 @@
       "resourceId": "mml",
       "semester": 2,
       "unitRef": "Part I · Chapter 1",
-      "heading": "MML · Part I, Chapter 1 practice",
-      "activity": "Work one mathematical example from Part I.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Introduction and Motivation",
+      "activity": "Explain Introduction and Motivation in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
@@ -8063,7 +8297,7 @@
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -8071,9 +8305,9 @@
       "resourceId": "mml",
       "semester": 2,
       "unitRef": "Part I · Chapter 2",
-      "heading": "MML · Part I, Chapter 2 practice",
-      "activity": "Work one mathematical example from Part I.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Linear Algebra",
+      "activity": "Explain Linear Algebra in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
@@ -8082,7 +8316,7 @@
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -8090,9 +8324,9 @@
       "resourceId": "mml",
       "semester": 2,
       "unitRef": "Part I · Chapter 3",
-      "heading": "MML · Part I, Chapter 3 practice",
-      "activity": "Work one mathematical example from Part I.",
-      "completionEvidence": "User confirms the worked result, tests or measured report described in the roadmap.",
+      "heading": "Analytic Geometry",
+      "activity": "Explain Analytic Geometry in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
       "estimatedMinutes": 60,
       "priority": "P1",
       "track": "independent",
@@ -8101,7 +8335,7 @@
       "dependencies": [],
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
-      "headingConfidence": "authored_scope_not_section_heading",
+      "headingConfidence": "verified_heading",
       "branch": null
     },
     {
@@ -8243,6 +8477,548 @@
       "preferredDays": [],
       "sourceProvenance": "Learner roadmap, 14 Nov 2026; scope/action/effort authored, not an exact source heading.",
       "headingConfidence": "authored_scope_not_section_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-4",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 4",
+      "heading": "Understanding Data Types in Python",
+      "semester": 2,
+      "activity": "Run the Understanding Data Types in Python examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-5",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 5",
+      "heading": "The Basics of NumPy Arrays",
+      "semester": 2,
+      "activity": "Run the The Basics of NumPy Arrays examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-4"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-6",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 6",
+      "heading": "Computation on NumPy Arrays: Universal Functions",
+      "semester": 2,
+      "activity": "Run the Computation on NumPy Arrays: Universal Functions examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-5"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-7",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 7",
+      "heading": "Aggregations: min, max, and Everything in Between",
+      "semester": 2,
+      "activity": "Run the Aggregations: min, max, and Everything in Between examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-6"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-8",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 8",
+      "heading": "Computation on Arrays: Broadcasting",
+      "semester": 2,
+      "activity": "Run the Computation on Arrays: Broadcasting examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-7"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-9",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 9",
+      "heading": "Comparisons, Masks, and Boolean Logic",
+      "semester": 2,
+      "activity": "Run the Comparisons, Masks, and Boolean Logic examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-8"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-10",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 10",
+      "heading": "Fancy Indexing",
+      "semester": 2,
+      "activity": "Run the Fancy Indexing examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-9"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-11",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 11",
+      "heading": "Sorting Arrays",
+      "semester": 2,
+      "activity": "Run the Sorting Arrays examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-10"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-12",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 12",
+      "heading": "Structured Data: NumPy’s Structured Arrays",
+      "semester": 2,
+      "activity": "Run the Structured Data: NumPy’s Structured Arrays examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-11"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-25",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 25",
+      "heading": "General Matplotlib Tips",
+      "semester": 2,
+      "activity": "Run the General Matplotlib Tips examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-26",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 26",
+      "heading": "Simple Line Plots",
+      "semester": 2,
+      "activity": "Run the Simple Line Plots examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-25"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-27",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 27",
+      "heading": "Simple Scatter Plots",
+      "semester": 2,
+      "activity": "Run the Simple Scatter Plots examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-26"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-28",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 28",
+      "heading": "Density and Contour Plots",
+      "semester": 2,
+      "activity": "Run the Density and Contour Plots examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-27"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-29",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 29",
+      "heading": "Customizing Plot Legends",
+      "semester": 2,
+      "activity": "Run the Customizing Plot Legends examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-28"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-30",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 30",
+      "heading": "Customizing Colorbars",
+      "semester": 2,
+      "activity": "Run the Customizing Colorbars examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-29"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-31",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 31",
+      "heading": "Multiple Subplots",
+      "semester": 2,
+      "activity": "Run the Multiple Subplots examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-30"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-32",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 32",
+      "heading": "Text and Annotation",
+      "semester": 2,
+      "activity": "Run the Text and Annotation examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-31"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-33",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 33",
+      "heading": "Customizing Ticks",
+      "semester": 2,
+      "activity": "Run the Customizing Ticks examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-32"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-34",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 34",
+      "heading": "Customizing Matplotlib: Configurations and Stylesheets",
+      "semester": 2,
+      "activity": "Run the Customizing Matplotlib: Configurations and Stylesheets examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-33"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-35",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 35",
+      "heading": "Three-Dimensional Plotting in Matplotlib",
+      "semester": 2,
+      "activity": "Run the Three-Dimensional Plotting in Matplotlib examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-34"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "vanderplas-2e:ch-36",
+      "resourceId": "vanderplas-2e",
+      "unitRef": "Chapter 36",
+      "heading": "Visualization with Seaborn",
+      "semester": 2,
+      "activity": "Run the Visualization with Seaborn examples in a notebook, then recreate one on a small dataset without copying.",
+      "completionEvidence": "An executable notebook with one independent example and checks of the resulting arrays or plot.",
+      "estimatedMinutes": 45,
+      "priority": "P2",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://www.oreilly.com/library/view/python-data-science/9781098121211/",
+      "dependencies": [
+        "vanderplas-2e:ch-35"
+      ],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "Publisher contents, second edition; checked 2026-11-14. Actions and effort authored.",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "mml:ch-8",
+      "resourceId": "mml",
+      "semester": 3,
+      "unitRef": "Chapter 8",
+      "heading": "When Models Meet Data",
+      "activity": "Explain When Models Meet Data in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
+      "estimatedMinutes": 75,
+      "priority": "P3",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://mml-book.github.io/",
+      "dependencies": [],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "official_MML_TOC",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "mml:ch-11",
+      "resourceId": "mml",
+      "semester": 3,
+      "unitRef": "Chapter 11",
+      "heading": "Density Estimation with Gaussian Mixture Models",
+      "activity": "Explain Density Estimation with Gaussian Mixture Models in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
+      "estimatedMinutes": 75,
+      "priority": "P3",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://mml-book.github.io/",
+      "dependencies": [],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "official_MML_TOC",
+      "headingConfidence": "verified_heading",
+      "branch": null
+    },
+    {
+      "id": "mml:ch-12",
+      "resourceId": "mml",
+      "semester": 3,
+      "unitRef": "Chapter 12",
+      "heading": "Classification with Support Vector Machines",
+      "activity": "Explain Classification with Support Vector Machines in your own words; work through one source example and solve a related exercise.",
+      "completionEvidence": "A worked example, an independently attempted exercise, and a short explanation of any errors.",
+      "estimatedMinutes": 75,
+      "priority": "P3",
+      "track": "independent",
+      "kind": "reading",
+      "link": "https://mml-book.github.io/",
+      "dependencies": [],
+      "preferredDays": [
+        4
+      ],
+      "sourceProvenance": "official_MML_TOC",
+      "headingConfidence": "verified_heading",
       "branch": null
     }
   ],
@@ -10588,5 +11364,13 @@
     "topic_not_exact_section_TOC": "Scope inferred from bookmark/subject rather than verified book TOC",
     "verified_archive_filename_historical_not_current_assignment": "Archive member and/or inspected title, NOT current assignment",
     "verified_subject_not_section_titles": "Earlier roadmap subject scope only; edition-specific subheadings must be checked"
+  },
+  "automation": {
+    "version": 1,
+    "activation": "active_by_default",
+    "effort": "authored_estimates",
+    "completion": "explicit_session_outcome_only",
+    "futureSemesters": "tentative",
+    "sourcesChecked": "2026-11-15"
   }
 }
