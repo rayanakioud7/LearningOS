@@ -3,6 +3,13 @@ import {dailyChoice,forecast,dayRule,deadlineRisks} from './engine.js';
 const escape = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function sourceURL(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)?u.href:'';}catch{return '';}}
 function dateLabel(day,options={weekday:'long',day:'numeric',month:'long'}){return new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',...options}).format(new Date(day+'T12:00:00Z'));}
+function renderQuietDay(state,day,{rule,choice,upcoming,warning}){
+  const academic=rule.kind==='academic',rest=rule.kind==='rest';
+  const title=rest?'Room to recharge.':academic?'ENSAM comes first.':state.sameDayTrack?.day===day?'That’s enough for today.':'Nothing scheduled right now.';
+  const reason=rest?rule.reason:academic?'Your independent roadmap can wait. Add the current coursework you need to handle.':state.sameDayTrack?.day===day?'You’ve reached the end of this study block. Your unfinished work stays in the plan.':'No ready work is scheduled for this block. Your next step stays in the plan.';
+  const next=upcoming?.task;
+  return `<section class="quiet-focus quiet-rest" aria-label="Today’s study session"><div class="focus-date">${escape(dateLabel(day))}</div><div class="rest-copy"><h1>${title}</h1><p>${escape(reason)}</p></div><div class="rest-actions">${academic?'<button class="primary" data-action="new">Add ENSAM task</button>':`<button class="secondary" data-calendar-open="${day}">View today’s plan</button>`}<button class="text-button" data-action="availability">Adjust today</button></div>${warning?`<p class="rest-deadline">A confirmed deadline needs attention. <button class="text-button" data-calendar-open="${day}">Review plan</button></p>`:''}${next?`<details class="rest-upcoming"><summary>Next planned session · ${escape(dateLabel(upcoming.day,{weekday:'short',day:'numeric',month:'short'}))}</summary><p class="focus-resource">${escape(next.resource)} · ${escape(next.section)}</p><h2>${escape(next.heading)}</h2><p>${escape(next.action)}</p><button class="text-button" data-calendar-open="${upcoming.day}">View this session →</button></details>`:''}</section>`;
+}
 export function renderTodayView(state,day){
   const choice=dailyChoice(state,day),rule=dayRule(state,day),upcoming=state.schema===2&&state.sameDayTrack?.day===day&&!choice.task?null:forecast(state,day,14).find(p=>p.task);
   const timerTask=state.timer&&state.tasks.find(t=>t.id===state.timer.taskId);
@@ -14,11 +21,12 @@ export function renderTodayView(state,day){
   const canEarly=Boolean(future&&task?.notBefore>day&&rule.kind==='normal');
   const breaking=state.breakUntil>Date.now(),source=sourceURL(task?.url);
   const warning=deadlineRisks(state,day).length>0;
+  if(!timerTask&&!choice.task&&(!task||future&&!canEarly||rule.kind!=='normal'))return renderQuietDay(state,day,{rule,choice,upcoming,warning});
   const protection=rule.kind!=='normal'?`<div class="quiet-notice"><p>${escape(rule.reason)}</p><button class="text-button" data-action="availability">Adjust today</button></div>`:'';
   const breakNotice=breaking?`<div class="quiet-notice"><p>Take a break <span id="break-countdown" aria-live="off"></span></p><button class="text-button" data-action="end-break">End break</button></div>`:'';
   return `<section class="quiet-focus" aria-label="Today’s study session">
     <div class="focus-date">${escape(dateLabel(day))}</div>
-    ${warning?'<div class="quiet-notice"><p>A required deadline needs attention.</p><button class="text-button" data-view="calendar">Review</button></div>':''}
+    ${warning?`<div class="quiet-notice"><p>A required deadline needs attention.</p><button class="text-button" data-calendar-open="${day}">Review</button></div>`:''}
     ${protection}${breakNotice}
     ${task?`<div class="quiet-task">
       <p class="focus-resource">${escape(task.resource)} <span>·</span> ${escape(task.section)}</p>

@@ -1,146 +1,169 @@
 {
-  "version": "0.8.0",
+  "version": "0.9.0",
   "date": "2026-11-15",
   "policyVersion": 4,
   "schema": 2,
-  "releaseStatus": "Local tests and listed real-browser checks passed; see commit-specific GitHub Actions for CI results.",
+  "releaseStatus": "204 local tests and listed interactive checks passed; see commit-specific GitHub Actions for final automated browser results.",
   "current": {
-    "automatedTests": 196,
-    "passed": 196,
+    "automatedTests": 204,
+    "passed": 204,
     "failed": 0,
     "skipped": 0,
-    "validation": "PASS: public catalog, privacy, graph/schema, 960 civil dates and offline assets",
-    "syntax": "PASS: all dist JavaScript and optional browser acceptance driver",
-    "browser": "Observed pass for the listed core flows; docs/BROWSER_QA.md",
-    "browserOrigin": "Synthetic writes only at localhost:4173; no synthetic writes to 127.0.0.1:4173",
-    "server": "0.8.0 at C:\\Projects\\LearningOS",
+    "validation": "PASS: catalog/privacy, graph/schema, 960 civil dates and offline assets",
+    "browser": "Interactive checks: rest state, contextual date, comparison, conditional review, cancelled completion and recovery; docs/BROWSER_QA.md",
+    "testIsolation": "Synthetic localhost origin only; real study origin not used for test writes",
+    "baselineCI": "0.8.0 all jobs passed: https://github.com/rayanakioud7/LearningOS/actions/runs/43706975054",
     "unverified": [
-      "Physical laptop/desktop backup transfer",
+      "Physical two-device transfer",
       "Zen-specific rendering",
       "Native PWA installation"
     ]
   },
-  "report": "docs/RELEASE_0_8_0.md",
+  "report": "docs/RELEASE_0_9_0.md",
   "previousVerification": {
-    "version": "0.7.0",
-    "date": "2026-11-14",
+    "version": "0.8.0",
+    "date": "2026-11-15",
     "policyVersion": 4,
     "schema": 2,
-    "releaseStatus": "prepared_locally_browser_and_remote_verification_pending",
+    "releaseStatus": "Local tests and listed real-browser checks passed; see commit-specific GitHub Actions for CI results.",
     "current": {
-      "tests": 190,
-      "passed": 187,
-      "blockedSocketTests": 3,
-      "command": "node --test --test-isolation=none --test-reporter=spec",
-      "newUsabilityAndOfflineChecks": 18,
-      "indexedDB": "pass",
-      "validation": "pass",
-      "catalogUnits": 359,
-      "resources": 26,
-      "projectionDays": 960,
-      "syntax": "pass",
-      "whitespace": "pass",
-      "browser": "blocked: Playwright missing; isolated localhost browser connection refused",
-      "remoteCI": "Chromium job added; unexecuted until push",
-      "mainPush": "pending; GitHub DNS/authentication unavailable",
-      "liveBrowserDataChanged": false
+      "automatedTests": 196,
+      "passed": 196,
+      "failed": 0,
+      "skipped": 0,
+      "validation": "PASS: public catalog, privacy, graph/schema, 960 civil dates and offline assets",
+      "syntax": "PASS: all dist JavaScript and optional browser acceptance driver",
+      "browser": "Observed pass for the listed core flows; docs/BROWSER_QA.md",
+      "browserOrigin": "Synthetic writes only at localhost:4173; no synthetic writes to 127.0.0.1:4173",
+      "server": "0.8.0 at C:\\Projects\\LearningOS",
+      "unverified": [
+        "Physical laptop/desktop backup transfer",
+        "Zen-specific rendering",
+        "Native PWA installation"
+      ]
     },
-    "report": "docs/RELEASE_0_7_0.md",
+    "report": "docs/RELEASE_0_8_0.md",
     "previousVerification": {
-      "version": "0.5.0",
+      "version": "0.7.0",
+      "date": "2026-11-14",
       "policyVersion": 4,
       "schema": 2,
-      "releaseStatus": "browser_and_socket_verification_incomplete",
-      "roadmapUpdate": {
-        "date": "2026-11-14",
-        "baseCommit": "01174ae",
-        "policyVersion": 4,
+      "releaseStatus": "prepared_locally_browser_and_remote_verification_pending",
+      "current": {
+        "tests": 190,
+        "passed": 187,
+        "blockedSocketTests": 3,
+        "command": "node --test --test-isolation=none --test-reporter=spec",
+        "newUsabilityAndOfflineChecks": 18,
+        "indexedDB": "pass",
+        "validation": "pass",
         "catalogUnits": 359,
         "resources": 26,
-        "scope": "Full learner S1–S6 plan and both summers; existing calendar layout/navigation retained",
-        "tests": {
-          "command": "node --test --test-isolation=none --test-reporter=spec",
-          "total": 172,
-          "passed": 169,
-          "blocked": 3,
-          "blocker": "localhost listen EPERM",
-          "roadmapSpecific": 23
-        },
-        "validation": "pass",
-        "syntaxAndWhitespace": "pass",
-        "browser": "attempted; missing Playwright, localhost also denied; not verified",
-        "historyPreservation": "synthetic 120/75/200, immutable events, snapshots, attachments, timer, concurrency and backup invariants pass; live browser untouched",
-        "details": "docs/ROADMAP_2026_11_14.md"
+        "projectionDays": 960,
+        "syntax": "pass",
+        "whitespace": "pass",
+        "browser": "blocked: Playwright missing; isolated localhost browser connection refused",
+        "remoteCI": "Chromium job added; unexecuted until push",
+        "mainPush": "pending; GitHub DNS/authentication unavailable",
+        "liveBrowserDataChanged": false
       },
+      "report": "docs/RELEASE_0_7_0.md",
       "previousVerification": {
         "version": "0.5.0",
-        "date": "2026-11-14",
-        "releaseStatus": "verification_incomplete",
-        "policyVersion": 2,
+        "policyVersion": 4,
         "schema": 2,
-        "core": {
-          "status": "pass",
-          "tests": 115,
-          "newTests": 27,
-          "command": "node --test --test-isolation=none --test-reporter=spec test/engine.test.mjs test/curriculum-v2.test.mjs test/today.test.mjs test/http-handler.test.mjs test/scheduling-v2.test.mjs test/calendar-v2.test.mjs"
+        "releaseStatus": "browser_and_socket_verification_incomplete",
+        "roadmapUpdate": {
+          "date": "2026-11-14",
+          "baseCommit": "01174ae",
+          "policyVersion": 4,
+          "catalogUnits": 359,
+          "resources": 26,
+          "scope": "Full learner S1–S6 plan and both summers; existing calendar layout/navigation retained",
+          "tests": {
+            "command": "node --test --test-isolation=none --test-reporter=spec",
+            "total": 172,
+            "passed": 169,
+            "blocked": 3,
+            "blocker": "localhost listen EPERM",
+            "roadmapSpecific": 23
+          },
+          "validation": "pass",
+          "syntaxAndWhitespace": "pass",
+          "browser": "attempted; missing Playwright, localhost also denied; not verified",
+          "historyPreservation": "synthetic 120/75/200, immutable events, snapshots, attachments, timer, concurrency and backup invariants pass; live browser untouched",
+          "details": "docs/ROADMAP_2026_11_14.md"
         },
-        "catalog": {
-          "status": "pass",
-          "units": 247,
-          "resources": 19,
-          "opaqueArchiveReferences": 286,
-          "privateBytesPublished": false
-        },
-        "projection": {
-          "status": "pass",
-          "civilDays": 960,
-          "mutatedSource": false,
-          "unknownAcademicAssignmentsFabricated": false
-        },
-        "isolatedBackup": {
-          "status": "file_model_roundtrip_pass",
+        "previousVerification": {
+          "version": "0.5.0",
+          "date": "2026-11-14",
+          "releaseStatus": "verification_incomplete",
+          "policyVersion": 2,
           "schema": 2,
-          "tasks": 241,
-          "events": 3,
-          "initialEstimateMinutes": 120,
-          "timeSpentMinutes": 75,
-          "remainingEstimateMinutes": 200,
-          "explicitCompletions": 0,
-          "liveBrowserTouched": false,
-          "nativeIndexedDBRoundtrip": "blocked_unexecuted"
-        },
-        "fullSuite": {
-          "status": "pass",
-          "tests": 140,
-          "passingTestFiles": 9,
-          "blockedTestFiles": 0,
-          "command": "npm test",
-          "note": "Installed the declared fake-indexeddb dev dependency and executed the full Node test suite on 2026-11-14."
-        },
-        "browser": {
-          "status": "blocked_unexecuted",
-          "command": "npm run test:browser",
-          "blocker": "Playwright module unavailable; localhost binding independently denied",
-          "screenshots": []
-        },
-        "handoff": {
-          "read": [
-            "README_START_HERE.md",
-            "CODEX_MASTER_PROMPT.md",
-            "existing local research policy/catalog/inventory and fixtures"
-          ],
-          "unread": [
-            "ZIP-only spec/*.md",
-            "semester_policy.json",
-            "tests/scenario_matrix.json",
-            "tests/browser_acceptance.md",
-            "ZIP-only v2 fixtures"
-          ],
-          "blocker": "Attached ZIP downloads failed; exact full-handoff conformance not verified"
-        },
-        "recoveryGuide": "docs/SCHEDULING_V2_REPORT.md",
-        "browserChecklist": "docs/BROWSER_QA_0_5_0.md",
-        "published": false
+          "core": {
+            "status": "pass",
+            "tests": 115,
+            "newTests": 27,
+            "command": "node --test --test-isolation=none --test-reporter=spec test/engine.test.mjs test/curriculum-v2.test.mjs test/today.test.mjs test/http-handler.test.mjs test/scheduling-v2.test.mjs test/calendar-v2.test.mjs"
+          },
+          "catalog": {
+            "status": "pass",
+            "units": 247,
+            "resources": 19,
+            "opaqueArchiveReferences": 286,
+            "privateBytesPublished": false
+          },
+          "projection": {
+            "status": "pass",
+            "civilDays": 960,
+            "mutatedSource": false,
+            "unknownAcademicAssignmentsFabricated": false
+          },
+          "isolatedBackup": {
+            "status": "file_model_roundtrip_pass",
+            "schema": 2,
+            "tasks": 241,
+            "events": 3,
+            "initialEstimateMinutes": 120,
+            "timeSpentMinutes": 75,
+            "remainingEstimateMinutes": 200,
+            "explicitCompletions": 0,
+            "liveBrowserTouched": false,
+            "nativeIndexedDBRoundtrip": "blocked_unexecuted"
+          },
+          "fullSuite": {
+            "status": "pass",
+            "tests": 140,
+            "passingTestFiles": 9,
+            "blockedTestFiles": 0,
+            "command": "npm test",
+            "note": "Installed the declared fake-indexeddb dev dependency and executed the full Node test suite on 2026-11-14."
+          },
+          "browser": {
+            "status": "blocked_unexecuted",
+            "command": "npm run test:browser",
+            "blocker": "Playwright module unavailable; localhost binding independently denied",
+            "screenshots": []
+          },
+          "handoff": {
+            "read": [
+              "README_START_HERE.md",
+              "CODEX_MASTER_PROMPT.md",
+              "existing local research policy/catalog/inventory and fixtures"
+            ],
+            "unread": [
+              "ZIP-only spec/*.md",
+              "semester_policy.json",
+              "tests/scenario_matrix.json",
+              "tests/browser_acceptance.md",
+              "ZIP-only v2 fixtures"
+            ],
+            "blocker": "Attached ZIP downloads failed; exact full-handoff conformance not verified"
+          },
+          "recoveryGuide": "docs/SCHEDULING_V2_REPORT.md",
+          "browserChecklist": "docs/BROWSER_QA_0_5_0.md",
+          "published": false
+        }
       }
     }
   }

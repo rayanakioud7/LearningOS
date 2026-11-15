@@ -1,7 +1,7 @@
 // Keep an installed app shell coherent. A new version waits for an explicit
 // reload, so an open tab cannot mix old and new ES modules during an update.
-const CACHE='ensam-app-0.8.0-2b06e974f3';
-const ASSETS=['./','./index.html','./style.css','./experience.css','./find.js','./settings-view.js','./app.js','./engine.js','./today.js','./planner.js','./roadmap.js','./roadmap-view.js','./navigation.js','./session.js','./effort.js','./calendar-view.js','./history-view.js','./curriculum.js','./views.js','./catalog.json','./planning.json','./validation.js','./storage.js','./backup.js','./seed.json','./icon.svg','./manifest.webmanifest'];
+const CACHE='ensam-app-0.9.0-c05840f0c2';
+const ASSETS=['./','./index.html','./style.css','./experience.css','./find.js','./settings-view.js','./app.js','./transfer-view.js','./outcome-view.js','./engine.js','./today.js','./planner.js','./roadmap.js','./roadmap-view.js','./navigation.js','./session.js','./effort.js','./calendar-view.js','./history-view.js','./curriculum.js','./views.js','./catalog.json','./planning.json','./validation.js','./storage.js','./backup.js','./seed.json','./icon.svg','./manifest.webmanifest'];
 const assetURLs=new Set(ASSETS.map(asset=>new URL(asset,self.location.href).href));
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS))));
 self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});

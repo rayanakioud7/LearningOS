@@ -1,3 +1,7 @@
+# 0.9.0 — clearer daily decisions
+
+Added calm recovery-day screens, contextual calendar links, relevant session-review fields, and incoming/current backup comparison with stale-preview refresh. All 204 local tests pass. See RELEASE_0_9_0.md and BROWSER_QA.md.
+
 # 0.8.0 — quieter navigation
 
 Fixed page-wide clicks resetting the interface; added chapter search, simpler resource browsing, focused forms and labeled mobile navigation. All 196 local tests and the listed real-browser flows passed. See RELEASE_0_8_0.md and BROWSER_QA.md.
