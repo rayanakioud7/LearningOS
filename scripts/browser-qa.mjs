@@ -82,7 +82,7 @@ try{
  await visitDay('2027-07-05');await openChoices();await page.locator('input[name=summer1Enabled]').check();await saveRoadmapChoices();assert.equal((await saved()).settings.roadmapChoices.summer1Enabled,true);
  await visitDay('2027-09-08');assert.match(await page.locator('.roadmap-day').textContent(),/Wasserman/);assert.match(await page.locator('.roadmap-day').textContent(),/60–90 min shared/);
  await visitDay('2028-02-03');assert.match(await page.locator('.roadmap-block').textContent(),/Prince synthesis/);await openChoices();await page.locator('select[name=daySupport]').selectOption('gpu');await saveRoadmapChoices();assert.match(await page.locator('.roadmap-block h3').textContent(),/GPU MODE/);
- await visitDay('2028-02-10');await openChoices();assert.equal(await page.locator('select[name=daySupport] option[value=gpu]').isDisabled(),true);
+ await visitDay('2028-02-10');await openChoices();assert.equal(await page.locator('select[name=daySupport] option[value=gpu]').evaluate(option=>option.disabled),true);
  await visitDay('2028-10-07');await openChoices();await page.locator('select[name=capstoneBranch]').selectOption('B');await saveRoadmapChoices();assert.equal((await saved()).settings.roadmapChoices.capstoneBranch,'B');assert.deepEqual((await saved()).events,beforeRoadmapEvents);
  await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'No phone-width overflow');await page.keyboard.press('Tab');assert.ok(await page.evaluate(()=>getComputedStyle(document.activeElement).outlineStyle!=='none'),'Keyboard focus visible');
  // Native IndexedDB reopens and backup state remain intact while the app shell is offline.
