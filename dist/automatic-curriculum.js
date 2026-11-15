@@ -2,7 +2,7 @@ import {normalizeCatalog} from './curriculum.js';
 import {validateBackup} from './validation.js';
 
 const refKey=(resource,ref)=>resource+'|'+String(ref||'').replace(/[§\s]/g,'').toLowerCase();
-export const automaticCurriculumVersion='2026-11-15.1';
+export const automaticCurriculumVersion='2026-11-15.2';
 export const needsCurriculumUpdate=(state,catalog)=>state.schema===2&&!(state.curriculumRelease>=catalog.version&&state.automaticCurriculumVersion>=automaticCurriculumVersion);
 
 // A catalog update makes work available; only immutable session outcomes establish completion.
@@ -11,6 +11,10 @@ export function synchronizeCurriculum(input,raw,at=new Date().toISOString()){
  const s=structuredClone(input),catalog=normalizeCatalog(raw),oldRelease=s.curriculumRelease||null;
  const resources=new Map(s.resources.map(r=>[r.id,r]));
  for(const r of catalog.resources)if(!resources.has(r.id)){const next=structuredClone(r);s.resources.push(next);resources.set(r.id,next);}
+ const nlp=resources.get('tunstall');if(nlp?.name==='Tunstall / Lewis / von Werra — NLP with Transformers'){
+  const oldName=nlp.name;nlp.name=catalog.resources.find(r=>r.id==='tunstall').name;
+  for(const t of s.tasks)if(t.resourceId==='tunstall'&&t.resource===oldName)t.resource=nlp.name;
+ }
  const units=new Map(s.units.map(u=>[u.id,u])),tasksByUnit=new Map(s.tasks.map(t=>[t.unitId,t]));
  const byRef=new Map();for(const t of s.tasks)if(!byRef.has(refKey(t.resourceId,t.section)))byRef.set(refKey(t.resourceId,t.section),t);
  const aliases=new Map(),managed=[];

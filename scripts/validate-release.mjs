@@ -16,4 +16,3 @@ assert.ok(rows.filter(p=>p.semester===6).every(p=>(p.blocks||[]).every(b=>b.task
 assert.ok(rows.flatMap(p=>p.blocks||[]).every(b=>!b.task.referenceOnly),'Module overviews and historical files are references, not invented teacher assignments');
 const sw=readFileSync(new URL('../dist/sw.js',import.meta.url),'utf8');for(const [,name] of sw.matchAll(/'\.\/([^']+)'/g))assert.ok(existsSync(new URL('../dist/'+name,import.meta.url)),'Missing offline asset '+name);
 console.log(`PASS: seed/schema migration; ${catalog.units.length} sanitized public units (${preview.counts.duplicate} existing equivalents); ${catalog.archiveRegistry.length} opaque archive references; six semester scenarios; 960 nonmutating civil dates; offline asset manifest.`);
-

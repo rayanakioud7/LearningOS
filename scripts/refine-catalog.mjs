@@ -1,6 +1,6 @@
 // Public heading metadata only. Learning actions and effort are authored estimates.
 export function refineCatalog(input){
- const c=structuredClone(input);c.version='2026-11-15.1';
+ const c=structuredClone(input);c.version='2026-11-15.2';
  const find=id=>c.units.find(u=>u.id===id);
  const update=(id,heading,link)=>{const u=find(id);if(!u)return;u.heading=heading;u.headingConfidence='verified_heading';if(link)u.link=link;u.activity='Explain '+heading+' in your own words; work through one source example and solve a related exercise.';u.completionEvidence='A worked example, an independently attempted exercise, and a short explanation of any errors.';};
  const reference=(id,reason)=>Object.assign(find(id),{referenceOnly:true,referenceReason:reason});
@@ -41,6 +41,9 @@ export function refineCatalog(input){
  const huang=['','Introducing deep learning and the PyTorch library','Pretrained networks','It starts with a tensor','Real-world data representation using tensors','The mechanics of learning','Using a neural network to fit the data','Telling birds from airplanes: Learning from images','Using convolutions to generalize','How transformers work','Diffusion models for images','Using PyTorch to fight cancer','Combining data sources into a unified dataset','Training a classification model to detect suspected tumors','Improving training with metrics and augmentation','Using segmentation to find suspected nodules','Training models on multiple GPUs','Deploying to production'];
  for(const u of c.units.filter(u=>u.resourceId==='huang')){const n=Number(u.id.match(/ch-(\d+)$/)?.[1]);if(huang[n]){update(u.id,huang[n],'https://www.oreilly.com/library/view/deep-learning-with/9781633438859/');u.activity='Run a small example from '+huang[n]+' and complete one exercise, checking tensor shapes, outputs and reproducibility.';}}
  const hr=c.resources.find(r=>r.id==='huang');hr.edition='Second edition (2026); publisher chapter sequence';
+ c.resources.find(r=>r.id==='tunstall').name='Tunstall, von Werra & Wolf — NLP with Transformers';
+ for(const u of c.units.filter(u=>u.resourceId==='tunstall')){const n=Number(u.id.match(/topic-(\d+)$/)?.[1]);if(n)u.unitRef='Chapter '+n;}
+ update('tunstall:topic-01','Hello Transformers','https://www.oreilly.com/library/view/natural-language-processing/9781098136789/');
  for(let n=13;n<=21;n++)find('udl:ch-'+n).dependencies=['udl:ch-'+String(n-1).padStart(2,'0')];
  for(const u of c.units){
   if(['academic_module','academic_course_file'].includes(u.kind)){u.referenceOnly=true;u.referenceReason='Curriculum reference; current teacher assignments and deadlines are not inferred.';}
