@@ -1,6 +1,6 @@
 // Public heading metadata only. Learning actions and effort are authored estimates.
 export function refineCatalog(input){
- const c=structuredClone(input);c.version='2026-11-15.2';
+ const c=structuredClone(input);c.version='2026-11-15.3';
  const find=id=>c.units.find(u=>u.id===id);
  const update=(id,heading,link)=>{const u=find(id);if(!u)return;u.heading=heading;u.headingConfidence='verified_heading';if(link)u.link=link;u.activity='Explain '+heading+' in your own words; work through one source example and solve a related exercise.';u.completionEvidence='A worked example, an independently attempted exercise, and a short explanation of any errors.';};
  const reference=(id,reason)=>Object.assign(find(id),{referenceOnly:true,referenceReason:reason});

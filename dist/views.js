@@ -1,3 +1,4 @@
+import {matchesSearch,resourceSearchText} from './search.js';
 import {completed} from './engine.js';
 import {explainTask} from './planner.js';
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -37,11 +38,8 @@ function resourceMatchesFilter(s,r,catalog,filter,done,semester){
  return true;
 }
 function resourceMatchesSearch(s,r,catalog,search){
- const term=String(search||'').toLowerCase().trim();
- if(!term)return true;
- if(`${r.name} ${r.edition} ${r.source||''}`.toLowerCase().includes(term))return true;
- if(s.tasks.some(t=>t.resourceId===r.id&&`${t.section} ${t.heading} ${t.action}`.toLowerCase().includes(term)))return true;
- return (catalog?.units||[]).some(u=>u.resourceId===r.id&&`${u.unitRef} ${u.heading} ${u.activity}`.toLowerCase().includes(term));
+ const source=resourceSearchText(r);if(matchesSearch(source,search))return true;
+ return s.tasks.some(t=>t.resourceId===r.id&&matchesSearch([source,t.section,t.heading,t.action].join(' '),search))||(catalog?.units||[]).some(u=>u.resourceId===r.id&&matchesSearch([source,u.unitRef,u.heading,u.activity].join(' '),search));
 }
 function resourceSemesters(s,r,catalog){
  const values=new Set([...s.tasks.filter(t=>t.resourceId===r.id).map(t=>t.semester),...(catalog?.units||[]).filter(u=>u.resourceId===r.id).map(u=>u.semester)].filter(Boolean));
@@ -69,7 +67,7 @@ function renderResourceDetail(s,r,{catalog,search='',semester='',filter='all',do
   if(semester&&(u.semester||t?.semester)!==Number(semester))return false;
   const status=t?resourceTaskState(s,r.id,t,done):'catalog';
   if(filter!=='all'&&filter!==status)return false;
-  return !term||[u.unitRef,u.heading,u.activity,t?.section,t?.heading,t?.action].join(' ').toLowerCase().includes(term);
+  return matchesSearch([resourceSearchText(r),u.unitRef,u.heading,u.activity,t?.section,t?.heading,t?.action].join(' '),search);
  };
  const visible=catalogUnits.filter(u=>included(u,match(u))).sort((a,b)=>a.semester-b.semester||naturalOrder.compare(String(a.order??a.unitRef),String(b.order??b.unitRef)));
  const standalone=tasks.filter(t=>!shown.has(t.id)&&included({semester:t.semester},t)).sort((a,b)=>(a.order??999)-(b.order??999)||naturalOrder.compare(a.section,b.section));

@@ -145,10 +145,11 @@ function importBackup(){
 async function recoverBackup(){
   try{
     const saved=await readSaved(db,'restore-point');if(!saved){toast('No previous restore point is available.');return;}
-    validateBackup(saved.state);
+    validateBackup(saved.state);const recoveryRevision=state.revision;
     modal(`<p class="eyebrow">LOCAL RECOVERY COPY</p><h2>Return to before your last restore?</h2><p class="muted">${saved.state.tasks.length} tasks · ${saved.state.events.filter(e=>e.type==='session').length} sessions. This replaces your current plan. Export current work first if you want to keep it.</p><div class="dialog-actions"><button class="text-button" data-close>Cancel</button><button class="secondary" id="recover-export">Export current</button><button class="primary" id="recover-confirm">Recover previous plan</button></div>`);
     $('#recover-export').onclick=exportBackup;
     $('#recover-confirm').onclick=async()=>{
+      if(state.revision!==recoveryRevision){await recoverBackup();toast('Your plan changed. Review the refreshed recovery copy before replacing it.');return;}
       if(state.timer){toast('Save your current session before recovering another plan.');return;}
       if(await commit(s=>prepareRestore(synchronizeCurriculum(saved.state.schema===1?migrateState(saved.state,catalog,planning):saved.state,catalog),s.revision),{preservePrevious:true})){$('#modal').close();toast('Previous plan recovered. Your replaced plan is now the recovery copy.');}
     };

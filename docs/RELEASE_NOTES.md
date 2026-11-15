@@ -1,3 +1,7 @@
+# 0.11.0 — reliable saved chapter order
+
+Repaired earlier imported prerequisite graphs, improved chapter/section search, removed duplicate legacy search results, preserved explicit overrides and guarded stale recovery dialogs. 223 local tests pass. See RELEASE_0_11_0.md.
+
 # 0.10.0 — active curriculum and precise calendar
 
 383 public units active by default, exact chapter sequences, automatic contextual references and prerequisite checks, source-backed labels across resources, and a quieter calendar. 214 local tests pass. See RELEASE_0_10_0.md and BROWSER_QA.md.

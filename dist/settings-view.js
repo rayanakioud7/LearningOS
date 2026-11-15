@@ -2,7 +2,7 @@ import {renderPlanningSettings,esc} from './views.js';
 
 export function renderSettingsView(state,{hasRestorePoint=false,hasMigrationPoint=false}={}) {
   const s=state.settings;
-  return `<div class="page-heading compact"><div><h1>Settings</h1><p class="subtitle">Your study rhythm and your data.</p></div><span class="version-label">LearningOS 0.10.0</span></div>
+  return `<div class="page-heading compact"><div><h1>Settings</h1><p class="subtitle">Your study rhythm and your data.</p></div><span class="version-label">LearningOS 0.11.0</span></div>
   <section class="transfer-panel"><div><h2>Continue on another device</h2><p>Export here. Restore on the other computer. Keep one device up to date at a time.</p></div><div class="button-row"><button class="primary" data-action="export">Export backup</button><button class="secondary" data-action="import">Restore backup</button></div><small>Your progress saves in this browser. Exporting pauses a running timer; restoring previews the file and keeps a recovery copy.</small></section>
   <form id="settings-form" class="settings-stack">
     <section class="settings-section"><h2>Focus & breaks</h2><div class="form-columns"><label>Focus minutes<input name="focusMinutes" type="number" min="1" max="120" value="${s.focusMinutes}" required></label><label>Break minutes<input name="breakMinutes" type="number" min="1" max="30" value="${s.breakMinutes}" required></label></div><label>Study timezone<input name="timezone" value="${esc(s.timezone)}" list="study-timezones" required><datalist id="study-timezones"><option value="Africa/Casablanca"><option value="UTC"><option value="Europe/Paris"></datalist></label></section>
