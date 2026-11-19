@@ -2,9 +2,18 @@ import {effortFor,isHardDeadline} from './effort.js';
 import {ruleV2,readyV2,choiceV2,planRange,nextOnTrack,nextSecondary} from './planner.js';
 import {weeklyCeiling} from './roadmap.js';
 export const SCHEMA=2;
+const STUDY_DAY_START_HOUR=5;
+function localDateTime(now,zone) {
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hourCycle:'h23'}).formatToParts(now);
+  const date=['year','month','day'].map(k=>parts.find(x=>x.type===k).value).join('-');
+  return {date,hour:Number(parts.find(x=>x.type==='hour').value)};
+}
 export function civilDate(now=new Date(),zone='Africa/Casablanca') {
-  const p=new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
-  return ['year','month','day'].map(k=>p.find(x=>x.type===k).value).join('-');
+  return localDateTime(now,zone).date;
+}
+export function studyDate(now=new Date(),zone='Africa/Casablanca') {
+  const {date,hour}=localDateTime(now,zone);
+  return hour<STUDY_DAY_START_HOUR?addDays(date,-1):date;
 }
 export function addDays(day,n) {const d=new Date(day+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
 export function weekday(day){return new Date(day+'T12:00:00Z').getUTCDay();}

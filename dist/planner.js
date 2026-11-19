@@ -122,7 +122,15 @@ export function choiceV2(s,day,done=completed(s),weeklyUsed=weeklyActual(s,day),
  const waiting=diagnostics?backlogWarnings(s,day):[];
  return {task:task||null,allocationMinutes:task?Math.max(0,Math.min(remaining(s,task),rescueMinutes||capFor(s,task,day,rule,weeklyUsed))):0,rule,reason:why,rescueMinutes,unplacedReadyTasks:ready.filter(t=>t.id!==task?.id).map(t=>t.id),warnings:waiting,blocked:task?null:rule.kind==='rest'?rule.reason:ready.length?'The remaining shared time or weekly ceiling cannot fit a ready task. No extra work is owed.':rule.kind==='academic'?rule.reason+' Academic placeholder: no confirmed coursework is ready; this is not assumed free time.':'No reviewed, activated task fits this weekday role, start date and prerequisites. Review Curriculum or rest.'};
 }
-export function pinToday(s,day){const next=structuredClone(s);if(next.pinnedDay?.day===day)return next;if(next.sameDayTrack?.day!==day)next.sameDayTrack=null;const task=next.timer?next.tasks.find(t=>t.id===next.timer.taskId):choiceV2(next,day).task;next.pinnedDay=task?{day,taskId:task.id,reason:'Selected from explicit current progress.'}:null;return next;}
+export function pinToday(s,day){
+ const next=structuredClone(s);
+ if(next.pinnedDay?.day===day)return next;
+ if(next.sameDayTrack?.day!==day)next.sameDayTrack=null;
+ const timer=next.timer;
+ const task=timer&&(timer.day??day)===day?next.tasks.find(t=>t.id===timer.taskId):choiceV2(next,day).task;
+ next.pinnedDay=task?{day,taskId:task.id,reason:'Selected from explicit current progress.'}:null;
+ return next;
+}
 export function nextOnTrack(s,day,task){if(ruleV2(s,day).kind!=='normal')return null;return readyV2(s,day,completed(s),{relaxRole:!hasLearnerRoadmap(s)}).find(t=>t.track==='independent'&&(t.primaryTrack||t.resourceId)===(task.primaryTrack||task.resourceId)&&minimumBlock(s,t)<=capFor(s,t,day,ruleV2(s,day),weeklyActual(s,day)))||null;}
 export function nextSecondary(s,day,task){
  const rule=ruleV2(s,day);if(rule.kind!=='normal'||!rule.independentMinutes)return null;

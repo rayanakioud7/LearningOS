@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import path from 'node:path';
 import {assetPath} from '../paths.mjs';
-import {civilDate,addDays,completed,dailyChoice,dayRule,forecast,recordOutcome,elapsed,validateBackup,weeklyActual,dailyActual,deadlineRisks,readyTasks} from '../dist/engine.js';
+import {civilDate,studyDate,addDays,completed,dailyChoice,dayRule,forecast,recordOutcome,elapsed,validateBackup,weeklyActual,dailyActual,deadlineRisks,readyTasks} from '../dist/engine.js';
 const seed=()=>JSON.parse(readFileSync(new URL('../dist/seed.json',import.meta.url)));
 const event=(taskId,outcome,other={})=>({id:'event1',taskId,type:'session',day:'2026-11-16',at:'2026-11-16T20:00:00Z',minutes:25,outcome,...other});
 test('seed validates and resumes at §3.1.1 on November 16',()=>{const s=seed();assert.equal(validateBackup(s),s);assert.equal(dailyChoice(s,'2026-11-16').task.id,'ila-311');assert.equal(dailyChoice(s,'2026-11-14').task,null);assert.match(s.checkpoints[0].scope,/no claim/);});
@@ -26,6 +26,11 @@ test('correction retains history and removes its mastery credit',()=>{const s=re
 test('focus elapsed survives serialized refresh and caps forgotten timer',()=>{const t={running:true,accumulatedMs:1000,startedAt:1000,targetMinutes:25};assert.equal(elapsed(JSON.parse(JSON.stringify(t)),6000),6000);assert.equal(elapsed(t,10000000),1500000);assert.equal(elapsed({...t,running:false},999999),1000);});
 test('clock rollback cannot create negative time',()=>assert.equal(elapsed({running:true,startedAt:10000,accumulatedMs:0},5000),0));
 test('civil dates use timezone and preserve date arithmetic without fixed offsets',()=>{assert.equal(civilDate(new Date('2026-11-15T20:30:00Z'),'Asia/Tokyo'),'2026-11-16');assert.equal(civilDate(new Date('2026-11-15T20:30:00Z'),'UTC'),'2026-11-15');assert.equal(addDays('2026-12-31',1),'2027-01-01');});
+test('study day rolls over at 05:00 wall time even when Casablanca changes its clocks',()=>{
+  assert.equal(studyDate(new Date('2026-03-22T03:59:59Z'),'Africa/Casablanca'),'2026-03-21');
+  assert.equal(studyDate(new Date('2026-03-22T04:00:00Z'),'Africa/Casablanca'),'2026-03-22');
+  assert.equal(studyDate(new Date('2027-01-01T00:00:00Z'),'UTC'),'2026-12-31');
+});
 test('backup round trip keeps checkpoint, events and revisions',()=>{const s=recordOutcome(seed(),event('ila-311','partial'));s.revisions.push({id:'rev',task:s.tasks[0]});const restored=validateBackup(JSON.parse(JSON.stringify(s)));assert.deepEqual(restored,s);});
 test('invalid backups and settings are rejected without touching original',()=>{const s=seed(),before=JSON.stringify(s);assert.throws(()=>validateBackup({}),/backup/);const x=structuredClone(s);x.tasks.push(x.tasks[0]);assert.throws(()=>validateBackup(x),/Invalid task/);assert.equal(JSON.stringify(s),before);});
 test('draft library never enters the active schedule',()=>{const s=seed();s.tasks.filter(t=>t.status==='active').forEach(t=>s.events.push(event(t.id,'completed',{id:t.id})));assert.equal(dailyChoice(s,'2026-11-16').task,null);});

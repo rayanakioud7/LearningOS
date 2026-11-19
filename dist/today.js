@@ -25,7 +25,7 @@ export function renderTodayView(state,day){
   const protection=rule.kind!=='normal'?`<div class="quiet-notice"><p>${escape(rule.reason)}</p><button class="text-button" data-action="availability">Adjust today</button></div>`:'';
   const breakNotice=breaking?`<div class="quiet-notice"><p>Take a break <span id="break-countdown" aria-live="off"></span></p><button class="text-button" data-action="end-break">End break</button></div>`:'';
   return `<section class="quiet-focus" aria-label="Today’s study session">
-    <div class="focus-date">${escape(dateLabel(day))}</div>
+    <div class="focus-date">${escape(dateLabel(state.timer?.day??day))}</div>
     ${warning?`<div class="quiet-notice"><p>A required deadline needs attention.</p><button class="text-button" data-calendar-open="${day}">Review</button></div>`:''}
     ${protection}${breakNotice}
     ${task?`<div class="quiet-task">
